@@ -9,7 +9,7 @@ const account = {
   },
   add: function(account, callback) {
     return db.query(
-      'insert into account (accountnumber,balance) values(?,?)',
+      'insert into account (accountnumber, balance) values(?,?)',
       [account.accountnumber, account.balance],
       callback
     );
@@ -19,7 +19,7 @@ const account = {
   },
   update: function(id, account, callback) {
     return db.query(
-      'update account set accountnumber=?,balance=?, where idaccount=?',
+      'update account set accountnumber=?, balance=? where idaccount=?',
       [account.accountnumber, account.balance, id],
       callback
     );

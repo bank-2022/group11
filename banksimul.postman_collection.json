@@ -1,0 +1,549 @@
+{
+	"info": {
+		"_postman_id": "73d68a06-f56f-48a7-9395-da8d3e56a2b0",
+		"name": "banksimul",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "account get_by_id/get_all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/account/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "account add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "accountnumber",
+							"value": "FI585858585855",
+							"type": "default"
+						},
+						{
+							"key": "balance",
+							"value": "1000",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/account/?accountnumber=FI292929292929&balance=1000",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						""
+					],
+					"query": [
+						{
+							"key": "accountnumber",
+							"value": "FI292929292929"
+						},
+						{
+							"key": "balance",
+							"value": "1000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "account delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/account/8",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "account put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "accountnumber",
+							"value": "FI585858585855",
+							"type": "default"
+						},
+						{
+							"key": "balance",
+							"value": "500",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/account/9?accountnumber=FI585858585855&balance=500",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"account",
+						"9"
+					],
+					"query": [
+						{
+							"key": "accountnumber",
+							"value": "FI585858585855"
+						},
+						{
+							"key": "balance",
+							"value": "500"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "card get_by_id/get_all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/card/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"card",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "card add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/card/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"card",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "card delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/card/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"card",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "card put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/card/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"card",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "charity get_by_id/get_all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/charity/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"charity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "charity add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "accountnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "balance",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/charity/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"charity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "charity delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/charity/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"charity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "charity put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/charity/?accountnumber&balance",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"charity",
+						""
+					],
+					"query": [
+						{
+							"key": "accountnumber",
+							"value": null
+						},
+						{
+							"key": "balance",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customer get_by_id/get_all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/customer/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"customer",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customer add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "address",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "pnumber",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/customer/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"customer",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customer delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/customer/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"customer",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customer put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/customer/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"customer",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transactions get_by_id/get_all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/transactions/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transactions add",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idtransactions",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "account_idaccount",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "accountnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "datetime",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "event",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "sum",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/transactions/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transactions delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/transactions/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transactoins put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "account_idaccount",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "accountnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "datetime",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "event",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "sum",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/transactions/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
