@@ -52,7 +52,7 @@ CREATE TABLE `card` (
   `customer_idcustomer` int NOT NULL,
   `account_idaccount` int NOT NULL,
   `cardnumber` varchar(30) NOT NULL,
-  `pin` varchar(120) NOT NULL,
+  `pin` varchar(255) DEFAULT NULL,
   `type` varchar(6) NOT NULL,
   `locked` varchar(3) NOT NULL,
   PRIMARY KEY (`idcard`),
@@ -309,4 +309,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-28 14:11:27
+-- Dump completed on 2022-03-30 10:19:52
