@@ -548,8 +548,32 @@
 		{
 			"name": "login",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "135135",
+							"type": "default"
+						},
+						{
+							"key": "pin",
+							"value": "1234",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
 			},
 			"response": []
 		}
@@ -559,7 +583,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ4NjUyMTQwLCJleHAiOjE2NDg2NTM5NDB9.mutu5j5TNC1GpAAR3uNv5t_PM__VvbrGr7JswHobWI0",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ4NjYzODA2LCJleHAiOjE2NDg2NjU2MDZ9.B7xNNah0svTWOOxwQ6hWNbOiz8M0-QKx6V1v5h8oQhw",
 				"type": "string"
 			}
 		]
