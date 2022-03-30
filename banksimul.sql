@@ -127,6 +127,134 @@ CREATE TABLE `transactions` (
   CONSTRAINT `account_idaccount` FOREIGN KEY (`account_idaccount`) REFERENCES `account` (`idaccount`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping routines for database 'banksimul'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `credit_charity` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount INT)
+BEGIN
+  DECLARE test1, test2 INT DEFAULT 0;
+  DECLARE anumber VARCHAR(18);
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
+  START TRANSACTION;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber;
+  SET test1 = ROW_COUNT();
+  UPDATE charity SET balance = balance + amount WHERE accountnumber = charitynumber;
+  SET test2 = ROW_COUNT();
+    IF (test1 > 0 AND test2 > 0) THEN
+      COMMIT;
+      INSERT INTO transactions(account_idaccount, accountnumber, cardnumber, datetime, event, sum) VALUES(id, anumber, cnumber, NOW(), 'donation', amount);
+    ELSE
+      ROLLBACK;
+  END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `credit_withdraw` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_withdraw`(IN cnumber VARCHAR(30), IN amount INT)
+BEGIN
+  DECLARE anumber VARCHAR(18);
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber;
+  INSERT INTO transactions(account_idaccount, accountnumber, cardnumber, datetime, event, sum) VALUES(id, anumber, cnumber, NOW(), 'withdrawal', amount);
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `debit_charity` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount INT)
+BEGIN
+  DECLARE test1, test2 INT DEFAULT 0;
+  DECLARE anumber VARCHAR(18);
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
+  START TRANSACTION;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber AND balance >= amount;
+  SET test1 = ROW_COUNT();
+  UPDATE charity SET balance = balance + amount WHERE accountnumber = charitynumber;
+  SET test2 = ROW_COUNT();
+    IF (test1 > 0 AND test2 > 0) THEN   
+      COMMIT;    
+	  INSERT INTO transactions(account_idaccount, accountnumber, cardnumber, datetime, event, sum) VALUES(id, anumber, cnumber, NOW(), 'donation', amount);
+    ELSE
+      ROLLBACK;
+  END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `debit_withdraw` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_withdraw`(IN cnumber VARCHAR(30), IN amount INT)
+BEGIN
+  DECLARE test INT DEFAULT 0;
+  DECLARE anumber VARCHAR(18);
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
+  START TRANSACTION;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber AND balance >= amount;
+  SET test = ROW_COUNT();
+    IF (test > 0) THEN   
+      COMMIT;    
+	  INSERT INTO transactions(account_idaccount, accountnumber, cardnumber, datetime, event, sum) VALUES(id, anumber, cnumber, NOW(), 'withdrawal', amount);
+    ELSE
+      ROLLBACK;
+  END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -137,4 +265,4 @@ CREATE TABLE `transactions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-30 20:54:08
+-- Dump completed on 2022-03-30 20:59:12
