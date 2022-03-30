@@ -1,12 +1,6 @@
 
 
-# group_example : Peppi sovellus
-
- 
-
-Esimerkki on yksinkertainen versio oppilasrekisteristä (kuten Peppi).
-
- 
+# group11 : BankSimul
 
 ## Asennusohje
 
@@ -30,11 +24,11 @@ Aja komentoriviltä komento node create_token.js ja kopsaa "token" muuttujaan MY
 
  
 
-Suorita tuo tiedosto "database_dump.sql" ja aja komennot <br>
+Suorita tuo tiedosto "banksimul.sql" ja aja komennot <br>
 
-CREATE USER 'peppiuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'peppipass'; <br>
+CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass'; <br>
 
-GRANT ALL ON peppi.* to 'peppiuser'@'localhost';
+GRANT ALL ON banksimul.* to 'testman'@'localhost';
 
  
 
