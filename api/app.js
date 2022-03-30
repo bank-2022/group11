@@ -43,17 +43,29 @@ app.use(helmet());
 app.use(cors());
 
 app.use('/login', loginRouter);
+
 app.use(authenticateToken);
+
 app.use('/', indexRouter);
+
 app.use(authenticateToken);
+
 app.use('/account', accountRouter);
+
 app.use(authenticateToken);
+
 app.use('/card', cardRouter);
+
 app.use(authenticateToken);
+
 app.use('/charity', charityRouter);
+
 app.use(authenticateToken);
+
 app.use('/customer', customerRouter);
+
 app.use(authenticateToken);
+
 app.use('/transactions', transactionsRouter);
 
 module.exports = app;

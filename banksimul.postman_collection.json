@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "73d68a06-f56f-48a7-9395-da8d3e56a2b0",
+		"_postman_id": "c32fa929-2821-4faf-8ae7-395129418a3c",
 		"name": "banksimul",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -544,6 +544,44 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ4NjUyMTQwLCJleHAiOjE2NDg2NTM5NDB9.mutu5j5TNC1GpAAR3uNv5t_PM__VvbrGr7JswHobWI0",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

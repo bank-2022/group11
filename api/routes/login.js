@@ -7,31 +7,31 @@ const dotenv = require('dotenv');
 
 router.post('/', 
   function(request, response) {
-    if(request.body.username && request.body.password){
-      const user = request.body.username;
-      const pass = request.body.password;
+    if(request.body.cardnumber && request.body.pin){
+      const card = request.body.cardnumber;
+      const pin = request.body.pin;
       
-        login.checkPassword(user, function(dbError, dbResult) {
+        login.checkPassword(card, function(dbError, dbResult) {
           if(dbError){
             response.json(dbError);
           }
           else{
             if (dbResult.length > 0) {
-              bcrypt.compare(pass,dbResult[0].password, function(err,compareResult) {
+              bcrypt.compare(pin, dbResult[0].pin, function(err,compareResult) {
                 if(compareResult) {
                   console.log("success");
-                  const token = generateAccessToken({ username: user });
+                  const token = generateAccessToken({ cardnumber: card });
                   response.send(token);
                 }
                 else {
-                    console.log("wrong password");
+                    console.log("wrong pin");
                     response.send(false);
                 }			
               }
               );
             }
             else{
-              console.log("user does not exists");
+              console.log("card does not exists");
               response.send(false);
             }
           }
@@ -39,15 +39,15 @@ router.post('/',
         );
       }
     else{
-      console.log("username or password missing");
+      console.log("card number or pin missing");
       response.send(false);
     }
   }
 );
 
-function generateAccessToken(username) {
+function generateAccessToken(cardnumber) {
   dotenv.config();
-  return jwt.sign(username, process.env.MY_TOKEN, { expiresIn: '1800s' });
+  return jwt.sign(cardnumber, process.env.MY_TOKEN, { expiresIn: '1800s' });
 }
 
 module.exports=router;
