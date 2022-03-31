@@ -38,6 +38,148 @@
 			"response": []
 		},
 		{
+			"name": "credit withdrawal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "amount",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/withdrawal/credit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"withdrawal",
+						"credit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "debit withdrawal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "amount",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/withdrawal/debit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"withdrawal",
+						"debit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "credit donation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "accountnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "amount",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/donation/credit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"donation",
+						"credit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "debit donation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "accountnumber",
+							"value": "",
+							"type": "default"
+						},
+						{
+							"key": "amount",
+							"value": "",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/donation/debit",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"donation",
+						"debit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "account get_by_id/get_all",
 			"request": {
 				"method": "GET",
@@ -725,7 +867,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTIzNDU2IiwiaWF0IjoxNjQ4NzEzNDEwLCJleHAiOjE2NDg3MTUyMTB9.JmQrovyztJSw6Pgd8ILxy60dxjdcvKLya1qA7OQH8-g",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTIzNDU2IiwiaWF0IjoxNjQ4NzE4NDQ5LCJleHAiOjE2NDg3MjAyNDl9.yXwuNmeNSlFyP-_8-8A9LtXR74Cn_5UphIJ_1QLtRPY",
 				"type": "string"
 			}
 		]
