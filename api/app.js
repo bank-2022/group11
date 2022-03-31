@@ -32,6 +32,7 @@ var charityRouter = require('./routes/charity');
 var customerRouter = require('./routes/customer');
 var transactionsRouter = require('./routes/transactions');
 var customer_has_accountRouter = require('./routes/customer_has_account');
+var withdrawalRouter = require('./routes/withdrawal');
 
 var app = express();
 
@@ -72,5 +73,9 @@ app.use('/transactions', transactionsRouter);
 app.use(authenticateToken);
 
 app.use('/customerhasaccount', customer_has_accountRouter);
+
+app.use(authenticateToken);
+
+app.use('/withdrawal', withdrawalRouter);
 
 module.exports = app;
