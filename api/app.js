@@ -31,6 +31,7 @@ var cardRouter = require('./routes/card');
 var charityRouter = require('./routes/charity');
 var customerRouter = require('./routes/customer');
 var transactionsRouter = require('./routes/transactions');
+var customer_has_accountRouter = require('./routes/customer_has_account');
 
 var app = express();
 
@@ -67,5 +68,9 @@ app.use('/customer', customerRouter);
 app.use(authenticateToken);
 
 app.use('/transactions', transactionsRouter);
+
+app.use(authenticateToken);
+
+app.use('/customerhasaccount', customer_has_accountRouter);
 
 module.exports = app;
