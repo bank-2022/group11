@@ -2,9 +2,39 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const helmet = require('helmet');
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+  
+    console.log("token = "+token);
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, process.env.MY_TOKEN, (err, user) => {
+      console.log(err)
+  
+      if (err) return res.sendStatus(403)
+  
+      req.user = user
+  
+      next()
+    })
+  }
+
+var loginRouter = require('./routes/login');  
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var accountRouter = require('./routes/account');
+var cardRouter = require('./routes/card');
+var charityRouter = require('./routes/charity');
+var customerRouter = require('./routes/customer');
+var transactionsRouter = require('./routes/transactions');
+var customer_has_accountRouter = require('./routes/customer_has_account');
+var withdrawalRouter = require('./routes/withdrawal');
+var donationRouter = require('./routes/donation');
+var infoRouter = require('./routes/info');
 
 var app = express();
 
@@ -13,8 +43,49 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet());
+app.use(cors());
+
+app.use('/login', loginRouter);
+
+app.use(authenticateToken);
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+app.use(authenticateToken);
+
+app.use('/account', accountRouter);
+
+app.use(authenticateToken);
+
+app.use('/card', cardRouter);
+
+app.use(authenticateToken);
+
+app.use('/charity', charityRouter);
+
+app.use(authenticateToken);
+
+app.use('/customer', customerRouter);
+
+app.use(authenticateToken);
+
+app.use('/transactions', transactionsRouter);
+
+app.use(authenticateToken);
+
+app.use('/customerhasaccount', customer_has_accountRouter);
+
+app.use(authenticateToken);
+
+app.use('/withdrawal', withdrawalRouter);
+
+app.use(authenticateToken);
+
+app.use('/donation', donationRouter);
+
+app.use(authenticateToken);
+
+app.use('/info', infoRouter);
 
 module.exports = app;

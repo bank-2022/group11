@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `banksimul` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `banksimul`;
 -- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: banksimul
@@ -28,17 +30,8 @@ CREATE TABLE `account` (
   `balance` bigint NOT NULL,
   PRIMARY KEY (`idaccount`),
   UNIQUE KEY `account` (`accountnumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `account`
---
-
-LOCK TABLES `account` WRITE;
-/*!40000 ALTER TABLE `account` DISABLE KEYS */;
-/*!40000 ALTER TABLE `account` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `card`
@@ -52,7 +45,7 @@ CREATE TABLE `card` (
   `customer_idcustomer` int NOT NULL,
   `account_idaccount` int NOT NULL,
   `cardnumber` varchar(30) NOT NULL,
-  `pin` varchar(120) NOT NULL,
+  `pin` varchar(255) DEFAULT NULL,
   `type` varchar(6) NOT NULL,
   `locked` varchar(3) NOT NULL,
   PRIMARY KEY (`idcard`),
@@ -61,17 +54,8 @@ CREATE TABLE `card` (
   KEY `fk_card_account1_idx` (`account_idaccount`),
   CONSTRAINT `fk_card_account1` FOREIGN KEY (`account_idaccount`) REFERENCES `account` (`idaccount`),
   CONSTRAINT `fk_card_customer1` FOREIGN KEY (`customer_idcustomer`) REFERENCES `customer` (`idcustomer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `card`
---
-
-LOCK TABLES `card` WRITE;
-/*!40000 ALTER TABLE `card` DISABLE KEYS */;
-/*!40000 ALTER TABLE `card` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `charity`
@@ -86,17 +70,8 @@ CREATE TABLE `charity` (
   `balance` bigint DEFAULT NULL,
   PRIMARY KEY (`idcharity`),
   UNIQUE KEY `charity` (`accountnumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `charity`
---
-
-LOCK TABLES `charity` WRITE;
-/*!40000 ALTER TABLE `charity` DISABLE KEYS */;
-/*!40000 ALTER TABLE `charity` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `customer`
@@ -111,17 +86,8 @@ CREATE TABLE `customer` (
   `address` varchar(80) NOT NULL,
   `pnumber` varchar(13) NOT NULL,
   PRIMARY KEY (`idcustomer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customer`
---
-
-LOCK TABLES `customer` WRITE;
-/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `customer_has_account`
@@ -142,15 +108,6 @@ CREATE TABLE `customer_has_account` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `customer_has_account`
---
-
-LOCK TABLES `customer_has_account` WRITE;
-/*!40000 ALTER TABLE `customer_has_account` DISABLE KEYS */;
-/*!40000 ALTER TABLE `customer_has_account` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `transactions`
 --
 
@@ -168,17 +125,8 @@ CREATE TABLE `transactions` (
   PRIMARY KEY (`idtransactions`),
   KEY `account_idaccount_idx` (`account_idaccount`),
   CONSTRAINT `account_idaccount` FOREIGN KEY (`account_idaccount`) REFERENCES `account` (`idaccount`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `transactions`
---
-
-LOCK TABLES `transactions` WRITE;
-/*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'banksimul'
@@ -193,15 +141,17 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_charity`(IN id INT, IN cid INT, IN amount BIGINT, IN cnumber VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount INT)
 BEGIN
-  DECLARE anumber VARCHAR(18);
   DECLARE test1, test2 INT DEFAULT 0;
-  SELECT accountnumber INTO anumber FROM account WHERE idaccount = id;
+  DECLARE anumber VARCHAR(18);
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
   START TRANSACTION;
-  UPDATE account SET balance = balance - amount WHERE idaccount = id;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber;
   SET test1 = ROW_COUNT();
-  UPDATE charity SET balance = balance + amount WHERE idcharity = cid;
+  UPDATE charity SET balance = balance + amount WHERE accountnumber = charitynumber;
   SET test2 = ROW_COUNT();
     IF (test1 > 0 AND test2 > 0) THEN
       COMMIT;
@@ -225,11 +175,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_withdraw`(IN id INT, IN amount BIGINT, IN cnumber VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_withdraw`(IN cnumber VARCHAR(30), IN amount INT)
 BEGIN
   DECLARE anumber VARCHAR(18);
-  SELECT accountnumber INTO anumber FROM account WHERE idaccount = id;
-  UPDATE account SET balance = balance - amount WHERE idaccount = id;
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber;
   INSERT INTO transactions(account_idaccount, accountnumber, cardnumber, datetime, event, sum) VALUES(id, anumber, cnumber, NOW(), 'withdrawal', amount);
   END ;;
 DELIMITER ;
@@ -247,15 +199,17 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_charity`(IN id INT, IN cid INT, IN amount BIGINT, IN cnumber VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount INT)
 BEGIN
   DECLARE test1, test2 INT DEFAULT 0;
   DECLARE anumber VARCHAR(18);
-  SELECT accountnumber INTO anumber FROM account WHERE idaccount = id;
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
   START TRANSACTION;
-  UPDATE account SET balance = balance - amount WHERE idaccount = id AND balance >= amount;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber AND balance >= amount;
   SET test1 = ROW_COUNT();
-  UPDATE charity SET balance = balance + amount WHERE idcharity = cid;
+  UPDATE charity SET balance = balance + amount WHERE accountnumber = charitynumber;
   SET test2 = ROW_COUNT();
     IF (test1 > 0 AND test2 > 0) THEN   
       COMMIT;    
@@ -279,13 +233,15 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_withdraw`(IN id INT, IN amount BIGINT, IN cnumber VARCHAR(30))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_withdraw`(IN cnumber VARCHAR(30), IN amount INT)
 BEGIN
   DECLARE test INT DEFAULT 0;
   DECLARE anumber VARCHAR(18);
-  SELECT accountnumber INTO anumber FROM account WHERE idaccount = id;
+  DECLARE id INT;
+  SELECT accountnumber INTO anumber FROM account INNER JOIN card ON account.idaccount = card.account_idaccount WHERE cnumber = cardnumber;
+  SELECT account_idaccount INTO id FROM card WHERE cnumber = cardnumber;
   START TRANSACTION;
-  UPDATE account SET balance = balance - amount WHERE idaccount = id AND balance >= amount;
+  UPDATE account SET balance = balance - amount WHERE accountnumber = anumber AND balance >= amount;
   SET test = ROW_COUNT();
     IF (test > 0) THEN   
       COMMIT;    
@@ -309,4 +265,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-28 14:11:27
+-- Dump completed on 2022-03-30 20:59:12
