@@ -180,6 +180,131 @@
 			"response": []
 		},
 		{
+			"name": "getType",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info/type/:cardnumber",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info",
+						"type",
+						":cardnumber"
+					],
+					"variable": [
+						{
+							"key": "cardnumber",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCustomerInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info/customer/:cardnumber",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info",
+						"customer",
+						":cardnumber"
+					],
+					"variable": [
+						{
+							"key": "cardnumber",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info/transactions/:accountnumber",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info",
+						"transactions",
+						":accountnumber"
+					],
+					"variable": [
+						{
+							"key": "accountnumber",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get5Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info/5transactions/:accountnumber",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info",
+						"5transactions",
+						":accountnumber"
+					],
+					"variable": [
+						{
+							"key": "accountnumber",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBalance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/info/balance/:accountnumber",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"info",
+						"balance",
+						":accountnumber"
+					],
+					"variable": [
+						{
+							"key": "accountnumber",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "account get_by_id/get_all",
 			"request": {
 				"method": "GET",
@@ -867,7 +992,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTIzNDU2IiwiaWF0IjoxNjQ4NzE4NDQ5LCJleHAiOjE2NDg3MjAyNDl9.yXwuNmeNSlFyP-_8-8A9LtXR74Cn_5UphIJ_1QLtRPY",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTIzNDU2IiwiaWF0IjoxNjQ4NzI1OTA3LCJleHAiOjE2NDg3Mjc3MDd9.7VWfh8TgPPKlBezumGyKsSddxT8jqkDKHYAz5DlRl7M",
 				"type": "string"
 			}
 		]
