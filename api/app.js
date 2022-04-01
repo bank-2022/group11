@@ -35,6 +35,7 @@ var customer_has_accountRouter = require('./routes/customer_has_account');
 var withdrawalRouter = require('./routes/withdrawal');
 var donationRouter = require('./routes/donation');
 var infoRouter = require('./routes/info');
+var lockedRouter = require('./routes/locked');
 
 var app = express();
 
@@ -87,5 +88,9 @@ app.use('/donation', donationRouter);
 app.use(authenticateToken);
 
 app.use('/info', infoRouter);
+
+app.use(authenticateToken);
+
+app.use('/locked', lockedRouter);
 
 module.exports = app;
