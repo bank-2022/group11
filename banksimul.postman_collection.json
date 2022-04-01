@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a18a52fb-2eb2-47fd-960e-8e9dc2d278c4",
+		"_postman_id": "cced0909-ec80-4755-bf04-0a29859cbe12",
 		"name": "banksimul",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -299,6 +299,66 @@
 							"key": "accountnumber",
 							"value": ""
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLocked",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/locked/135135",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"locked",
+						"135135"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "putLocked",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "locked",
+							"value": "yes",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/locked/135135",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"locked",
+						"135135"
 					]
 				}
 			},
@@ -992,7 +1052,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTIzNDU2IiwiaWF0IjoxNjQ4NzI1OTA3LCJleHAiOjE2NDg3Mjc3MDd9.7VWfh8TgPPKlBezumGyKsSddxT8jqkDKHYAz5DlRl7M",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ4ODA1NDY1LCJleHAiOjE2NDg4MDcyNjV9.7I-K9n8RWgNDZKmxqlLZlY76NuafKuKBDtQk-2khYdU",
 				"type": "string"
 			}
 		]
