@@ -230,25 +230,20 @@
 			"response": []
 		},
 		{
-			"name": "getTransactions",
+			"name": "get10Transactions",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/transactions/:accountnumber",
+					"raw": "{{base_url}}/info/transactions/FI585858585855/0",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
 						"transactions",
-						":accountnumber"
-					],
-					"variable": [
-						{
-							"key": "accountnumber",
-							"value": ""
-						}
+						"FI585858585855",
+						"0"
 					]
 				}
 			},
@@ -1052,7 +1047,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ4ODA1NDY1LCJleHAiOjE2NDg4MDcyNjV9.7I-K9n8RWgNDZKmxqlLZlY76NuafKuKBDtQk-2khYdU",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ5MDk0MTc4LCJleHAiOjE2NDkwOTU5Nzh9.OnN7MS2KJBpA8ybJY_aWQ2ocCELbXL4vewL_UoVHQsA",
 				"type": "string"
 			}
 		]
