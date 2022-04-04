@@ -33,7 +33,7 @@ void RestApiInterfaceClass::login(QString cardnumber, QString pin)
     pRestApiEngineClass->login(cardnumber, pin);
 }
 
-void RestApiInterfaceClass::getCustomerNameAndAccountnumber(QString cardnumber)
+void RestApiInterfaceClass::getCustomerInfo(QString cardnumber)
 {
     pRestApiEngineClass->getCustomerInfo(cardnumber);
 }
@@ -50,5 +50,5 @@ void RestApiInterfaceClass::loginFalseSlot(QString message)
 
 void RestApiInterfaceClass::customerInfoSlot(QVector<QString> info)
 {
-    emit customerNameAndAccountnumberSignal(info);
+    emit getCustomerInfoSignal(info);
 }

@@ -17,12 +17,12 @@ public:
 
     void setBaseURL(QString url);
     void login(QString cardnumber, QString pin);
-    void getCustomerNameAndAccountnumber(QString cardnumber);
+    void getCustomerInfo(QString cardnumber);
 
 signals:
     void loginSuccessful();
     void loginFailed(QString message);
-    void customerNameAndAccountnumberSignal(QVector<QString> nameAndAccountNumber);
+    void getCustomerInfoSignal(QVector<QString> info);
 
 private slots:
     void loginCorrectSlot();
