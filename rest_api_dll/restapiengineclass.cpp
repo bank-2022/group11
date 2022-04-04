@@ -45,6 +45,33 @@ void RestApiEngineClass::getCustomerInfo(QString cardnumber)
     reply = infoManager->get(request);
 }
 
+void RestApiEngineClass::get5Transactions(QString accountnumber)
+{
+    QNetworkRequest request((base_url + "/info/5transactions/" + accountnumber));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(transactions5Slot(QNetworkReply*)), Qt::QueuedConnection);
+    reply = infoManager->get(request);
+}
+
+void RestApiEngineClass::get10Transactions(QString accountnumber, int index)
+{
+    QNetworkRequest request((base_url + "/info/10transactions/" + accountnumber
+                             + "/" + QString::number(index)));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(transactions10Slot(QNetworkReply*)), Qt::QueuedConnection);
+    reply = infoManager->get(request);
+}
+
 void RestApiEngineClass::loginSlot(QNetworkReply *reply)
 {
     responseData = reply->readAll();
@@ -92,6 +119,67 @@ void RestApiEngineClass::customerInfoSlot(QNetworkReply *reply)
     infoManager->deleteLater();
 
     emit customerInfoSignal(customerInfo);
+}
+
+void RestApiEngineClass::transactions5Slot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+
+    QVector<QString> info(3);
+    QVector<QVector<QString>> list(5, info);
+
+    short index = 0;
+    foreach (const QJsonValue &value, json_array) {
+            QJsonObject json_obj = value.toObject();
+            list[index][0] = json_obj["datetime"].toString();
+            list[index][1] = json_obj["event"].toString();
+            if (list[index][1] == "withdrawal" || list[index][1] == "donation")
+                list[index][2] = "-" + QString::number(json_obj["sum"].toInt());
+            else
+                list[index][2] = "+" + QString::number(json_obj["sum"].toInt());
+            index++;
+        }
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+
+    emit transactions5Signal(list);
+}
+
+void RestApiEngineClass::transactions10Slot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+
+    QVector<QString> info(3);
+    QVector<QVector<QString>> list(10, info);
+
+    short index = 0;
+    foreach (const QJsonValue &value, json_array) {
+            qDebug() << "here";
+            QJsonObject json_obj = value.toObject();
+            list[index][0] = json_obj["datetime"].toString();
+            list[index][1] = json_obj["event"].toString();
+            if (list[index][1] == "withdrawal" || list[index][1] == "donation")
+                list[index][2] = "-" + QString::number(json_obj["sum"].toInt());
+            else
+                list[index][2] = "+" + QString::number(json_obj["sum"].toInt());
+            index++;
+        }
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+
+    emit transactions10Signal(list);
 }
 
 void RestApiEngineClass::checkForbiddenAccess(QByteArray response_data)

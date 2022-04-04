@@ -20,6 +20,8 @@ public:
     void login(QString cardnumber, QString pin);
 
     void getCustomerInfo(QString cardnumber);
+    void get5Transactions(QString accountnumber);
+    void get10Transactions(QString accountnumber, int index);
 
 signals:
     void loginSuccessfulSignal();
@@ -27,10 +29,14 @@ signals:
     void forbiddenAccessSignal();
 
     void customerInfoSignal(QVector<QString> info);
+    void transactions5Signal(QVector<QVector<QString>> list);
+    void transactions10Signal(QVector<QVector<QString>> list);
 
 private slots:
     void loginSlot(QNetworkReply *reply);
     void customerInfoSlot(QNetworkReply *reply);
+    void transactions5Slot(QNetworkReply *reply);
+    void transactions10Slot(QNetworkReply *reply);
 
 private:
     QString base_url;

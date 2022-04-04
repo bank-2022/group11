@@ -27,7 +27,7 @@ router.get('/customer/:cardnumber',
 });
 
 
-router.get('/transactions/:accountnumber/:row',
+router.get('/10transactions/:accountnumber/:row',
  function(request, response) {
    request.params.accountnumber;
    request.params.row;
