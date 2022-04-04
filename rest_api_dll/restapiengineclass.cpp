@@ -139,7 +139,7 @@ void RestApiEngineClass::transactions5Slot(QNetworkReply *reply)
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
             int sum = json_obj["sum"].toInt();
-            QString sumString = convertSum(sum);
+            QString sumString = convertToEuros(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
                 list[index][2] = "- " + sumString;
             else
@@ -172,7 +172,7 @@ void RestApiEngineClass::transactions10Slot(QNetworkReply *reply)
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
             int sum = json_obj["sum"].toInt();
-            QString sumString = convertSum(sum);
+            QString sumString = convertToEuros(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
                 list[index][2] = "- " + sumString;
             else
@@ -192,7 +192,7 @@ void RestApiEngineClass::checkForbiddenAccess(QByteArray response_data)
         emit forbiddenAccessSignal();
 }
 
-QString RestApiEngineClass::convertSum(int sum)
+QString RestApiEngineClass::convertToEuros(int sum)
 {
     int cents = sum % 100;
     QString centString;

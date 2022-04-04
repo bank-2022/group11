@@ -44,7 +44,7 @@ private:
 
     void checkForbiddenAccess(QByteArray response_data);
 
-    QString convertSum(int sum);
+    QString convertToEuros(int sum);
 
     QNetworkAccessManager *loginManager;
     QNetworkAccessManager *infoManager;
