@@ -27,7 +27,7 @@ private slots:
 
 private:
     QString base_url;
-    QString token;
+    QByteArray token;
 
     QNetworkAccessManager *loginManager;
     QNetworkReply *reply;

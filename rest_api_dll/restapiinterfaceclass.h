@@ -19,7 +19,12 @@ public:
     void login(QString cardnumber, QString pin);
 
 signals:
+    void loginSuccessful();
+    void loginFailed();
 
+private slots:
+    void loginCorrectSlot();
+    void loginFalseSlot();
 
 private:
     RestApiEngineClass *pRestApiEngineClass;

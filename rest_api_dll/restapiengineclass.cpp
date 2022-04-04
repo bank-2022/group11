@@ -27,7 +27,7 @@ void RestApiEngineClass::login(QString cardnumber, QString pin)
 
     loginManager = new QNetworkAccessManager(this);
     connect(loginManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(loginSlot(QNetworkReply*)));
+            this, SLOT(loginSlot(QNetworkReply*)), Qt::QueuedConnection);
 
     reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
@@ -38,12 +38,12 @@ void RestApiEngineClass::loginSlot(QNetworkReply *reply)
     qDebug() << responseData;
     if (responseData == "false") {
         qDebug() << "Login failed";
-        token = responseData;
+        token = "Bearer " + responseData;
         emit loginFalse();
     }
     else {
-        qDebug() << "Login succesfull";
-        token = responseData;
+        qDebug() << "Login successful";
+        token = "Bearer " + responseData;
         emit loginCorrect();
     }
 }
