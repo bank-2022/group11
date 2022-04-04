@@ -32,6 +32,19 @@ void RestApiEngineClass::login(QString cardnumber, QString pin)
     reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
+void RestApiEngineClass::getCustomerInfo(QString cardnumber)
+{
+    QNetworkRequest request((base_url + "/info/customer/" + cardnumber));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(infoSlot(QNetworkReply*)), Qt::QueuedConnection);
+    reply = infoManager->get(request);
+}
+
 void RestApiEngineClass::loginSlot(QNetworkReply *reply)
 {
     responseData = reply->readAll();
@@ -56,5 +69,25 @@ void RestApiEngineClass::loginSlot(QNetworkReply *reply)
         token = "Bearer " + responseData;
         emit loginCorrect();
     }
+
+    reply->deleteLater();
+    loginManager->deleteLater();
+}
+
+void RestApiEngineClass::infoSlot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonObject json_obj = json_doc.object();
+
+    QVector<QString> customerInfo(2);
+
+    customerInfo[0] = json_obj["name"].toString();
+    customerInfo[1] = json_obj["accountnumber"].toString();
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+
+    emit customerInfoSignal(customerInfo);
 }
 
