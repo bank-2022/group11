@@ -6,11 +6,11 @@ RestApiInterfaceClass::RestApiInterfaceClass(QObject *parent)
 
     qRegisterMetaType<QVector<QString>>("QVector<QString");
 
-    connect(pRestApiEngineClass, SIGNAL(loginCorrect()),
-            this, SLOT(loginCorrectSlot()), Qt::QueuedConnection);
+    connect(pRestApiEngineClass, SIGNAL(loginSuccessfulSignal()),
+            this, SLOT(loginSuccessfulSlot()), Qt::QueuedConnection);
 
-    connect(pRestApiEngineClass, SIGNAL(loginFalse(QString)),
-            this, SLOT(loginFalseSlot(QString)), Qt::QueuedConnection);
+    connect(pRestApiEngineClass, SIGNAL(loginFailedSignal(QString)),
+            this, SLOT(loginFailedSlot(QString)), Qt::QueuedConnection);
 
     connect(pRestApiEngineClass, SIGNAL(forbiddenAccessSignal()),
             this, SLOT(forbiddenAccessSlot()), Qt::QueuedConnection);
@@ -41,12 +41,12 @@ void RestApiInterfaceClass::getCustomerInfo(QString cardnumber)
     pRestApiEngineClass->getCustomerInfo(cardnumber);
 }
 
-void RestApiInterfaceClass::loginCorrectSlot()
+void RestApiInterfaceClass::loginSuccessfulSlot()
 {
     emit loginSuccessful();
 }
 
-void RestApiInterfaceClass::loginFalseSlot(QString message)
+void RestApiInterfaceClass::loginFailedSlot(QString message)
 {
     emit loginFailed(message);
 }
@@ -58,5 +58,5 @@ void RestApiInterfaceClass::forbiddenAccessSlot()
 
 void RestApiInterfaceClass::customerInfoSlot(QVector<QString> info)
 {
-    emit getCustomerInfoSignal(info);
+    emit customerInfo(info);
 }

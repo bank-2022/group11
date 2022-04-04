@@ -16,18 +16,21 @@ public:
     ~RestApiEngineClass();
 
     void setBaseURL(QString url);
+
     void login(QString cardnumber, QString pin);
+
     void getCustomerInfo(QString cardnumber);
 
 signals:
-    void loginCorrect();
-    void loginFalse(QString message);
+    void loginSuccessfulSignal();
+    void loginFailedSignal(QString message);
     void forbiddenAccessSignal();
+
     void customerInfoSignal(QVector<QString> info);
 
 private slots:
     void loginSlot(QNetworkReply *reply);
-    void infoSlot(QNetworkReply *reply);
+    void customerInfoSlot(QNetworkReply *reply);
 
 private:
     QString base_url;

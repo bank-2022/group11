@@ -26,12 +26,13 @@ signals:
     void loginFailed(QString message);
     void forbiddenAccess();
 
-    void getCustomerInfoSignal(QVector<QString> info);
+    void customerInfo(QVector<QString> info);
 
 private slots:
-    void loginCorrectSlot();
-    void loginFalseSlot(QString message);
+    void loginSuccessfulSlot();
+    void loginFailedSlot(QString message);
     void forbiddenAccessSlot();
+
     void customerInfoSlot(QVector<QString> info);
 
 private:

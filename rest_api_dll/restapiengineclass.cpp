@@ -41,7 +41,7 @@ void RestApiEngineClass::getCustomerInfo(QString cardnumber)
 
     infoManager = new QNetworkAccessManager(this);
     connect(infoManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(infoSlot(QNetworkReply*)), Qt::QueuedConnection);
+            this, SLOT(customerInfoSlot(QNetworkReply*)), Qt::QueuedConnection);
     reply = infoManager->get(request);
 }
 
@@ -52,29 +52,29 @@ void RestApiEngineClass::loginSlot(QNetworkReply *reply)
     if (responseData == "Wrong pin") {
         qDebug() << "Login failed";
         token = "Bearer " + responseData;
-        emit loginFalse("Wrong pin");
+        emit loginFailedSignal("Wrong pin");
     }
     else if (responseData == "Card does not exist") {
         qDebug() << "Login failed";
         token = "Bearer " + responseData;
-        emit loginFalse("Card does not exist");
+        emit loginFailedSignal("Card does not exist");
     }
     else if (responseData == "Card number or pin missing") {
         qDebug() << "Login failed";
         token = "Bearer " + responseData;
-        emit loginFalse("Card number or pin missing");
+        emit loginFailedSignal("Card number or pin missing");
     }
     else {
         qDebug() << "Login successful";
         token = "Bearer " + responseData;
-        emit loginCorrect();
+        emit loginSuccessfulSignal();
     }
 
     reply->deleteLater();
     loginManager->deleteLater();
 }
 
-void RestApiEngineClass::infoSlot(QNetworkReply *reply)
+void RestApiEngineClass::customerInfoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
