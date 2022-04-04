@@ -180,6 +180,66 @@
 			"response": []
 		},
 		{
+			"name": "putLocked",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "locked",
+							"value": "yes",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/locked/135135",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"locked",
+						"135135"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLocked",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "cardnumber",
+							"value": "",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/locked/135135",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"locked",
+						"135135"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getType",
 			"request": {
 				"method": "GET",
@@ -230,20 +290,25 @@
 			"response": []
 		},
 		{
-			"name": "get10Transactions",
+			"name": "getBalance",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/transactions/FI585858585855/0",
+					"raw": "{{base_url}}/info/balance/:accountnumber",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
-						"transactions",
-						"FI585858585855",
-						"0"
+						"balance",
+						":accountnumber"
+					],
+					"variable": [
+						{
+							"key": "accountnumber",
+							"value": ""
+						}
 					]
 				}
 			},
@@ -275,85 +340,20 @@
 			"response": []
 		},
 		{
-			"name": "getBalance",
+			"name": "get10Transactions",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/balance/:accountnumber",
+					"raw": "{{base_url}}/info/transactions/FI585858585855/0",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
-						"balance",
-						":accountnumber"
-					],
-					"variable": [
-						{
-							"key": "accountnumber",
-							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getLocked",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "cardnumber",
-							"value": "",
-							"type": "default",
-							"disabled": true
-						}
-					]
-				},
-				"url": {
-					"raw": "{{base_url}}/locked/135135",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"locked",
-						"135135"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "putLocked",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "locked",
-							"value": "yes",
-							"type": "default"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{base_url}}/locked/135135",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"locked",
-						"135135"
+						"transactions",
+						"FI585858585855",
+						"0"
 					]
 				}
 			},
