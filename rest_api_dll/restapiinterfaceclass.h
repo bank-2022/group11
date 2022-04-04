@@ -14,7 +14,13 @@ public:
     explicit RestApiInterfaceClass(QObject *parent = nullptr);
     ~RestApiInterfaceClass();
 
-    void setSiteURL(QString url);
+    void setBaseURL(QString url);
+
+    void login(QString cardnumber, QString pin);
+
+signals:
+
+
 private:
     RestApiEngineClass *pRestApiEngineClass;
 };

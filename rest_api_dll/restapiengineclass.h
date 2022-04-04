@@ -14,14 +14,24 @@ public:
     explicit RestApiEngineClass(QObject *parent = nullptr);
     ~RestApiEngineClass();
 
-    void setSiteURL(QString url);
-    QString login();
+    void setBaseURL(QString url);
+
+    void login(QString cardnumber, QString pin);
 
 signals:
+    void loginCorrect();
+    void loginFalse();
+
+private slots:
+    void loginSlot(QNetworkReply *reply);
 
 private:
-    QString site_url;
+    QString base_url;
     QString token;
+
+    QNetworkAccessManager *loginManager;
+    QNetworkReply *reply;
+    QByteArray responseData;
 };
 
 #endif // RESTAPIENGINECLASS_H

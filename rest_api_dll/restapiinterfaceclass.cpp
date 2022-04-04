@@ -11,7 +11,12 @@ RestApiInterfaceClass::~RestApiInterfaceClass()
     pRestApiEngineClass = nullptr;
 }
 
-void RestApiInterfaceClass::setSiteURL(QString url)
+void RestApiInterfaceClass::setBaseURL(QString url)
 {
-    pRestApiEngineClass->setSiteURL(url);
+    pRestApiEngineClass->setBaseURL(url);
+}
+
+void RestApiInterfaceClass::login(QString cardnumber, QString pin)
+{
+    pRestApiEngineClass->login(cardnumber, pin);
 }
