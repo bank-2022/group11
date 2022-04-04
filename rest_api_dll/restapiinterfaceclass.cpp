@@ -12,6 +12,9 @@ RestApiInterfaceClass::RestApiInterfaceClass(QObject *parent)
     connect(pRestApiEngineClass, SIGNAL(loginFalse(QString)),
             this, SLOT(loginFalseSlot(QString)), Qt::QueuedConnection);
 
+    connect(pRestApiEngineClass, SIGNAL(forbiddenAccessSignal()),
+            this, SLOT(forbiddenAccessSlot()), Qt::QueuedConnection);
+
     connect(pRestApiEngineClass, SIGNAL(customerInfoSignal(QVector<QString>)),
             this, SLOT(customerInfoSlot(QVector<QString>)),
             Qt::QueuedConnection);
@@ -46,6 +49,11 @@ void RestApiInterfaceClass::loginCorrectSlot()
 void RestApiInterfaceClass::loginFalseSlot(QString message)
 {
     emit loginFailed(message);
+}
+
+void RestApiInterfaceClass::forbiddenAccessSlot()
+{
+    emit forbiddenAccess();
 }
 
 void RestApiInterfaceClass::customerInfoSlot(QVector<QString> info)

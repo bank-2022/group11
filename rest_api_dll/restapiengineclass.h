@@ -22,6 +22,7 @@ public:
 signals:
     void loginCorrect();
     void loginFalse(QString message);
+    void forbiddenAccessSignal();
     void customerInfoSignal(QVector<QString> info);
 
 private slots:
@@ -31,6 +32,8 @@ private slots:
 private:
     QString base_url;
     QByteArray token;
+
+    void checkForbiddenAccess(QByteArray response_data);
 
     QNetworkAccessManager *loginManager;
     QNetworkAccessManager *infoManager;

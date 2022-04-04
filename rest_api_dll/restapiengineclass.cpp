@@ -77,6 +77,9 @@ void RestApiEngineClass::loginSlot(QNetworkReply *reply)
 void RestApiEngineClass::infoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
 
@@ -89,5 +92,11 @@ void RestApiEngineClass::infoSlot(QNetworkReply *reply)
     infoManager->deleteLater();
 
     emit customerInfoSignal(customerInfo);
+}
+
+void RestApiEngineClass::checkForbiddenAccess(QByteArray response_data)
+{
+    if (response_data == "Forbidden" || response_data == "Unauthorized")
+        emit forbiddenAccessSignal();
 }
 
