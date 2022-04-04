@@ -138,10 +138,12 @@ void RestApiEngineClass::transactions5Slot(QNetworkReply *reply)
             QJsonObject json_obj = value.toObject();
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
+            int sum = json_obj["sum"].toInt();
+            QString sumString = convertSum(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
-                list[index][2] = "-" + QString::number(json_obj["sum"].toInt());
+                list[index][2] = "- " + sumString;
             else
-                list[index][2] = "+" + QString::number(json_obj["sum"].toInt());
+                list[index][2] = "+ " + sumString;
             index++;
         }
 
@@ -169,10 +171,12 @@ void RestApiEngineClass::transactions10Slot(QNetworkReply *reply)
             QJsonObject json_obj = value.toObject();
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
+            int sum = json_obj["sum"].toInt();
+            QString sumString = convertSum(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
-                list[index][2] = "-" + QString::number(json_obj["sum"].toInt());
+                list[index][2] = "- " + sumString;
             else
-                list[index][2] = "+" + QString::number(json_obj["sum"].toInt());
+                list[index][2] = "+ " + sumString;
             index++;
         }
 
@@ -186,5 +190,17 @@ void RestApiEngineClass::checkForbiddenAccess(QByteArray response_data)
 {
     if (response_data == "Forbidden" || response_data == "Unauthorized")
         emit forbiddenAccessSignal();
+}
+
+QString RestApiEngineClass::convertSum(int sum)
+{
+    int cents = sum % 100;
+    QString centString;
+    if (cents < 10)
+        centString = "0" + QString::number(cents);
+    else
+        centString = QString::number(cents);
+
+    return QString::number(sum / 100) + "." + centString;
 }
 

@@ -44,6 +44,8 @@ private:
 
     void checkForbiddenAccess(QByteArray response_data);
 
+    QString convertSum(int sum);
+
     QNetworkAccessManager *loginManager;
     QNetworkAccessManager *infoManager;
     QNetworkReply *reply;
