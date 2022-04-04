@@ -25,14 +25,14 @@ router.post('/',
                 }
                 else {
                     console.log("wrong pin");
-                    response.send(false);
+                    response.send("Wrong pin");
                 }			
               }
               );
             }
             else{
               console.log("card does not exists");
-              response.send(false);
+              response.send("Card does not exist");
             }
           }
           }
@@ -40,7 +40,7 @@ router.post('/',
       }
     else{
       console.log("card number or pin missing");
-      response.send(false);
+      response.send("Card number or pin missing");
     }
   }
 );

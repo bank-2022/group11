@@ -20,11 +20,11 @@ public:
 
 signals:
     void loginSuccessful();
-    void loginFailed();
+    void loginFailed(QString message);
 
 private slots:
     void loginCorrectSlot();
-    void loginFalseSlot();
+    void loginFalseSlot(QString message);
 
 private:
     RestApiEngineClass *pRestApiEngineClass;

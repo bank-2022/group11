@@ -20,7 +20,7 @@ public:
 
 signals:
     void loginCorrect();
-    void loginFalse();
+    void loginFalse(QString message);
 
 private slots:
     void loginSlot(QNetworkReply *reply);

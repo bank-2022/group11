@@ -7,8 +7,8 @@ RestApiInterfaceClass::RestApiInterfaceClass(QObject *parent)
     connect(pRestApiEngineClass, SIGNAL(loginCorrect()),
             this, SLOT(loginCorrectSlot()), Qt::QueuedConnection);
 
-    connect(pRestApiEngineClass, SIGNAL(loginFalse()),
-            this, SLOT(loginFalseSlot()), Qt::QueuedConnection);
+    connect(pRestApiEngineClass, SIGNAL(loginFalse(QString)),
+            this, SLOT(loginFalseSlot(QString)), Qt::QueuedConnection);
 }
 
 RestApiInterfaceClass::~RestApiInterfaceClass()
@@ -32,7 +32,7 @@ void RestApiInterfaceClass::loginCorrectSlot()
     emit loginSuccessful();
 }
 
-void RestApiInterfaceClass::loginFalseSlot()
+void RestApiInterfaceClass::loginFalseSlot(QString message)
 {
-    emit loginFailed();
+    emit loginFailed(message);
 }

@@ -36,10 +36,20 @@ void RestApiEngineClass::loginSlot(QNetworkReply *reply)
 {
     responseData = reply->readAll();
     qDebug() << responseData;
-    if (responseData == "false") {
+    if (responseData == "Wrong pin") {
         qDebug() << "Login failed";
         token = "Bearer " + responseData;
-        emit loginFalse();
+        emit loginFalse("Wrong pin");
+    }
+    else if (responseData == "Card does not exist") {
+        qDebug() << "Login failed";
+        token = "Bearer " + responseData;
+        emit loginFalse("Card does not exist");
+    }
+    else if (responseData == "Card number or pin missing") {
+        qDebug() << "Login failed";
+        token = "Bearer " + responseData;
+        emit loginFalse("Card number or pin missing");
     }
     else {
         qDebug() << "Login successful";
