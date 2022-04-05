@@ -28,6 +28,6 @@ void TransactionsWindow::on_previousButton_clicked()
 
 void TransactionsWindow::on_exitButton_clicked()
 {
-
+    this-> close();
 }
 

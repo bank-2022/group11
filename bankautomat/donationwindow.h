@@ -2,6 +2,7 @@
 #define DONATIONWINDOW_H
 
 #include <QDialog>
+class MainWindow;
 
 namespace Ui {
 class DonationWindow;
@@ -12,8 +13,10 @@ class DonationWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DonationWindow(QWidget *parent = nullptr);
+    explicit DonationWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
     ~DonationWindow();
+
+    void donateOtherAmount(QString i);
 
 private slots:
     void on_tenButton_clicked();
@@ -32,8 +35,12 @@ private slots:
     void on_cancelButton_clicked();
     void on_enterButton_clicked();
 
+    void on_exitButton_clicked();
+
 private:
     Ui::DonationWindow *ui;
+    MainWindow * pMainWindow;
+    QString donationAmount;
 };
 
 #endif // DONATIONWINDOW_H

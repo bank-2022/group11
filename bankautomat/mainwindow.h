@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QDebug>
+#include <QTimer>
 
 #include "donationwindow.h"
 #include "transactionswindow.h"
@@ -21,6 +22,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void startTimer();
+    void reStartTimer();
+    QTimer * mainWindowTimer;
+
+
 private slots:
     void on_withdrawButton_clicked();
     void on_viewTransactionsButton_clicked();
@@ -33,5 +39,7 @@ private:
     DonationWindow * pDonationWindow;
     TransactionsWindow * pTransactionsWindow;
     WithdrawWindow * pWithdrawWindow;
+
+
 };
 #endif // MAINWINDOW_H

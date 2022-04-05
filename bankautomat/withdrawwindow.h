@@ -2,6 +2,9 @@
 #define WITHDRAWWINDOW_H
 
 #include <QDialog>
+#include <iostream>
+#include <string>
+
 class MainWindow;
 
 namespace Ui {
@@ -15,6 +18,8 @@ class WithdrawWindow : public QDialog
 public:
     explicit WithdrawWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
     ~WithdrawWindow();
+
+    void withdrawOtherAmount(QString i);
 
 private slots:
     void on_tenButton_clicked();
@@ -37,6 +42,8 @@ private slots:
 
     void on_backspaceButton_clicked();
     void on_enterButton_clicked();
+
+    void on_exitButton_clicked();
 
 private:
     Ui::WithdrawWindow *ui;
