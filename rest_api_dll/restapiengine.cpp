@@ -45,7 +45,7 @@ void RestApiEngine::creditWithdrawal(QString cardnumber, QString amount)
 
     infoManager = new QNetworkAccessManager(this);
     connect(infoManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(creditWithdrawalSlot(QNetworkReply*)));
+            this, SLOT(creditWithdrawalSlot(QNetworkReply*)), Qt::QueuedConnection);
 
     reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
@@ -63,7 +63,7 @@ void RestApiEngine::debitWithdrawal(QString cardnumber, QString amount)
 
     infoManager = new QNetworkAccessManager(this);
     connect(infoManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(debitWithdrawalSlot(QNetworkReply*)));
+            this, SLOT(debitWithdrawalSlot(QNetworkReply*)), Qt::QueuedConnection);
 
     reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
@@ -82,7 +82,7 @@ void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, QS
 
     infoManager = new QNetworkAccessManager(this);
     connect(infoManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(creditDonationSlot(QNetworkReply*)));
+            this, SLOT(creditDonationSlot(QNetworkReply*)), Qt::QueuedConnection);
 
     reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
@@ -102,7 +102,7 @@ void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, QSt
 
     infoManager = new QNetworkAccessManager(this);
     connect(infoManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(debitDonationSlot(QNetworkReply*)));
+            this, SLOT(debitDonationSlot(QNetworkReply*)), Qt::QueuedConnection);
 
     reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
@@ -121,7 +121,7 @@ void RestApiEngine::putLocked(QString cardnumber, QString locked)
 
     infoManager = new QNetworkAccessManager(this);
     connect(infoManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(putLockedSlot(QNetworkReply*)));
+            this, SLOT(putLockedSlot(QNetworkReply*)), Qt::QueuedConnection);
 
     reply = infoManager->put(request, QJsonDocument(jsonObj).toJson());
 }
