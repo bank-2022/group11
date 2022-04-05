@@ -1,22 +1,22 @@
-#include "restapiengineclass.h"
+#include "restapiengine.h"
 
-RestApiEngineClass::RestApiEngineClass(QObject *parent)
+RestApiEngine::RestApiEngine(QObject *parent)
 {
     qDebug() << "EngineClass created";
 }
 
-RestApiEngineClass::~RestApiEngineClass()
+RestApiEngine::~RestApiEngine()
 {
     qDebug() << "EngineClass destroyed";
 }
 
-void RestApiEngineClass::setBaseURL(QString url)
+void RestApiEngine::setBaseURL(QString url)
 {
     base_url = url;
     qDebug() << "Base URL set to: " << base_url;
 }
 
-void RestApiEngineClass::login(QString cardnumber, QString pin)
+void RestApiEngine::login(QString cardnumber, QString pin)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
@@ -32,12 +32,46 @@ void RestApiEngineClass::login(QString cardnumber, QString pin)
     reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngineClass::putLocked(QString cardnumber)
+void RestApiEngine::creditWithdrawal(QString cardnumber, int amount)
 {
 
 }
 
-void RestApiEngineClass::getLocked(QString cardnumber)
+void RestApiEngine::debitWithdrawal(QString cardnumber, int amount)
+{
+
+}
+
+void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, double amount)
+{
+
+}
+
+void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, double amount)
+{
+
+}
+
+void RestApiEngine::putLocked(QString cardnumber, QString locked)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("locked", locked);
+
+    QNetworkRequest request((base_url + "/locked/" + cardnumber));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(putLockedSlot(QNetworkReply*)));
+
+    reply = infoManager->put(request, QJsonDocument(jsonObj).toJson());
+}
+
+void RestApiEngine::getLocked(QString cardnumber)
 {
     QNetworkRequest request((base_url + "/locked/" + cardnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -50,7 +84,7 @@ void RestApiEngineClass::getLocked(QString cardnumber)
     reply = infoManager->get(request);
 }
 
-void RestApiEngineClass::getType(QString cardnumber)
+void RestApiEngine::getType(QString cardnumber)
 {
     QNetworkRequest request((base_url + "/info/type/" + cardnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -63,7 +97,7 @@ void RestApiEngineClass::getType(QString cardnumber)
     reply = infoManager->get(request);
 }
 
-void RestApiEngineClass::getCustomerInfo(QString cardnumber)
+void RestApiEngine::getCustomerInfo(QString cardnumber)
 {
     QNetworkRequest request((base_url + "/info/customer/" + cardnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -76,7 +110,7 @@ void RestApiEngineClass::getCustomerInfo(QString cardnumber)
     reply = infoManager->get(request);
 }
 
-void RestApiEngineClass::getBalance(QString accountnumber)
+void RestApiEngine::getBalance(QString accountnumber)
 {
     QNetworkRequest request((base_url + "/info/balance/" + accountnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -89,7 +123,7 @@ void RestApiEngineClass::getBalance(QString accountnumber)
     reply = infoManager->get(request);
 }
 
-void RestApiEngineClass::get5Transactions(QString accountnumber)
+void RestApiEngine::get5Transactions(QString accountnumber)
 {
     QNetworkRequest request((base_url + "/info/5transactions/" + accountnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -102,7 +136,7 @@ void RestApiEngineClass::get5Transactions(QString accountnumber)
     reply = infoManager->get(request);
 }
 
-void RestApiEngineClass::get10Transactions(QString accountnumber, int index)
+void RestApiEngine::get10Transactions(QString accountnumber, int index)
 {
     QNetworkRequest request((base_url + "/info/10transactions/" + accountnumber
                              + "/" + QString::number(index)));
@@ -116,7 +150,7 @@ void RestApiEngineClass::get10Transactions(QString accountnumber, int index)
     reply = infoManager->get(request);
 }
 
-void RestApiEngineClass::loginSlot(QNetworkReply *reply)
+void RestApiEngine::loginSlot(QNetworkReply *reply)
 {
     responseData = reply->readAll();
     qDebug() << responseData;
@@ -145,7 +179,17 @@ void RestApiEngineClass::loginSlot(QNetworkReply *reply)
     loginManager->deleteLater();
 }
 
-void RestApiEngineClass::lockedSlot(QNetworkReply *reply)
+void RestApiEngine::putLockedSlot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+}
+
+void RestApiEngine::lockedSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -166,7 +210,7 @@ void RestApiEngineClass::lockedSlot(QNetworkReply *reply)
     emit lockedSignal(locked);
 }
 
-void RestApiEngineClass::typeSlot(QNetworkReply *reply)
+void RestApiEngine::typeSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -185,7 +229,7 @@ void RestApiEngineClass::typeSlot(QNetworkReply *reply)
     emit typeSignal(type);
 }
 
-void RestApiEngineClass::customerInfoSlot(QNetworkReply *reply)
+void RestApiEngine::customerInfoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -205,7 +249,7 @@ void RestApiEngineClass::customerInfoSlot(QNetworkReply *reply)
     emit customerInfoSignal(customerInfo);
 }
 
-void RestApiEngineClass::balanceSlot(QNetworkReply *reply)
+void RestApiEngine::balanceSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -226,7 +270,7 @@ void RestApiEngineClass::balanceSlot(QNetworkReply *reply)
     emit typeSignal(balanceString);
 }
 
-void RestApiEngineClass::transactions5Slot(QNetworkReply *reply)
+void RestApiEngine::transactions5Slot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -258,7 +302,7 @@ void RestApiEngineClass::transactions5Slot(QNetworkReply *reply)
     emit transactions5Signal(list);
 }
 
-void RestApiEngineClass::transactions10Slot(QNetworkReply *reply)
+void RestApiEngine::transactions10Slot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -291,13 +335,13 @@ void RestApiEngineClass::transactions10Slot(QNetworkReply *reply)
     emit transactions10Signal(list);
 }
 
-void RestApiEngineClass::checkForbiddenAccess(QByteArray response_data)
+void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
 {
     if (response_data == "Forbidden" || response_data == "Unauthorized")
         emit forbiddenAccessSignal();
 }
 
-QString RestApiEngineClass::convertToEuros(long long sum)
+QString RestApiEngine::convertToEuros(long long sum)
 {
     long long cents = sum % 100;
     QString centString;
@@ -309,7 +353,7 @@ QString RestApiEngineClass::convertToEuros(long long sum)
     return QString::number(sum / 100) + "." + centString;
 }
 
-QString RestApiEngineClass::convertToCents(int sum)
+QString RestApiEngine::convertToCents(int sum)
 {
     return QString::number(sum * 100);
 }

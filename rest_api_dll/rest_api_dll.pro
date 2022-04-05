@@ -11,13 +11,13 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    restapiengineclass.cpp \
-    restapiinterfaceclass.cpp
+    restapi.cpp \
+    restapiengine.cpp
 
 HEADERS += \
     rest_api_dll_global.h \
-    restapiengineclass.h \
-    restapiinterfaceclass.h
+    restapi.h \
+    restapiengine.h
 
 # Default rules for deployment.
 unix {

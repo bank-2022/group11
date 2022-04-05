@@ -1,5 +1,5 @@
-#ifndef RESTAPIENGINECLASS_H
-#define RESTAPIENGINECLASS_H
+#ifndef RESTAPIENGINE_H
+#define RESTAPIENGINE_H
 
 #include <QObject>
 #include <QtNetwork>
@@ -8,18 +8,23 @@
 #include <QDebug>
 #include <QVector>
 
-class RestApiEngineClass : public QObject
+class RestApiEngine : public QObject
 {
     Q_OBJECT
 public:
-    explicit RestApiEngineClass(QObject *parent = nullptr);
-    ~RestApiEngineClass();
+    explicit RestApiEngine(QObject *parent = nullptr);
+    ~RestApiEngine();
 
     void setBaseURL(QString url);
 
     void login(QString cardnumber, QString pin);
 
-    void putLocked(QString cardnumber);
+    void creditWithdrawal(QString cardnumber, int amount);
+    void debitWithdrawal(QString cardnumber, int amount);
+    void creditDonation(QString cardnumber, QString accountnumber, double amount);
+    void debitDonation(QString cardnumber, QString accountnumber, double amount);
+
+    void putLocked(QString cardnumber, QString locked);
 
     void getLocked(QString cardnumber);
     void getType(QString cardnumber);
@@ -43,6 +48,8 @@ signals:
 private slots:
     void loginSlot(QNetworkReply *reply);
 
+    void putLockedSlot(QNetworkReply*);
+
     void lockedSlot(QNetworkReply *reply);
     void typeSlot(QNetworkReply *reply);
     void customerInfoSlot(QNetworkReply *reply);
@@ -65,4 +72,4 @@ private:
     QByteArray responseData;
 };
 
-#endif // RESTAPIENGINECLASS_H
+#endif // RESTAPIENGINE_H

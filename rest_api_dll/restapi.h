@@ -1,25 +1,30 @@
-#ifndef RESTAPIINTERFACECLASS_H
-#define RESTAPIINTERFACECLASS_H
+#ifndef RESTAPI_H
+#define RESTAPI_H
 
 #include <QObject>
 #include <QVector>
 
 #include "rest_api_dll_global.h"
-#include "restapiengineclass.h"
+#include "restapiengine.h"
 
-class REST_API_DLL_EXPORT RestApiInterfaceClass  : public QObject
+class REST_API_DLL_EXPORT RestApi  : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit RestApiInterfaceClass(QObject *parent = nullptr);
-    ~RestApiInterfaceClass();
+    explicit RestApi(QObject *parent = nullptr);
+    ~RestApi();
 
     void setBaseURL(QString url);
 
     void login(QString cardnumber, QString pin);
 
-    void putLocked(QString cardnumber);
+    void creditWithdrawal(QString cardnumber, int amount);
+    void debitWithdrawal(QString cardnumber, int amount);
+    void creditDonation(QString cardnumber, QString accountnumber, double amount);
+    void debitDonation(QString cardnumber, QString accountnumber, double amount);
+
+    void putLocked(QString cardnumber, QString locked);
 
     void getLocked(QString cardnumber);
     void getType(QString cardnumber);
@@ -53,7 +58,7 @@ private slots:
     void transactions10Slot(QVector<QVector<QString>> list);
 
 private:
-    RestApiEngineClass *pRestApiEngineClass;
+    RestApiEngine *pRestApiEngine;
 };
 
-#endif // RESTAPIINTERFACECLASS_H
+#endif // RESTAPI_H
