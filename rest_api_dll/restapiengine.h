@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QVector>
 
+
 class RestApiEngine : public QObject
 {
     Q_OBJECT
@@ -34,6 +35,7 @@ public:
     void get10Transactions(QString accountnumber, int index);
 
 signals:
+
     void loginSuccessfulSignal();
     void loginFailedSignal(QString message);
     void forbiddenAccessSignal();
@@ -64,14 +66,15 @@ private slots:
 
 private:
     QString base_url;
+
+    // The token is kept in the rest api engine for use
     QByteArray token;
 
     void checkForbiddenAccess(QByteArray response_data);
 
     QString convertToEuros(int sum);
 
-    QNetworkAccessManager *loginManager;
-    QNetworkAccessManager *infoManager;
+    QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QByteArray responseData;
 };

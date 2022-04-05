@@ -2,34 +2,43 @@
 
 RestApiEngine::RestApiEngine(QObject *parent)
 {
-    qDebug() << "EngineClass created";
+    // qDebug() << "EngineClass created";
 }
 
 RestApiEngine::~RestApiEngine()
 {
-    qDebug() << "EngineClass destroyed";
+    // qDebug() << "EngineClass destroyed";
 }
 
 void RestApiEngine::setBaseURL(QString url)
 {
     base_url = url;
-    qDebug() << "Base URL set to: " << base_url;
+    // qDebug() << "Base URL set to: " << base_url;
 }
 
 void RestApiEngine::login(QString cardnumber, QString pin)
 {
     QJsonObject jsonObj;
+
+    // These are the requests body
     jsonObj.insert("cardnumber", cardnumber);
     jsonObj.insert("pin", pin);
 
+    // URL gets set here
     QNetworkRequest request((base_url + "/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    loginManager = new QNetworkAccessManager(this);
-    connect(loginManager, SIGNAL(finished(QNetworkReply*)),
+    // The manager gets connected to a slot that will be called when the REST API
+    // operation is ready. All data will be returned from the REST API to the
+    // specified slot
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(loginSlot(QNetworkReply*)), Qt::QueuedConnection);
 
-    reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
+    // Type of HTML operation specified
+    reply = manager->post(request, QJsonDocument(jsonObj).toJson());
+
+    // All of the following functions are similar in construct
 }
 
 void RestApiEngine::creditWithdrawal(QString cardnumber, QString amount)
@@ -41,13 +50,14 @@ void RestApiEngine::creditWithdrawal(QString cardnumber, QString amount)
     QNetworkRequest request((base_url + "/withdrawal/credit"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
+    // This is the token authorization in this and all of the following functions
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(creditWithdrawalSlot(QNetworkReply*)), Qt::QueuedConnection);
 
-    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
+    reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void RestApiEngine::debitWithdrawal(QString cardnumber, QString amount)
@@ -61,11 +71,11 @@ void RestApiEngine::debitWithdrawal(QString cardnumber, QString amount)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(debitWithdrawalSlot(QNetworkReply*)), Qt::QueuedConnection);
 
-    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
+    reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, QString amount)
@@ -80,11 +90,11 @@ void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, QS
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(creditDonationSlot(QNetworkReply*)), Qt::QueuedConnection);
 
-    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
+    reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, QString amount)
@@ -100,11 +110,11 @@ void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, QSt
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(debitDonationSlot(QNetworkReply*)), Qt::QueuedConnection);
 
-    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
+    reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void RestApiEngine::putLocked(QString cardnumber, QString locked)
@@ -117,13 +127,13 @@ void RestApiEngine::putLocked(QString cardnumber, QString locked)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
+    manager = new QNetworkAccessManager(this);
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(putLockedSlot(QNetworkReply*)), Qt::QueuedConnection);
 
-    reply = infoManager->put(request, QJsonDocument(jsonObj).toJson());
+    reply = manager->put(request, QJsonDocument(jsonObj).toJson());
 }
 
 void RestApiEngine::getLocked(QString cardnumber)
@@ -133,10 +143,10 @@ void RestApiEngine::getLocked(QString cardnumber)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(lockedSlot(QNetworkReply*)), Qt::QueuedConnection);
-    reply = infoManager->get(request);
+    reply = manager->get(request);
 }
 
 void RestApiEngine::getType(QString cardnumber)
@@ -146,10 +156,10 @@ void RestApiEngine::getType(QString cardnumber)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(typeSlot(QNetworkReply*)), Qt::QueuedConnection);
-    reply = infoManager->get(request);
+    reply = manager->get(request);
 }
 
 void RestApiEngine::getCustomerInfo(QString cardnumber)
@@ -159,10 +169,10 @@ void RestApiEngine::getCustomerInfo(QString cardnumber)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(customerInfoSlot(QNetworkReply*)), Qt::QueuedConnection);
-    reply = infoManager->get(request);
+    reply = manager->get(request);
 }
 
 void RestApiEngine::getBalance(QString accountnumber)
@@ -172,10 +182,10 @@ void RestApiEngine::getBalance(QString accountnumber)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(balanceSlot(QNetworkReply*)), Qt::QueuedConnection);
-    reply = infoManager->get(request);
+    reply = manager->get(request);
 }
 
 void RestApiEngine::get5Transactions(QString accountnumber)
@@ -185,10 +195,10 @@ void RestApiEngine::get5Transactions(QString accountnumber)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(transactions5Slot(QNetworkReply*)), Qt::QueuedConnection);
-    reply = infoManager->get(request);
+    reply = manager->get(request);
 }
 
 void RestApiEngine::get10Transactions(QString accountnumber, int index)
@@ -199,49 +209,59 @@ void RestApiEngine::get10Transactions(QString accountnumber, int index)
 
     request.setRawHeader(QByteArray("Authorization"),(token));
 
-    infoManager = new QNetworkAccessManager(this);
-    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(transactions10Slot(QNetworkReply*)), Qt::QueuedConnection);
-    reply = infoManager->get(request);
+    reply = manager->get(request);
 }
 
 void RestApiEngine::loginSlot(QNetworkReply *reply)
 {
     responseData = reply->readAll();
-    qDebug() << responseData;
+    // qDebug() << responseData;
+
+    // This returns the token from the REST API
+    // or an error message if login went wrong
+    // and emits a signal whether the login was
+    // succesful or not and why not
+
     if (responseData == "Wrong pin") {
-        qDebug() << "Login failed";
+        // qDebug() << "Login failed";
         token = "Bearer " + responseData;
         emit loginFailedSignal("Wrong pin");
     }
     else if (responseData == "Card does not exist") {
-        qDebug() << "Login failed";
+        // qDebug() << "Login failed";
         token = "Bearer " + responseData;
         emit loginFailedSignal("Card does not exist");
     }
     else if (responseData == "Card number or pin missing") {
-        qDebug() << "Login failed";
+        // qDebug() << "Login failed";
         token = "Bearer " + responseData;
         emit loginFailedSignal("Card number or pin missing");
     }
     else {
-        qDebug() << "Login successful";
+        // qDebug() << "Login successful";
         token = "Bearer " + responseData;
         emit loginSuccessfulSignal();
     }
 
     reply->deleteLater();
-    loginManager->deleteLater();
+    manager->deleteLater();
 }
 
 void RestApiEngine::putLockedSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
+    // It is checked for each HTML operation
+    // if the user is trying to access the
+    // REST API services without a token
     checkForbiddenAccess(response_data);
 
+    // Basic cleanup
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 }
 
 void RestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
@@ -251,7 +271,7 @@ void RestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 }
 
 void RestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
@@ -261,7 +281,7 @@ void RestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 }
 
 void RestApiEngine::creditDonationSlot(QNetworkReply *reply)
@@ -271,7 +291,7 @@ void RestApiEngine::creditDonationSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 }
 
 void RestApiEngine::debitDonationSlot(QNetworkReply *reply)
@@ -281,7 +301,7 @@ void RestApiEngine::debitDonationSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 }
 
 void RestApiEngine::lockedSlot(QNetworkReply *reply)
@@ -297,10 +317,10 @@ void RestApiEngine::lockedSlot(QNetworkReply *reply)
 
     locked = json_obj["locked"].toString();
 
-    qDebug() << locked;
+    // qDebug() << locked;
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 
     emit lockedSignal(locked);
 }
@@ -319,7 +339,7 @@ void RestApiEngine::typeSlot(QNetworkReply *reply)
     type = json_obj["type"].toString();
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 
     emit typeSignal(type);
 }
@@ -335,11 +355,13 @@ void RestApiEngine::customerInfoSlot(QNetworkReply *reply)
 
     QVector<QString> customerInfo(2);
 
+    // This updates customers name and account number into a vector
+    // of 2 strings
     customerInfo[0] = json_obj["name"].toString();
     customerInfo[1] = json_obj["accountnumber"].toString();
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 
     emit customerInfoSignal(customerInfo);
 }
@@ -353,10 +375,11 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
 
+    // Balance gets converted to int. Balance is in cents for accuracy
     int balance = json_obj["balance"].toInt();
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 
     emit balanceSignal(balance);
 }
@@ -370,15 +393,21 @@ void RestApiEngine::transactions5Slot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
 
+    // This creates a 2 dimensional vector for the transactions info
+
     QVector<QString> info(3);
     QVector<QVector<QString>> list(5, info);
 
+    // Transactions get added to a 2 dimensional vector where
+    // the vector contains all individual transactions
+    // and the three different fields are contained in a vector inside that
     short index = 0;
     foreach (const QJsonValue &value, json_array) {
             QJsonObject json_obj = value.toObject();
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
             int sum = json_obj["sum"].toInt();
+            // Cents get converted to a string of euros
             QString sumString = convertToEuros(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
                 list[index][2] = "- " + sumString;
@@ -388,7 +417,7 @@ void RestApiEngine::transactions5Slot(QNetworkReply *reply)
         }
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 
     emit transactions5Signal(list);
 }
@@ -405,9 +434,11 @@ void RestApiEngine::transactions10Slot(QNetworkReply *reply)
     QVector<QString> info(3);
     QVector<QVector<QString>> list(10, info);
 
+    // These operations are the same as transactions5Slot but the vector
+    // size is bigger
+
     short index = 0;
     foreach (const QJsonValue &value, json_array) {
-            qDebug() << "here";
             QJsonObject json_obj = value.toObject();
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
@@ -421,19 +452,25 @@ void RestApiEngine::transactions10Slot(QNetworkReply *reply)
         }
 
     reply->deleteLater();
-    infoManager->deleteLater();
+    manager->deleteLater();
 
     emit transactions10Signal(list);
 }
 
 void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
 {
+    // This checks if the user is trying to access data unauthorized
+    // and sends a signal to the main program
+
     if (response_data == "Forbidden" || response_data == "Unauthorized")
         emit forbiddenAccessSignal();
 }
 
 QString RestApiEngine::convertToEuros(int sum)
 {
+    // This function converts a int of cents
+    // to a string of euros
+
     long cents = sum % 100;
     QString centString;
     if (cents < 10)

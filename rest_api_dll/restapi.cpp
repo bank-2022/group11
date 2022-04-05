@@ -4,6 +4,8 @@ RestApi::RestApi(QObject *parent)
 {
     pRestApiEngine = new RestApiEngine(this);
 
+    // It is necessary to register the metatypes of QVectors like this if sending them in a
+    // signal, otherwise it will not work
     qRegisterMetaType<QVector<QString>>("QVector<QString");
     qRegisterMetaType<QVector<QVector<QString>>>("QVector<QVector<QString>>");
 
