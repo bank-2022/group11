@@ -19,10 +19,10 @@ public:
 
     void login(QString cardnumber, QString pin);
 
-    void creditWithdrawal(QString cardnumber, int amount);
-    void debitWithdrawal(QString cardnumber, int amount);
-    void creditDonation(QString cardnumber, QString accountnumber, double amount);
-    void debitDonation(QString cardnumber, QString accountnumber, double amount);
+    void creditWithdrawal(QString cardnumber, QString amount);
+    void debitWithdrawal(QString cardnumber, QString amount);
+    void creditDonation(QString cardnumber, QString accountnumber, QString amount);
+    void debitDonation(QString cardnumber, QString accountnumber, QString amount);
 
     void putLocked(QString cardnumber, QString locked);
 
@@ -41,7 +41,7 @@ signals:
     void locked(QString locked);
     void type(QString type);
     void customerInfo(QVector<QString> info);
-    void balance(QString balance);
+    void balance(int balance);
     void transactions5(QVector<QVector<QString>> list);
     void transactions10(QVector<QVector<QString>> list);
 
@@ -53,7 +53,7 @@ private slots:
     void lockedSlot(QString sLocked);
     void typeSlot(QString sType);
     void customerInfoSlot(QVector<QString> info);
-    void balanceSlot(QString sBalance);
+    void balanceSlot(int iBalance);
     void transactions5Slot(QVector<QVector<QString>> list);
     void transactions10Slot(QVector<QVector<QString>> list);
 

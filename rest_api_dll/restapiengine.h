@@ -19,10 +19,10 @@ public:
 
     void login(QString cardnumber, QString pin);
 
-    void creditWithdrawal(QString cardnumber, int amount);
-    void debitWithdrawal(QString cardnumber, int amount);
-    void creditDonation(QString cardnumber, QString accountnumber, double amount);
-    void debitDonation(QString cardnumber, QString accountnumber, double amount);
+    void creditWithdrawal(QString cardnumber, QString amount);
+    void debitWithdrawal(QString cardnumber, QString amount);
+    void creditDonation(QString cardnumber, QString accountnumber, QString amount);
+    void debitDonation(QString cardnumber, QString accountnumber, QString amount);
 
     void putLocked(QString cardnumber, QString locked);
 
@@ -41,14 +41,19 @@ signals:
     void lockedSignal(QString locked);
     void typeSignal(QString type);
     void customerInfoSignal(QVector<QString> info);
-    void balanceSignal(QString balance);
+    void balanceSignal(int balance);
     void transactions5Signal(QVector<QVector<QString>> list);
     void transactions10Signal(QVector<QVector<QString>> list);
 
 private slots:
     void loginSlot(QNetworkReply *reply);
 
-    void putLockedSlot(QNetworkReply*);
+    void putLockedSlot(QNetworkReply *reply);
+
+    void creditWithdrawalSlot(QNetworkReply *reply);
+    void debitWithdrawalSlot(QNetworkReply *reply);
+    void creditDonationSlot(QNetworkReply *reply);
+    void debitDonationSlot(QNetworkReply *reply);
 
     void lockedSlot(QNetworkReply *reply);
     void typeSlot(QNetworkReply *reply);
@@ -63,8 +68,7 @@ private:
 
     void checkForbiddenAccess(QByteArray response_data);
 
-    QString convertToEuros(long long sum);
-    QString convertToCents(int sum);
+    QString convertToEuros(int sum);
 
     QNetworkAccessManager *loginManager;
     QNetworkAccessManager *infoManager;

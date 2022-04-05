@@ -32,24 +32,79 @@ void RestApiEngine::login(QString cardnumber, QString pin)
     reply = loginManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::creditWithdrawal(QString cardnumber, int amount)
+void RestApiEngine::creditWithdrawal(QString cardnumber, QString amount)
 {
+    QJsonObject jsonObj;
+    jsonObj.insert("cardnumber", cardnumber);
+    jsonObj.insert("amount", amount);
 
+    QNetworkRequest request((base_url + "/withdrawal/credit"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(creditWithdrawalSlot(QNetworkReply*)));
+
+    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::debitWithdrawal(QString cardnumber, int amount)
+void RestApiEngine::debitWithdrawal(QString cardnumber, QString amount)
 {
+    QJsonObject jsonObj;
+    jsonObj.insert("cardnumber", cardnumber);
+    jsonObj.insert("amount", amount);
 
+    QNetworkRequest request((base_url + "/withdrawal/debit"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(debitWithdrawalSlot(QNetworkReply*)));
+
+    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, double amount)
+void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, QString amount)
 {
+    QJsonObject jsonObj;
+    jsonObj.insert("cardnumber", cardnumber);
+    jsonObj.insert("accountnumber", accountnumber);
+    jsonObj.insert("amount", amount);
 
+    QNetworkRequest request((base_url + "/donation/credit"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(creditDonationSlot(QNetworkReply*)));
+
+    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, double amount)
+void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, QString amount)
 {
 
+    QJsonObject jsonObj;
+    jsonObj.insert("cardnumber", cardnumber);
+    jsonObj.insert("accountnumber", accountnumber);
+    jsonObj.insert("amount", amount);
+
+    QNetworkRequest request((base_url + "/donation/debit"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    request.setRawHeader(QByteArray("Authorization"),(token));
+
+    infoManager = new QNetworkAccessManager(this);
+    connect(infoManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(debitDonationSlot(QNetworkReply*)));
+
+    reply = infoManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
 void RestApiEngine::putLocked(QString cardnumber, QString locked)
@@ -189,6 +244,46 @@ void RestApiEngine::putLockedSlot(QNetworkReply *reply)
     infoManager->deleteLater();
 }
 
+void RestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+}
+
+void RestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+}
+
+void RestApiEngine::creditDonationSlot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+}
+
+void RestApiEngine::debitDonationSlot(QNetworkReply *reply)
+{
+    QByteArray response_data=reply->readAll();
+
+    checkForbiddenAccess(response_data);
+
+    reply->deleteLater();
+    infoManager->deleteLater();
+}
+
 void RestApiEngine::lockedSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
@@ -258,16 +353,12 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
 
-    int balance;
-
-    balance = (long long)json_obj["balance"].toDouble();
-
-    QString balanceString = convertToEuros(balance);
+    int balance = json_obj["balance"].toInt();
 
     reply->deleteLater();
     infoManager->deleteLater();
 
-    emit typeSignal(balanceString);
+    emit balanceSignal(balance);
 }
 
 void RestApiEngine::transactions5Slot(QNetworkReply *reply)
@@ -341,9 +432,9 @@ void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
         emit forbiddenAccessSignal();
 }
 
-QString RestApiEngine::convertToEuros(long long sum)
+QString RestApiEngine::convertToEuros(int sum)
 {
-    long long cents = sum % 100;
+    long cents = sum % 100;
     QString centString;
     if (cents < 10)
         centString = "0" + QString::number(cents);
@@ -352,9 +443,3 @@ QString RestApiEngine::convertToEuros(long long sum)
 
     return QString::number(sum / 100) + "." + centString;
 }
-
-QString RestApiEngine::convertToCents(int sum)
-{
-    return QString::number(sum * 100);
-}
-

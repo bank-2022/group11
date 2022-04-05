@@ -47,12 +47,12 @@
 					"urlencoded": [
 						{
 							"key": "cardnumber",
-							"value": "",
+							"value": "135135",
 							"type": "default"
 						},
 						{
 							"key": "amount",
-							"value": "",
+							"value": "300",
 							"type": "default"
 						}
 					]
@@ -113,17 +113,17 @@
 					"urlencoded": [
 						{
 							"key": "cardnumber",
-							"value": "",
+							"value": "135135",
 							"type": "default"
 						},
 						{
 							"key": "accountnumber",
-							"value": "",
+							"value": "FI89292929",
 							"type": "default"
 						},
 						{
 							"key": "amount",
-							"value": "",
+							"value": "800",
 							"type": "default"
 						}
 					]
@@ -189,7 +189,7 @@
 					"urlencoded": [
 						{
 							"key": "locked",
-							"value": "yes",
+							"value": "no",
 							"type": "default"
 						}
 					]
@@ -245,20 +245,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/type/:cardnumber",
+					"raw": "{{base_url}}/info/type/135135",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
 						"type",
-						":cardnumber"
-					],
-					"variable": [
-						{
-							"key": "cardnumber",
-							"value": ""
-						}
+						"135135"
 					]
 				}
 			},
@@ -270,20 +264,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/customer/:cardnumber",
+					"raw": "{{base_url}}/info/customer/135135",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
 						"customer",
-						":cardnumber"
-					],
-					"variable": [
-						{
-							"key": "cardnumber",
-							"value": ""
-						}
+						"135135"
 					]
 				}
 			},
@@ -295,20 +283,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/balance/:accountnumber",
+					"raw": "{{base_url}}/info/balance/FI585858585855",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
 						"balance",
-						":accountnumber"
-					],
-					"variable": [
-						{
-							"key": "accountnumber",
-							"value": ""
-						}
+						"FI585858585855"
 					]
 				}
 			},
@@ -320,20 +302,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/5transactions/:accountnumber",
+					"raw": "{{base_url}}/info/5transactions/FI585858585855",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
 						"5transactions",
-						":accountnumber"
-					],
-					"variable": [
-						{
-							"key": "accountnumber",
-							"value": ""
-						}
+						"FI585858585855"
 					]
 				}
 			},
@@ -345,13 +321,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/info/transactions/FI585858585855/0",
+					"raw": "{{base_url}}/info/10transactions/FI585858585855/0",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"info",
-						"transactions",
+						"10transactions",
 						"FI585858585855",
 						"0"
 					]
@@ -453,29 +429,19 @@
 						},
 						{
 							"key": "balance",
-							"value": "500",
+							"value": "3000",
 							"type": "default"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{base_url}}/account/9?accountnumber=FI585858585855&balance=500",
+					"raw": "{{base_url}}/account/8",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"account",
-						"9"
-					],
-					"query": [
-						{
-							"key": "accountnumber",
-							"value": "FI585858585855"
-						},
-						{
-							"key": "balance",
-							"value": "500"
-						}
+						"8"
 					]
 				}
 			},
@@ -1047,7 +1013,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ5MTAzMzI2LCJleHAiOjE2NDkxMDUxMjZ9.8ZXdPjF7_tdaCGpVZkSoumjDnvA_cmRY0hfRNjtVxXQ",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYXJkbnVtYmVyIjoiMTM1MTM1IiwiaWF0IjoxNjQ5MTU2MTczLCJleHAiOjE2NDkxNTc5NzN9.7_uDWXuHNx_hembnW-WDaPqU-MDQCsisSIpM7TH8F1U",
 				"type": "string"
 			}
 		]
