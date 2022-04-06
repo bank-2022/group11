@@ -13,17 +13,17 @@ const info = {
 
   // gets the transactions from the database
   get10Transactions: function(req, callback) {
-    return db.query('select datetime, event, sum from transactions where accountnumber=? order by idtransactions desc limit ?, 10', [req.params.accountnumber, parseInt(req.params.row)], callback);
+    return db.query('select datetime, event, convert(sum, char(20)) as sum from transactions where accountnumber=? order by idtransactions desc limit ?, 10', [req.params.accountnumber, parseInt(req.params.row)], callback);
   },
 
   // gets the last five transactions from the database
   get5Transactions: function(accountnumber, callback) {
-    return db.query('select datetime, event, sum from transactions where accountnumber=? order by idtransactions desc limit 5', [accountnumber], callback);
+    return db.query('select datetime, event, convert(sum, char(20)) as sum from transactions where accountnumber=? order by idtransactions desc limit 5', [accountnumber], callback);
   },
 
   // gets the balance of the account from the database
   getBalance: function(accountnumber, callback) {
-    return db.query('select balance from account where accountnumber=?', [accountnumber], callback);
+    return db.query('select convert(balance, char(20)) as balance from account where accountnumber=?', [accountnumber], callback);
   },
 };
 

@@ -376,7 +376,8 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
 
     // Balance gets converted to int. Balance is in cents for accuracy
-    int balance = json_obj["balance"].toInt();
+    QString balanceCents = json_obj["balance"].toString();
+    long long balance = balanceCents.toLongLong();
 
     qDebug() << balance;
 
@@ -408,8 +409,9 @@ void RestApiEngine::transactions5Slot(QNetworkReply *reply)
             QJsonObject json_obj = value.toObject();
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
-            int sum = json_obj["sum"].toInt();
             // Cents get converted to a string of euros
+            QString stringCents = json_obj["sum"].toString();
+            long long sum = stringCents.toLongLong();
             QString sumString = convertToEuros(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
                 list[index][2] = "- " + sumString;
@@ -444,7 +446,8 @@ void RestApiEngine::transactions10Slot(QNetworkReply *reply)
             QJsonObject json_obj = value.toObject();
             list[index][0] = json_obj["datetime"].toString();
             list[index][1] = json_obj["event"].toString();
-            int sum = json_obj["sum"].toInt();
+            QString stringCents = json_obj["sum"].toString();
+            long long sum = stringCents.toLongLong();
             QString sumString = convertToEuros(sum);
             if (list[index][1] == "withdrawal" || list[index][1] == "donation")
                 list[index][2] = "- " + sumString;
@@ -468,12 +471,12 @@ void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
         emit forbiddenAccessSignal();
 }
 
-QString RestApiEngine::convertToEuros(int sum)
+QString RestApiEngine::convertToEuros(long long sum)
 {
     // This function converts a int of cents
     // to a string of euros
 
-    int cents = abs(sum % 100);
+    short cents = abs(sum % 100);
     QString centString;
     if (cents < 10)
         centString = "0" + QString::number(cents);

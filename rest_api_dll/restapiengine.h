@@ -43,7 +43,7 @@ signals:
     void lockedSignal(QString locked);
     void typeSignal(QString type);
     void customerInfoSignal(QVector<QString> info);
-    void balanceSignal(int balance);
+    void balanceSignal(long long balance);
     void transactions5Signal(QVector<QVector<QString>> list);
     void transactions10Signal(QVector<QVector<QString>> list);
 
@@ -72,7 +72,7 @@ private:
 
     void checkForbiddenAccess(QByteArray response_data);
 
-    QString convertToEuros(int sum);
+    QString convertToEuros(long long sum);
 
     QNetworkAccessManager *manager;
     QNetworkReply *reply;

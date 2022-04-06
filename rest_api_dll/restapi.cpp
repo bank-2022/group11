@@ -28,8 +28,8 @@ RestApi::RestApi(QObject *parent)
             this, SLOT(customerInfoSlot(QVector<QString>)),
             Qt::QueuedConnection);
 
-    connect(pRestApiEngine, SIGNAL(balanceSignal(int)),
-            this, SLOT(balanceSlot(int)), Qt::QueuedConnection);
+    connect(pRestApiEngine, SIGNAL(balanceSignal(long long)),
+            this, SLOT(balanceSlot(long long)), Qt::QueuedConnection);
 
     connect(pRestApiEngine, SIGNAL(transactions5Signal(QVector<QVector<QString> >)),
             this, SLOT(transactions5Slot(QVector<QVector<QString> >)),
@@ -141,9 +141,9 @@ void RestApi::customerInfoSlot(QVector<QString> info)
     emit customerInfo(info);
 }
 
-void RestApi::balanceSlot(int iBalance)
+void RestApi::balanceSlot(long long llBalance)
 {
-    emit balance(iBalance);
+    emit balance(llBalance);
 }
 
 void RestApi::transactions5Slot(QVector<QVector<QString> > list)

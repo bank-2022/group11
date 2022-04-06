@@ -88,7 +88,7 @@ signals:
     void locked(QString locked);
     void type(QString type);
     void customerInfo(QVector<QString> info);
-    void balance(int balance);
+    void balance(long long balance);
     void transactions5(QVector<QVector<QString>> list);
     void transactions10(QVector<QVector<QString>> list);
 
@@ -100,7 +100,7 @@ private slots:
     void lockedSlot(QString sLocked);
     void typeSlot(QString sType);
     void customerInfoSlot(QVector<QString> info);
-    void balanceSlot(int iBalance);
+    void balanceSlot(long long llBalance);
     void transactions5Slot(QVector<QVector<QString>> list);
     void transactions10Slot(QVector<QVector<QString>> list);
 
