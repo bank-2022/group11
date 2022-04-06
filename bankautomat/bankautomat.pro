@@ -9,14 +9,23 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    donationwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    transactionswindow.cpp \
+    withdrawwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    donationwindow.h \
+    mainwindow.h \
+    transactionswindow.h \
+    withdrawwindow.h
 
 FORMS += \
-    mainwindow.ui
+    donationwindow.ui \
+    mainwindow.ui \
+    transactionswindow.ui \
+    withdrawwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
