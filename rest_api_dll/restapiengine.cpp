@@ -378,6 +378,8 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     // Balance gets converted to int. Balance is in cents for accuracy
     int balance = json_obj["balance"].toInt();
 
+    qDebug() << balance;
+
     reply->deleteLater();
     manager->deleteLater();
 
@@ -471,7 +473,7 @@ QString RestApiEngine::convertToEuros(int sum)
     // This function converts a int of cents
     // to a string of euros
 
-    long cents = sum % 100;
+    int cents = abs(sum % 100);
     QString centString;
     if (cents < 10)
         centString = "0" + QString::number(cents);

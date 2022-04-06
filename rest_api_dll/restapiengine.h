@@ -7,7 +7,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QVector>
-
+#include <cmath>
 
 class RestApiEngine : public QObject
 {
