@@ -121,11 +121,11 @@ CREATE TABLE `transactions` (
   `cardnumber` varchar(30) DEFAULT NULL,
   `datetime` varchar(50) NOT NULL,
   `event` varchar(10) NOT NULL,
-  `sum` int NOT NULL,
+  `sum` bigint DEFAULT NULL,
   PRIMARY KEY (`idtransactions`),
   KEY `account_idaccount_idx` (`account_idaccount`),
   CONSTRAINT `account_idaccount` FOREIGN KEY (`account_idaccount`) REFERENCES `account` (`idaccount`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +141,7 @@ CREATE TABLE `transactions` (
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount BIGINT)
 BEGIN
   DECLARE test1, test2 INT DEFAULT 0;
   DECLARE anumber VARCHAR(18);
@@ -175,7 +175,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_withdraw`(IN cnumber VARCHAR(30), IN amount INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_withdraw`(IN cnumber VARCHAR(30), IN amount BIGINT)
 BEGIN
   DECLARE anumber VARCHAR(18);
   DECLARE id INT;
@@ -199,7 +199,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_charity`(IN cnumber VARCHAR(30), IN charitynumber VARCHAR(18), IN amount BIGINT)
 BEGIN
   DECLARE test1, test2 INT DEFAULT 0;
   DECLARE anumber VARCHAR(18);
@@ -233,7 +233,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_withdraw`(IN cnumber VARCHAR(30), IN amount INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_withdraw`(IN cnumber VARCHAR(30), IN amount BIGINT)
 BEGIN
   DECLARE test INT DEFAULT 0;
   DECLARE anumber VARCHAR(18);
@@ -265,4 +265,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-30 20:59:12
+-- Dump completed on 2022-04-06 21:00:48

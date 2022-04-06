@@ -20,10 +20,10 @@ public:
 
     void login(QString cardnumber, QString pin);
 
-    void creditWithdrawal(QString cardnumber, QString amount);
-    void debitWithdrawal(QString cardnumber, QString amount);
-    void creditDonation(QString cardnumber, QString accountnumber, QString amount);
-    void debitDonation(QString cardnumber, QString accountnumber, QString amount);
+    void creditWithdrawal(QString cardnumber, long long amount);
+    void debitWithdrawal(QString cardnumber, long long amount);
+    void creditDonation(QString cardnumber, QString accountnumber, long long amount);
+    void debitDonation(QString cardnumber, QString accountnumber, long long amount);
 
     void putLocked(QString cardnumber, QString locked);
 

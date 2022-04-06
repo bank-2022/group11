@@ -41,11 +41,11 @@ void RestApiEngine::login(QString cardnumber, QString pin)
     // All of the following functions are similar in construct
 }
 
-void RestApiEngine::creditWithdrawal(QString cardnumber, QString amount)
+void RestApiEngine::creditWithdrawal(QString cardnumber, long long amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
-    jsonObj.insert("amount", amount);
+    jsonObj.insert("amount", QString::number(amount));
 
     QNetworkRequest request((base_url + "/withdrawal/credit"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -60,11 +60,11 @@ void RestApiEngine::creditWithdrawal(QString cardnumber, QString amount)
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::debitWithdrawal(QString cardnumber, QString amount)
+void RestApiEngine::debitWithdrawal(QString cardnumber, long long amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
-    jsonObj.insert("amount", amount);
+    jsonObj.insert("amount", QString::number(amount));
 
     QNetworkRequest request((base_url + "/withdrawal/debit"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -78,12 +78,12 @@ void RestApiEngine::debitWithdrawal(QString cardnumber, QString amount)
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, QString amount)
+void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, long long amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
     jsonObj.insert("accountnumber", accountnumber);
-    jsonObj.insert("amount", amount);
+    jsonObj.insert("amount", QString::number(amount));
 
     QNetworkRequest request((base_url + "/donation/credit"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -97,13 +97,13 @@ void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, QS
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, QString amount)
+void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, long long amount)
 {
 
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
     jsonObj.insert("accountnumber", accountnumber);
-    jsonObj.insert("amount", amount);
+    jsonObj.insert("amount", QString::number(amount));
 
     QNetworkRequest request((base_url + "/donation/debit"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

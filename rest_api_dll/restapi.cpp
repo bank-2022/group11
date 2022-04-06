@@ -56,22 +56,22 @@ void RestApi::login(QString cardnumber, QString pin)
     pRestApiEngine->login(cardnumber, pin);
 }
 
-void RestApi::creditWithdrawal(QString cardnumber, QString amount)
+void RestApi::creditWithdrawal(QString cardnumber, long long amount)
 {
     pRestApiEngine->creditWithdrawal(cardnumber, amount);
 }
 
-void RestApi::debitWithdrawal(QString cardnumber, QString amount)
+void RestApi::debitWithdrawal(QString cardnumber, long long amount)
 {
     pRestApiEngine->debitWithdrawal(cardnumber, amount);
 }
 
-void RestApi::creditDonation(QString cardnumber, QString accountnumber, QString amount)
+void RestApi::creditDonation(QString cardnumber, QString accountnumber, long long amount)
 {
     pRestApiEngine->creditDonation(cardnumber, accountnumber, amount);
 }
 
-void RestApi::debitDonation(QString cardnumber, QString accountnumber, QString amount)
+void RestApi::debitDonation(QString cardnumber, QString accountnumber, long long amount)
 {
     pRestApiEngine->debitDonation(cardnumber, accountnumber, amount);
 }
