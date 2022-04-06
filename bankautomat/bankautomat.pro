@@ -11,18 +11,21 @@ CONFIG += c++11
 SOURCES += \
     donationwindow.cpp \
     main.cpp \
+    mainmenu.cpp \
     mainwindow.cpp \
     transactionswindow.cpp \
     withdrawwindow.cpp
 
 HEADERS += \
     donationwindow.h \
+    mainmenu.h \
     mainwindow.h \
     transactionswindow.h \
     withdrawwindow.h
 
 FORMS += \
     donationwindow.ui \
+    mainmenu.ui \
     mainwindow.ui \
     transactionswindow.ui \
     withdrawwindow.ui
