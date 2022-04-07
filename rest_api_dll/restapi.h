@@ -33,13 +33,13 @@ public:
 
     // Performs a withdrawal from the bank account. Arguments provided = cardnumber,
     // QString amount IN CENTS! Doesn't return a signal to the main program.
-    void creditWithdrawal(QString cardnumber, QString amount);
-    void debitWithdrawal(QString cardnumber, QString amount);
+    void creditWithdrawal(QString cardnumber, long long amount);
+    void debitWithdrawal(QString cardnumber, long long amount);
 
     // These are the same as above but being charity donations the account number of the
     // charity where the donation is going is needed for the operation
-    void creditDonation(QString cardnumber, QString accountnumber, QString amount);
-    void debitDonation(QString cardnumber, QString accountnumber, QString amount);
+    void creditDonation(QString cardnumber, QString accountnumber, long long amount);
+    void debitDonation(QString cardnumber, QString accountnumber, long long amount);
 
     // This will update whether the card is locked (yes or no)
     void putLocked(QString cardnumber, QString locked);
@@ -88,7 +88,7 @@ signals:
     void locked(QString locked);
     void type(QString type);
     void customerInfo(QVector<QString> info);
-    void balance(int balance);
+    void balance(long long balance);
     void transactions5(QVector<QVector<QString>> list);
     void transactions10(QVector<QVector<QString>> list);
 
@@ -100,7 +100,7 @@ private slots:
     void lockedSlot(QString sLocked);
     void typeSlot(QString sType);
     void customerInfoSlot(QVector<QString> info);
-    void balanceSlot(int iBalance);
+    void balanceSlot(long long llBalance);
     void transactions5Slot(QVector<QVector<QString>> list);
     void transactions10Slot(QVector<QVector<QString>> list);
 

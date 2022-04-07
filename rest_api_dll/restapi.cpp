@@ -28,8 +28,8 @@ RestApi::RestApi(QObject *parent)
             this, SLOT(customerInfoSlot(QVector<QString>)),
             Qt::QueuedConnection);
 
-    connect(pRestApiEngine, SIGNAL(balanceSignal(int)),
-            this, SLOT(balanceSlot(int)), Qt::QueuedConnection);
+    connect(pRestApiEngine, SIGNAL(balanceSignal(long long)),
+            this, SLOT(balanceSlot(long long)), Qt::QueuedConnection);
 
     connect(pRestApiEngine, SIGNAL(transactions5Signal(QVector<QVector<QString> >)),
             this, SLOT(transactions5Slot(QVector<QVector<QString> >)),
@@ -56,22 +56,22 @@ void RestApi::login(QString cardnumber, QString pin)
     pRestApiEngine->login(cardnumber, pin);
 }
 
-void RestApi::creditWithdrawal(QString cardnumber, QString amount)
+void RestApi::creditWithdrawal(QString cardnumber, long long amount)
 {
     pRestApiEngine->creditWithdrawal(cardnumber, amount);
 }
 
-void RestApi::debitWithdrawal(QString cardnumber, QString amount)
+void RestApi::debitWithdrawal(QString cardnumber, long long amount)
 {
     pRestApiEngine->debitWithdrawal(cardnumber, amount);
 }
 
-void RestApi::creditDonation(QString cardnumber, QString accountnumber, QString amount)
+void RestApi::creditDonation(QString cardnumber, QString accountnumber, long long amount)
 {
     pRestApiEngine->creditDonation(cardnumber, accountnumber, amount);
 }
 
-void RestApi::debitDonation(QString cardnumber, QString accountnumber, QString amount)
+void RestApi::debitDonation(QString cardnumber, QString accountnumber, long long amount)
 {
     pRestApiEngine->debitDonation(cardnumber, accountnumber, amount);
 }
@@ -141,9 +141,9 @@ void RestApi::customerInfoSlot(QVector<QString> info)
     emit customerInfo(info);
 }
 
-void RestApi::balanceSlot(int iBalance)
+void RestApi::balanceSlot(long long llBalance)
 {
-    emit balance(iBalance);
+    emit balance(llBalance);
 }
 
 void RestApi::transactions5Slot(QVector<QVector<QString> > list)

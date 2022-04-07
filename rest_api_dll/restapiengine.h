@@ -7,7 +7,7 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QVector>
-
+#include <cmath>
 
 class RestApiEngine : public QObject
 {
@@ -20,10 +20,10 @@ public:
 
     void login(QString cardnumber, QString pin);
 
-    void creditWithdrawal(QString cardnumber, QString amount);
-    void debitWithdrawal(QString cardnumber, QString amount);
-    void creditDonation(QString cardnumber, QString accountnumber, QString amount);
-    void debitDonation(QString cardnumber, QString accountnumber, QString amount);
+    void creditWithdrawal(QString cardnumber, long long amount);
+    void debitWithdrawal(QString cardnumber, long long amount);
+    void creditDonation(QString cardnumber, QString accountnumber, long long amount);
+    void debitDonation(QString cardnumber, QString accountnumber, long long amount);
 
     void putLocked(QString cardnumber, QString locked);
 
@@ -43,7 +43,7 @@ signals:
     void lockedSignal(QString locked);
     void typeSignal(QString type);
     void customerInfoSignal(QVector<QString> info);
-    void balanceSignal(int balance);
+    void balanceSignal(long long balance);
     void transactions5Signal(QVector<QVector<QString>> list);
     void transactions10Signal(QVector<QVector<QString>> list);
 
@@ -72,7 +72,7 @@ private:
 
     void checkForbiddenAccess(QByteArray response_data);
 
-    QString convertToEuros(int sum);
+    QString convertToEuros(long long sum);
 
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
