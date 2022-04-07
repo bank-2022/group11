@@ -22,7 +22,6 @@ public:
 
     void startTimer();
     void reStartTimer();
-    QTimer * mainWindowTimer;
 
 
 private slots:

@@ -24,7 +24,7 @@ public:
 
     void startTimer();
     void reStartTimer();
-    QTimer * mainWindowTimer;
+    QTimer * mainMenuTimer;
 
 
 private slots:

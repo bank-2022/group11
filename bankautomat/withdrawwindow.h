@@ -20,6 +20,7 @@ public:
     ~WithdrawWindow();
 
     void withdrawOtherAmount(QString i);
+    QTimer * withdrawWindowTimer;
 
 private slots:
     void on_tenButton_clicked();

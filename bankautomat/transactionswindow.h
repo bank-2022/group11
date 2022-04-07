@@ -15,6 +15,8 @@ public:
     explicit TransactionsWindow(QWidget *parent = nullptr);
     ~TransactionsWindow();
 
+    QTimer * transactionsWindowTimer;
+
 private slots:
     void on_nextButton_clicked();
     void on_previousButton_clicked();

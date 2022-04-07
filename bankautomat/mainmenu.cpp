@@ -1,6 +1,11 @@
 #include "mainmenu.h"
 #include "ui_mainmenu.h"
 
+/* In this window the user will be able to view their account information
+   (name, balance, accountnumber) and their five last transactions. The
+   user can also choose to withdraw money, donate money, view transactions
+   in more depth or log out of the system. */
+
 MainMenu::MainMenu(QWidget *parent, MainWindow *ptr) :
     QDialog(parent), ui(new Ui::MainMenu), pMainWindow(ptr)
 {
@@ -9,14 +14,14 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr) :
     pTransactionsWindow = new TransactionsWindow;
     pWithdrawWindow = new WithdrawWindow;
 
-    mainWindowTimer = new QTimer();
-    mainWindowTimer->setInterval(30000);
-    mainWindowTimer->setSingleShot(true); // timer is set to time out only once
-    mainWindowTimer->start();
+    mainMenuTimer = new QTimer();
+    mainMenuTimer->setInterval(30000);  // timer for 30 seconds
+    mainMenuTimer->setSingleShot(true); // timer is set to time out only once
+    mainMenuTimer->start();
 
-    connect(mainWindowTimer, SIGNAL(timeout()),
+    // if the timer has ran out, this window and the connection to the database will be closed
+    connect(mainMenuTimer, SIGNAL(timeout()),
             this, SLOT(on_logOutButton_clicked()));
-
 }
 
 MainMenu::~MainMenu()
@@ -37,48 +42,48 @@ MainMenu::~MainMenu()
 
 void MainMenu::startTimer()
 {
-    mainWindowTimer->start();
+    mainMenuTimer->start();
 }
 
 
 void MainMenu::reStartTimer()
 {
-    mainWindowTimer->stop();
-    mainWindowTimer->start();
+    mainMenuTimer->stop();
+    mainMenuTimer->start();
 }
 
 
 void MainMenu::on_withdrawButton_clicked()
 {
-    mainWindowTimer->stop();
+    mainMenuTimer->stop(); // if a button is clicked, the timer will stop
     pWithdrawWindow->show(); // Opens a window where the user can withdraw money.
 }
 
 
 void MainMenu::on_transactionsButton_clicked()
 {
-    mainWindowTimer->stop();
+    mainMenuTimer->stop();
     pTransactionsWindow->show(); // Opens a window where the user can view transactions.
 }
 
 
 void MainMenu::on_donateButton_clicked()
 {
-    mainWindowTimer->stop();
+    mainMenuTimer->stop();
     pDonationWindow->show(); // Opens a window where the user can donate money.
 }
 
 
 void MainMenu::on_logOutButton_clicked()
 {
-    mainWindowTimer->stop();
+    mainMenuTimer->stop();
     this->close(); // Logs out of the system and closes the mainWindow.
 }
 
 
 void MainMenu::on_refreshButton_clicked()
 {
-    mainWindowTimer->stop();
+    mainMenuTimer->stop();
     // Updates the balance.
-    mainWindowTimer->start();
+    mainMenuTimer->start();
 }
