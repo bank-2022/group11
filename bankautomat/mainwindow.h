@@ -6,9 +6,7 @@
 #include <QDebug>
 #include <QTimer>
 
-#include "donationwindow.h"
-#include "transactionswindow.h"
-#include "withdrawwindow.h"
+#include "mainmenu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,17 +26,11 @@ public:
 
 
 private slots:
-    void on_withdrawButton_clicked();
-    void on_viewTransactionsButton_clicked();
-    void on_donateButton_clicked();
-    void on_logOutButton_clicked();
-    void on_refreshButton_clicked();
+    void on_mainMenuButton_clicked();
 
 private:
     Ui::MainWindow *ui;
-    DonationWindow * pDonationWindow;
-    TransactionsWindow * pTransactionsWindow;
-    WithdrawWindow * pWithdrawWindow;
+    MainMenu * pMainMenu;
 
 
 };
