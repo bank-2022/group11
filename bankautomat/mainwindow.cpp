@@ -25,5 +25,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_mainMenuButton_clicked()
 {
     pMainMenu->show();
+    pMainMenu->startMainMenuTimer();
 }
 

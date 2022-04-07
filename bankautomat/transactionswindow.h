@@ -16,6 +16,8 @@ public:
     ~TransactionsWindow();
 
     QTimer * transactionsWindowTimer;
+    void startTransactionsWindowTimer();
+    void reStartTransactionsWindowTimer();
 
 private slots:
     void on_nextButton_clicked();

@@ -9,8 +9,7 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainWindow *ptr) :
 
     withdrawWindowTimer = new QTimer();
     withdrawWindowTimer->setInterval(10000);  // timer for 10 seconds
-    withdrawWindowTimer->setSingleShot(true); // timer is set to time out only once
-    withdrawWindowTimer->start();
+    withdrawWindowTimer->setSingleShot(false); // timer works more than once
 
     // if the timer has ran out, this window will be closed
     connect(withdrawWindowTimer, SIGNAL(timeout()),
@@ -20,7 +19,24 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainWindow *ptr) :
 WithdrawWindow::~WithdrawWindow()
 {
     delete ui;
+    ui = nullptr;
+
+    delete withdrawWindowTimer;
+    withdrawWindowTimer = nullptr;
 }
+
+
+void WithdrawWindow::startWithdrawWindowTimer()
+{
+    withdrawWindowTimer->start();
+}
+
+void WithdrawWindow::reStartWithdrawWindowTimer()
+{
+    withdrawWindowTimer->stop();
+    withdrawWindowTimer->start();
+}
+
 
 void WithdrawWindow::on_exitButton_clicked()
 {
@@ -91,6 +107,7 @@ void WithdrawWindow::withdrawOtherAmount(QString i) // adds the chosen number at
     ui->amountLine->setText(withdrawAmount);
     withdrawWindowTimer->start();
 }
+
 
 void WithdrawWindow::on_oneButton_clicked()
 {

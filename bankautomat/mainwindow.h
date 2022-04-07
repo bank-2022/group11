@@ -20,10 +20,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void startTimer();
-    void reStartTimer();
-
-
 private slots:
     void on_mainMenuButton_clicked();
 

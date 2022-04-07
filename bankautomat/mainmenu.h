@@ -22,8 +22,8 @@ public:
     explicit MainMenu(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
     ~MainMenu();
 
-    void startTimer();
-    void reStartTimer();
+    void startMainMenuTimer();
+    void reStartMainMenuTimer();
     QTimer * mainMenuTimer;
 
 

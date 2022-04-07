@@ -9,8 +9,7 @@ DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
 
     donationWindowTimer = new QTimer();
     donationWindowTimer->setInterval(10000);  // timer for 10 seconds
-    donationWindowTimer->setSingleShot(true); // timer is set to time out only once
-    donationWindowTimer->start();
+    donationWindowTimer->setSingleShot(false); // timer works more than once
 
     // if the timer has ran out, this window will be closed
     connect(donationWindowTimer, SIGNAL(timeout()),
@@ -20,6 +19,21 @@ DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
 DonationWindow::~DonationWindow()
 {
     delete ui;
+    ui = nullptr;
+
+    delete donationWindowTimer;
+    donationWindowTimer = nullptr;
+}
+
+void DonationWindow::startDonationWindowTimer()
+{
+    donationWindowTimer->start();
+}
+
+void DonationWindow::reStartDonationWindowTimer()
+{
+    donationWindowTimer->stop();
+    donationWindowTimer->start();
 }
 
 void DonationWindow::on_exitButton_clicked()

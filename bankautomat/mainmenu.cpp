@@ -17,7 +17,6 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr) :
     mainMenuTimer = new QTimer();
     mainMenuTimer->setInterval(30000);  // timer for 30 seconds
     mainMenuTimer->setSingleShot(true); // timer is set to time out only once
-    mainMenuTimer->start();
 
     // if the timer has ran out, this window and the connection to the database will be closed
     connect(mainMenuTimer, SIGNAL(timeout()),
@@ -37,16 +36,19 @@ MainMenu::~MainMenu()
 
     delete pWithdrawWindow;
     pWithdrawWindow = nullptr;
+
+    delete mainMenuTimer;
+    mainMenuTimer = nullptr;
 }
 
 
-void MainMenu::startTimer()
+void MainMenu::startMainMenuTimer()
 {
     mainMenuTimer->start();
 }
 
 
-void MainMenu::reStartTimer()
+void MainMenu::reStartMainMenuTimer()
 {
     mainMenuTimer->stop();
     mainMenuTimer->start();
@@ -57,6 +59,7 @@ void MainMenu::on_withdrawButton_clicked()
 {
     mainMenuTimer->stop(); // if a button is clicked, the timer will stop
     pWithdrawWindow->show(); // Opens a window where the user can withdraw money.
+    pWithdrawWindow->startWithdrawWindowTimer();
 }
 
 
@@ -64,6 +67,7 @@ void MainMenu::on_transactionsButton_clicked()
 {
     mainMenuTimer->stop();
     pTransactionsWindow->show(); // Opens a window where the user can view transactions.
+    pTransactionsWindow->startTransactionsWindowTimer();
 }
 
 
@@ -71,6 +75,7 @@ void MainMenu::on_donateButton_clicked()
 {
     mainMenuTimer->stop();
     pDonationWindow->show(); // Opens a window where the user can donate money.
+    pDonationWindow->startDonationWindowTimer();
 }
 
 

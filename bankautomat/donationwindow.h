@@ -17,7 +17,10 @@ public:
     ~DonationWindow();
 
     void donateOtherAmount(QString i);
+
     QTimer * donationWindowTimer;
+    void startDonationWindowTimer();
+    void reStartDonationWindowTimer();
 
 private slots:
     void on_tenButton_clicked();

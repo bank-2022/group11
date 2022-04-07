@@ -10,8 +10,7 @@ TransactionsWindow::TransactionsWindow(QWidget *parent) :
 
     transactionsWindowTimer = new QTimer();
     transactionsWindowTimer->setInterval(10000);  // timer for 10 seconds
-    transactionsWindowTimer->setSingleShot(true); // timer is set to time out only once
-    transactionsWindowTimer->start();
+    transactionsWindowTimer->setSingleShot(false); // timer works more than once
 
     // if the timer has ran out, this window will be closed
     connect(transactionsWindowTimer, SIGNAL(timeout()),
@@ -21,6 +20,21 @@ TransactionsWindow::TransactionsWindow(QWidget *parent) :
 TransactionsWindow::~TransactionsWindow()
 {
     delete ui;
+    ui = nullptr;
+
+    delete transactionsWindowTimer;
+    transactionsWindowTimer = nullptr;
+}
+
+void TransactionsWindow::startTransactionsWindowTimer()
+{
+    transactionsWindowTimer->start();
+}
+
+void TransactionsWindow::reStartTransactionsWindowTimer()
+{
+    transactionsWindowTimer->stop();
+    transactionsWindowTimer->start();
 }
 
 void TransactionsWindow::on_nextButton_clicked()
