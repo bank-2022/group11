@@ -1,11 +1,14 @@
 #include "donationwindow.h"
 #include "ui_donationwindow.h"
 #include "mainwindow.h"
+#include "mainmenu.h"
 
-DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
-    QDialog(parent), ui(new Ui::DonationWindow), pMainWindow(ptr)
+DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr) :
+    QDialog(parent), ui(new Ui::DonationWindow), pMainMenu(ptr)
 {
     ui->setupUi(this);
+
+
 
     donationWindowTimer = new QTimer();
     donationWindowTimer->setInterval(10000);  // timer for 10 seconds
@@ -21,8 +24,11 @@ DonationWindow::~DonationWindow()
     delete ui;
     ui = nullptr;
 
-    delete donationWindowTimer;
-    donationWindowTimer = nullptr;
+    //delete donationWindowTimer;
+    //donationWindowTimer = nullptr;
+
+    delete pMainMenu;
+    pMainMenu = nullptr;
 }
 
 void DonationWindow::startDonationWindowTimer()
@@ -39,6 +45,7 @@ void DonationWindow::reStartDonationWindowTimer()
 void DonationWindow::on_exitButton_clicked()
 {
     this -> close();
+    //pMainMenu->startMainMenuTimer();
 }
 
 /* These functions are for different donation options (10e, 20e, 50e). */
@@ -178,7 +185,3 @@ void DonationWindow::on_enterButton_clicked()
     donationWindowTimer->start();
 
 }
-
-
-
-

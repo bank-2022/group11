@@ -1,5 +1,6 @@
 #include "mainmenu.h"
 #include "ui_mainmenu.h"
+#include "mainwindow.h"
 
 /* In this window the user will be able to view their account information
    (name, balance, accountnumber) and their five last transactions. The

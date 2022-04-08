@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+class MainWindow;
+
 namespace Ui {
 class TransactionsWindow;
 }
