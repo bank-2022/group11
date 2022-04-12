@@ -2,9 +2,18 @@
 #define MAINMENU_H
 
 #include <QMainWindow>
+#include <QVector>
+#include <QStandardItemModel>
 #include <QWidget>
 #include <QDebug>
 #include <QTimer>
+#include <cmath>
+
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
+
+#include "restapi.h"
 
 #include "donationwindow.h"
 #include "transactionswindow.h"
@@ -25,7 +34,7 @@ public:
     void startMainMenuTimer();
     void reStartMainMenuTimer();
     QTimer * mainMenuTimer;
-
+    //QString updatedBalance;
 
 private slots:
     void on_withdrawButton_clicked();
@@ -36,10 +45,14 @@ private slots:
 
 private:
     Ui::MainMenu *ui;
+
     MainWindow * pMainWindow;
     DonationWindow * pDonationWindow;
     TransactionsWindow * pTransactionsWindow;
     WithdrawWindow * pWithdrawWindow;
+
+    RestApi * pRestApiInterfaceClass;
+
 };
 
 #endif // MAINMENU_H

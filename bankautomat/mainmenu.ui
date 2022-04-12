@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -179,7 +179,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QListView" name="fiveTransactionsList"/>
+         <widget class="QTableView" name="fiveTransactionsTableView"/>
         </item>
        </layout>
       </item>

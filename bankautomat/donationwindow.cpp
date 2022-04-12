@@ -3,8 +3,8 @@
 #include "mainwindow.h"
 #include "mainmenu.h"
 
-DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr) :
-    QDialog(parent), ui(new Ui::DonationWindow), pMainMenu(ptr)
+DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
+    QDialog(parent), ui(new Ui::DonationWindow), pMainWindow(ptr)
 {
     ui->setupUi(this);
 
@@ -27,8 +27,8 @@ DonationWindow::~DonationWindow()
     //delete donationWindowTimer;
     //donationWindowTimer = nullptr;
 
-    delete pMainMenu;
-    pMainMenu = nullptr;
+    delete pMainWindow;
+    pMainWindow = nullptr;
 }
 
 void DonationWindow::startDonationWindowTimer()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>123</width>
-    <height>136</height>
+    <width>173</width>
+    <height>173</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,15 @@ color: rgb(71, 71, 71);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0">
+    <item row="0" column="0" colspan="2">
      <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="warningLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
@@ -45,7 +52,7 @@ color: rgb(71, 71, 71);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>123</width>
+     <width>173</width>
      <height>20</height>
     </rect>
    </property>
