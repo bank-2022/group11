@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     pRestApiInterfaceClass = new RestApi;
     pRestApiInterfaceClass->setBaseURL("http://localhost:3000");
 
-    pMainMenu = new MainMenu;
+    pMainMenu = new MainMenu(parent, this, pRestApiInterfaceClass);
 
     connect(pRestApiInterfaceClass, SIGNAL(loginSuccessful()),
             this, SLOT(loginSuccessfulSlot()), Qt::QueuedConnection);

@@ -1,14 +1,13 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-#include <QMainWindow>
+
 #include <QVector>
 #include <QStandardItemModel>
 #include <QWidget>
 #include <QDebug>
 #include <QTimer>
 #include <cmath>
-
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
@@ -28,13 +27,15 @@ class MainMenu : public QDialog
     Q_OBJECT
 
 public:
-    explicit MainMenu(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
+    explicit MainMenu(QWidget *parent = nullptr,MainWindow * ptr = nullptr, RestApi *api = nullptr);
     ~MainMenu();
 
     void startMainMenuTimer();
     void reStartMainMenuTimer();
     QTimer * mainMenuTimer;
-    //QString updatedBalance;
+
+public slots:
+    void updateCustomerInfo(QVector<QString> info);
 
 private slots:
     void on_withdrawButton_clicked();
@@ -42,6 +43,8 @@ private slots:
     void on_donateButton_clicked();
     void on_logOutButton_clicked();
     void on_refreshButton_clicked();
+
+
 
 private:
     Ui::MainMenu *ui;
@@ -52,6 +55,7 @@ private:
     WithdrawWindow * pWithdrawWindow;
 
     RestApi * pRestApiInterfaceClass;
+
 
 };
 
