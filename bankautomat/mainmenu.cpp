@@ -35,7 +35,10 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
     connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 
-
+    connect(pRestApiInterfaceClass,
+            SIGNAL(transactions5(QVector<QVector<QString> >)),
+            this, SLOT(updateList(QVector<QVector<QString> >)),
+            Qt::QueuedConnection);
 }
 
 
@@ -80,6 +83,28 @@ QString MainMenu::convertToEuros(long long sum)
 }
 
 
+void MainMenu::updateList(QVector<QVector<QString>> list)
+{
+    QStandardItemModel *table_model =
+            new QStandardItemModel(list.size(), 3);
+
+    table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Time"));
+    table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Transaction"));
+    table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Amount"));
+
+    for (short i = 0; i < list.size(); i++) {
+        QStandardItem *time = new QStandardItem(list[i][0]);
+        table_model->setItem(i, 0, time);
+        QStandardItem *transaction = new QStandardItem(list[i][1]);
+        table_model->setItem(i, 1, transaction);
+        QStandardItem *amount = new QStandardItem(list[i][2]);
+        table_model->setItem(i, 2, amount);
+    }
+    ui->fiveTransactionsTableView->setModel(table_model);
+
+}
+
+
 void MainMenu::on_refreshButton_clicked()
 {
     // This function updates the balance and customer info
@@ -88,6 +113,7 @@ void MainMenu::on_refreshButton_clicked()
 
     mainMenuTimer->stop();
     pRestApiInterfaceClass->getBalance("FI5566778899");
+    pRestApiInterfaceClass->get5Transactions("FI5566778899");
     mainMenuTimer->start();
 }
 

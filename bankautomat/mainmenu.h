@@ -46,6 +46,7 @@ private slots:
 
     void updateCustomerInfo(QVector<QString> info);
     void updateBalance(long long balance);
+    void updateList(QVector<QVector<QString>> list);
 
 
 
