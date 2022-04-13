@@ -24,9 +24,6 @@ DonationWindow::~DonationWindow()
     delete ui;
     ui = nullptr;
 
-    //delete donationWindowTimer;
-    //donationWindowTimer = nullptr;
-
     delete pMainWindow;
     pMainWindow = nullptr;
 }

@@ -32,6 +32,9 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
     connect(pRestApiInterfaceClass,SIGNAL(customerInfo(QVector<QString>)),
             this, SLOT(updateCustomerInfo(QVector<QString>)),Qt::QueuedConnection);
 
+    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+            this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
+
 
 }
 
@@ -39,19 +42,10 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
 MainMenu::~MainMenu()
 {
     delete ui;
-    ui = nullptr;
-
     delete pDonationWindow;
-    pDonationWindow = nullptr;
-
     delete pTransactionsWindow;
-    pTransactionsWindow = nullptr;
-
     delete pWithdrawWindow;
-    pWithdrawWindow = nullptr;
-
     delete mainMenuTimer;
-    mainMenuTimer = nullptr;
 }
 
 
@@ -63,6 +57,29 @@ void MainMenu::updateCustomerInfo(QVector<QString> info)
 }
 
 
+void MainMenu::updateBalance(long long balance)
+{
+    QString stringBalance = convertToEuros(balance);
+    ui->balanceLabel->setText(stringBalance);
+}
+
+
+QString MainMenu::convertToEuros(long long sum)
+{
+    // This function converts a int of cents
+    // to a string of euros
+
+    int cents = abs(sum % 100);
+    QString centString;
+    if (cents < 10)
+        centString = "0" + QString::number(cents);
+    else
+        centString = QString::number(cents);
+
+    return QString::number(sum / 100) + "." + centString;
+}
+
+
 void MainMenu::on_refreshButton_clicked()
 {
     // This function updates the balance and customer info
@@ -70,9 +87,19 @@ void MainMenu::on_refreshButton_clicked()
     // refresh button is clicked.
 
     mainMenuTimer->stop();
+    pRestApiInterfaceClass->getBalance("FI5566778899");
+    mainMenuTimer->start();
+}
+
+
+void MainMenu::on_infoButton_clicked()
+{
+    mainMenuTimer->stop();
     pRestApiInterfaceClass->getCustomerInfo("0987666");
     mainMenuTimer->start();
 }
+
+
 
 
 void MainMenu::startMainMenuTimer()
@@ -117,3 +144,4 @@ void MainMenu::on_logOutButton_clicked()
     mainMenuTimer->stop();
     this->close(); // Logs out of the system and closes the main menu window.
 }
+

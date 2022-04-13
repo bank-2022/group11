@@ -35,7 +35,7 @@ public:
     QTimer * mainMenuTimer;
 
 public slots:
-    void updateCustomerInfo(QVector<QString> info);
+
 
 private slots:
     void on_withdrawButton_clicked();
@@ -44,7 +44,12 @@ private slots:
     void on_logOutButton_clicked();
     void on_refreshButton_clicked();
 
+    void updateCustomerInfo(QVector<QString> info);
+    void updateBalance(long long balance);
 
+
+
+    void on_infoButton_clicked();
 
 private:
     Ui::MainMenu *ui;
@@ -55,6 +60,8 @@ private:
     WithdrawWindow * pWithdrawWindow;
 
     RestApi * pRestApiInterfaceClass;
+
+    QString convertToEuros(long long sum);
 
 
 };
