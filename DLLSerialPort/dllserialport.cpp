@@ -3,13 +3,14 @@
 DLLSerialPort::DLLSerialPort()
 {
     objectDLLSerialPortEngine = new DLLSerialPortEngine;
-    QObject::connect(objectDLLSerialPortEngine, &DLLSerialPortEngine::sendString, this, &DLLSerialPort::receiveValue);
+    connect(objectDLLSerialPortEngine, SIGNAL(sendString(QString)),
+            this, SLOT(receiveValue(QString)));
 }
 
 DLLSerialPort::~DLLSerialPort()
 {
     delete objectDLLSerialPortEngine;
-    objectDLLSerialPortEngine = NULL;
+    objectDLLSerialPortEngine = nullptr;
 }
 
 void DLLSerialPort::receiveValue(QString returnString)

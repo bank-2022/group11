@@ -10,14 +10,15 @@ DLLSerialPortEngine::DLLSerialPortEngine(QObject *parent) : QObject(parent)
     objectQSerialPort->setStopBits(QSerialPort::OneStop);
     objectQSerialPort->setFlowControl(QSerialPort::NoFlowControl);
     //objectQSerialPort->open(QIODevice::ReadOnly);
-    QObject::connect(objectQSerialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()));
+    connect(objectQSerialPort, SIGNAL(readyRead()), this, SLOT(serialReceived()),
+            Qt::QueuedConnection);
 }
 
 DLLSerialPortEngine::~DLLSerialPortEngine()
 {
     objectQSerialPort->close();
     delete objectQSerialPort;
-    objectQSerialPort = NULL;
+    objectQSerialPort = nullptr;
 }
 
 void DLLSerialPortEngine::serialReceived()
