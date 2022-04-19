@@ -32,9 +32,6 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
             this, SLOT(on_logOutButton_clicked()));
 
     // rest api functions
-    connect(pRestApiInterfaceClass,SIGNAL(customerInfo(QVector<QString>)),
-            this, SLOT(updateCustomerInfo(QVector<QString>)),Qt::QueuedConnection);
-
     connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 
@@ -55,17 +52,21 @@ MainMenu::~MainMenu()
 }
 
 
-void MainMenu::getCustomerInfo()
+void MainMenu::printName(QString name)
 {
-    pRestApiInterfaceClass->getCustomerInfo("0987666");
+    ui->nameLabel->setText(name);
 }
 
 
-void MainMenu::updateCustomerInfo(QVector<QString> info)
+void MainMenu::printAccountNumber(QString accountNumber)
 {
-    ui->nameLabel->setText(info[0]);
-    ui->accountNumberLabel->setText(info[1]);
-    qDebug() << info;
+    ui->accountNumberLabel->setText(accountNumber);
+}
+
+
+void MainMenu::printType(QString type)
+{
+    ui->typeLabel->setText(type);
 }
 
 
@@ -116,7 +117,7 @@ void MainMenu::updateList(QVector<QVector<QString>> list)
 
 void MainMenu::on_refreshButton_clicked()
 {
-    // This function updates the balance and customer info
+    // This function updates the balance and transactions
     // on the main menu window when the
     // refresh button is clicked.
 

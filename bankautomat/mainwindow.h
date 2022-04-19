@@ -32,6 +32,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QString name;
+    QString accountNumber;
+
 public slots:
     void loginSuccessfulSlot();
     void loginFailedSlot(QString message);
@@ -39,6 +42,11 @@ public slots:
 
 private slots:
     void on_mainMenuButton_clicked();
+
+    void getCustomerInfo();
+    void updateCustomerInfo(QVector<QString> info);
+    void getCustomerType();
+    void updateType(QString type);
 
 private:
     Ui::MainWindow *ui;

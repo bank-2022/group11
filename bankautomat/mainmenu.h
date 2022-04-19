@@ -30,9 +30,13 @@ public:
     explicit MainMenu(QWidget *parent = nullptr,MainWindow * ptr = nullptr, RestApi *api = nullptr);
     ~MainMenu();
 
+    QTimer * mainMenuTimer;
     void startMainMenuTimer();
     void reStartMainMenuTimer();
-    QTimer * mainMenuTimer;
+
+    void printName(QString name);
+    void printAccountNumber(QString accountNumber);
+    void printType(QString type);
 
 public slots:
 
@@ -44,8 +48,8 @@ private slots:
     void on_logOutButton_clicked();
     void on_refreshButton_clicked();
 
-    void getCustomerInfo();
-    void updateCustomerInfo(QVector<QString> info);
+    //void getCustomerInfo();
+    //void updateCustomerInfo(QVector<QString> info);
     void updateBalance(long long balance);
     void updateList(QVector<QVector<QString>> list);
 

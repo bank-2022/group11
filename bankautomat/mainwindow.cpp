@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     pMainMenu = new MainMenu(parent, this, pRestApiInterfaceClass);
 
+    qRegisterMetaType<QVector<QString>>("QVector<QString");
+
     connect(pRestApiInterfaceClass, SIGNAL(loginSuccessful()),
             this, SLOT(loginSuccessfulSlot()), Qt::QueuedConnection);
 
@@ -25,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pRestApiInterfaceClass, SIGNAL(forbiddenAccess()),
             this, SLOT(forbiddenAccessDetected()), Qt::QueuedConnection);
+
+    connect(pRestApiInterfaceClass,SIGNAL(customerInfo(QVector<QString>)),
+            this, SLOT(updateCustomerInfo(QVector<QString>)),Qt::QueuedConnection);
+
+    connect(pRestApiInterfaceClass, SIGNAL(type(QString)),
+            this, SLOT(updateType(QString)), Qt::QueuedConnection);
 }
 
 
@@ -40,6 +48,8 @@ void MainWindow::loginSuccessfulSlot()
 {
     ui->warningLabel->setText("Login Successful!");
     pMainMenu->show();
+    getCustomerInfo();
+    getCustomerType();
 }
 
 
@@ -59,4 +69,32 @@ void MainWindow::on_mainMenuButton_clicked()
     cardNumber = "0987666";
     cardPin = "1234";
     pRestApiInterfaceClass->login(cardNumber, cardPin);
+}
+
+
+void MainWindow::getCustomerInfo()
+{
+    pRestApiInterfaceClass->getCustomerInfo(cardNumber);
+}
+
+
+void MainWindow::updateCustomerInfo(QVector<QString> info)
+{
+    name = info[0];
+    accountNumber = info[1];
+
+    pMainMenu->printName(name);
+    pMainMenu->printAccountNumber(accountNumber);
+
+    qDebug() << info;
+}
+
+void MainWindow::getCustomerType()
+{
+    pRestApiInterfaceClass->getType(cardNumber);
+}
+
+void MainWindow::updateType(QString type)
+{
+    pMainMenu->printType(type);
 }
