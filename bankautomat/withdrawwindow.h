@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+#include "restapi.h"
+
 class MainWindow;
 
 namespace Ui {
@@ -16,7 +18,7 @@ class WithdrawWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WithdrawWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
+    explicit WithdrawWindow(QWidget *parent = nullptr, MainWindow * ptr = nullptr, RestApi *api = nullptr);
     ~WithdrawWindow();
 
     void withdrawOtherAmount(QString i);
@@ -24,6 +26,12 @@ public:
     QTimer * withdrawWindowTimer;
     void startWithdrawWindowTimer();
     void reStartWithdrawWindowTimer();
+
+    void printName(QString name);
+    void printAccountNumber(QString accountNumber);
+    void printType(QString type);
+    void printBalance(QString balance);
+
 
 private slots:
     void on_tenButton_clicked();
@@ -49,10 +57,15 @@ private slots:
 
     void on_exitButton_clicked();
 
+
+
 private:
     Ui::WithdrawWindow *ui;
-    MainWindow * pMainWindow;
     QString withdrawAmount;
+
+    MainWindow * pMainWindow;
+    RestApi * pRestApiInterfaceClass;
+    QString cardType;
 };
 
 #endif // WITHDRAWWINDOW_H

@@ -112,6 +112,7 @@ void MainWindow::getCustomerType()
 void MainWindow::updateType(QString type)
 {
     pMainMenu->printType(type);
+
 }
 
 

@@ -55,23 +55,27 @@ MainMenu::~MainMenu()
 void MainMenu::printName(QString name)
 {
     ui->nameLabel->setText(name);
+    pWithdrawWindow->printName(name);
 }
 
 
 void MainMenu::printAccountNumber(QString accountNumber)
 {
     ui->accountNumberLabel->setText(accountNumber);
+    pWithdrawWindow->printAccountNumber(accountNumber);
 }
 
 
 void MainMenu::printType(QString type)
 {
     ui->typeLabel->setText(type);
+    pWithdrawWindow->printType(type);
 }
 
 void MainMenu::printBalance(QString balance)
 {
     ui->balanceLabel->setText(balance);
+    pWithdrawWindow->printBalance(balance);
 }
 
 void MainMenu::print5Transactions(QAbstractItemModel * list)
