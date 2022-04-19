@@ -2,13 +2,13 @@
 #include "ui_transactionswindow.h"
 #include "mainwindow.h"
 
-TransactionsWindow::TransactionsWindow(QWidget *parent, MainWindow *ptr) :
+TransactionsWindow::TransactionsWindow(QWidget *parent, MainWindow *ptr,RestApi *api) :
     QDialog(parent), ui(new Ui::TransactionsWindow), pMainWindow(ptr)
 {
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Transactions");
 
-    //pRestApiInterfaceClass = api;
+    pRestApiInterfaceClass = api;
 
     transactionsWindowTimer = new QTimer();
     transactionsWindowTimer->setInterval(10000);  // timer for 10 seconds
@@ -30,6 +30,29 @@ TransactionsWindow::~TransactionsWindow()
 {
     delete ui;
     delete transactionsWindowTimer;
+}
+
+
+void TransactionsWindow::printName(QString name)
+{
+    ui->nameLabel->setText(name);
+}
+
+
+void TransactionsWindow::printAccountNumber(QString accountNumber)
+{
+    ui->accountNumberLabel->setText(accountNumber);
+}
+
+
+void TransactionsWindow::printType(QString type)
+{
+    ui->typeLabel->setText(type);
+}
+
+void TransactionsWindow::printBalance(QString balance)
+{
+    ui->balanceLabel->setText(balance);
 }
 
 void TransactionsWindow::startTransactionsWindowTimer()

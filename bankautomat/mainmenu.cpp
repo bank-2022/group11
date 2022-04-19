@@ -57,6 +57,7 @@ void MainMenu::printName(QString name)
     ui->nameLabel->setText(name);
     pWithdrawWindow->printName(name);
     pDonationWindow->printName(name);
+    pTransactionsWindow->printName(name);
 }
 
 
@@ -65,6 +66,7 @@ void MainMenu::printAccountNumber(QString accountNumber)
     ui->accountNumberLabel->setText(accountNumber);
     pWithdrawWindow->printAccountNumber(accountNumber);
     pDonationWindow->printAccountNumber(accountNumber);
+    pTransactionsWindow->printAccountNumber(accountNumber);
 }
 
 
@@ -73,6 +75,7 @@ void MainMenu::printType(QString type)
     ui->typeLabel->setText(type);
     pWithdrawWindow->printType(type);
     pDonationWindow->printType(type);
+    pTransactionsWindow->printType(type);
 }
 
 void MainMenu::printBalance(QString balance)
@@ -80,6 +83,7 @@ void MainMenu::printBalance(QString balance)
     ui->balanceLabel->setText(balance);
     pWithdrawWindow->printBalance(balance);
     pDonationWindow->printBalance(balance);
+    pTransactionsWindow->printBalance(balance);
 }
 
 void MainMenu::print5Transactions(QAbstractItemModel * list)
