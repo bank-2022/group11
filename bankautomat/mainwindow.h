@@ -45,8 +45,15 @@ private slots:
 
     void getCustomerInfo();
     void updateCustomerInfo(QVector<QString> info);
+
     void getCustomerType();
     void updateType(QString type);
+
+    void getBalance();
+    void updateBalance(long long balance);
+
+    void get5Transactions();
+    void updateList(QVector<QVector<QString>> list);
 
 private:
     Ui::MainWindow *ui;
@@ -56,7 +63,7 @@ private:
     QString cardPin;
     QString cardNumber;
 
-
+    QString convertToEuros(long long sum);
 
 };
 #endif // MAINWINDOW_H

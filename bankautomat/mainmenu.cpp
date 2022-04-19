@@ -69,6 +69,16 @@ void MainMenu::printType(QString type)
     ui->typeLabel->setText(type);
 }
 
+void MainMenu::printBalance(QString balance)
+{
+    ui->balanceLabel->setText(balance);
+}
+
+void MainMenu::print5Transactions(QAbstractItemModel * list)
+{
+    ui->fiveTransactionsTableView->setModel(list);
+}
+
 
 void MainMenu::updateBalance(long long balance)
 {
@@ -169,13 +179,5 @@ void MainMenu::on_donateButton_clicked()
 void MainMenu::on_logOutButton_clicked()
 {
     mainMenuTimer->stop();
-
-    ui->accountNumberLabel->clear();
-    ui->balanceLabel->clear();
-    ui->nameLabel->clear();
-    ui->typeLabel->clear();
-
-
-
     this->close(); // Logs out of the system and closes the main menu window.
 }

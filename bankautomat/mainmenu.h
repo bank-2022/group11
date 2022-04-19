@@ -37,6 +37,8 @@ public:
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
+    void printBalance(QString balance);
+    void print5Transactions(QAbstractItemModel * list);
 
 public slots:
 
