@@ -3,13 +3,13 @@
 #include "mainwindow.h"
 #include "mainmenu.h"
 
-DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
+DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr, RestApi *api) :
     QDialog(parent), ui(new Ui::DonationWindow), pMainWindow(ptr)
 {
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Donate");
 
-    //pRestApiInterfaceClass = api;
+    pRestApiInterfaceClass = api;
 
     donationWindowTimer = new QTimer();
     donationWindowTimer->setInterval(10000);  // timer for 10 seconds
@@ -26,6 +26,31 @@ DonationWindow::~DonationWindow()
     delete pMainWindow;
 }
 
+
+void DonationWindow::printName(QString name)
+{
+    ui->nameLabel->setText(name);
+}
+
+
+void DonationWindow::printAccountNumber(QString accountNumber)
+{
+    ui->accountNumberLabel->setText(accountNumber);
+}
+
+
+void DonationWindow::printType(QString type)
+{
+    ui->typeLabel->setText(type);
+}
+
+
+void DonationWindow::printBalance(QString balance)
+{
+    ui->balanceLabel->setText(balance);
+}
+
+
 void DonationWindow::startDonationWindowTimer()
 {
     donationWindowTimer->start();
@@ -36,6 +61,8 @@ void DonationWindow::reStartDonationWindowTimer()
     donationWindowTimer->stop();
     donationWindowTimer->start();
 }
+
+
 
 void DonationWindow::on_exitButton_clicked()
 {
