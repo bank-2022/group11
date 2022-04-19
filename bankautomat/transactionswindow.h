@@ -14,7 +14,7 @@ class TransactionsWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit TransactionsWindow(QWidget *parent = nullptr);
+    explicit TransactionsWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
     ~TransactionsWindow();
 
     QTimer * transactionsWindowTimer;
@@ -28,6 +28,7 @@ private slots:
 
 private:
     Ui::TransactionsWindow *ui;
+    MainWindow * pMainWindow;
 };
 
 #endif // TRANSACTIONSWINDOW_H

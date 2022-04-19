@@ -7,8 +7,9 @@ DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
     QDialog(parent), ui(new Ui::DonationWindow), pMainWindow(ptr)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Turtle Software Banksimul - Donate");
 
-
+    //pRestApiInterfaceClass = api;
 
     donationWindowTimer = new QTimer();
     donationWindowTimer->setInterval(10000);  // timer for 10 seconds
@@ -22,10 +23,7 @@ DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr) :
 DonationWindow::~DonationWindow()
 {
     delete ui;
-    ui = nullptr;
-
     delete pMainWindow;
-    pMainWindow = nullptr;
 }
 
 void DonationWindow::startDonationWindowTimer()

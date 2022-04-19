@@ -44,13 +44,14 @@ private slots:
     void on_logOutButton_clicked();
     void on_refreshButton_clicked();
 
+    void getCustomerInfo();
     void updateCustomerInfo(QVector<QString> info);
     void updateBalance(long long balance);
     void updateList(QVector<QVector<QString>> list);
 
 
 
-    void on_infoButton_clicked();
+
 
 private:
     Ui::MainMenu *ui;

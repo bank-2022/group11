@@ -8,9 +8,12 @@
    in more depth or log out of the system. */
 
 MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
-    QDialog(parent), ui(new Ui::MainMenu), pMainWindow(ptr)
+    QDialog(parent),
+    ui(new Ui::MainMenu),
+    pMainWindow(ptr)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Turtle Software Banksimul");
 
     pDonationWindow = new DonationWindow;
     pTransactionsWindow = new TransactionsWindow;
@@ -52,6 +55,12 @@ MainMenu::~MainMenu()
 }
 
 
+void MainMenu::getCustomerInfo()
+{
+    pRestApiInterfaceClass->getCustomerInfo("0987666");
+}
+
+
 void MainMenu::updateCustomerInfo(QVector<QString> info)
 {
     ui->nameLabel->setText(info[0]);
@@ -69,7 +78,7 @@ void MainMenu::updateBalance(long long balance)
 
 QString MainMenu::convertToEuros(long long sum)
 {
-    // This function converts a int of cents
+    // This function converts a long long of cents
     // to a string of euros
 
     int cents = abs(sum % 100);
@@ -114,18 +123,9 @@ void MainMenu::on_refreshButton_clicked()
     mainMenuTimer->stop();
     pRestApiInterfaceClass->getBalance("FI5566778899");
     pRestApiInterfaceClass->get5Transactions("FI5566778899");
+
     mainMenuTimer->start();
 }
-
-
-void MainMenu::on_infoButton_clicked()
-{
-    mainMenuTimer->stop();
-    pRestApiInterfaceClass->getCustomerInfo("0987666");
-    mainMenuTimer->start();
-}
-
-
 
 
 void MainMenu::startMainMenuTimer()
@@ -168,6 +168,13 @@ void MainMenu::on_donateButton_clicked()
 void MainMenu::on_logOutButton_clicked()
 {
     mainMenuTimer->stop();
+
+    ui->accountNumberLabel->clear();
+    ui->balanceLabel->clear();
+    ui->nameLabel->clear();
+    ui->typeLabel->clear();
+
+
+
     this->close(); // Logs out of the system and closes the main menu window.
 }
-

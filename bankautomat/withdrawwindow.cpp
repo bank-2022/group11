@@ -6,6 +6,7 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainWindow *ptr) :
     QDialog(parent), ui(new Ui::WithdrawWindow), pMainWindow(ptr)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Turtle Software Banksimul - Withdraw");
 
     withdrawWindowTimer = new QTimer();
     withdrawWindowTimer->setInterval(10000);  // timer for 10 seconds
@@ -19,10 +20,7 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainWindow *ptr) :
 WithdrawWindow::~WithdrawWindow()
 {
     delete ui;
-    ui = nullptr;
-
     delete withdrawWindowTimer;
-    withdrawWindowTimer = nullptr;
 }
 
 

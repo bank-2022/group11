@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Turtle Software Banksimul");
+
     pRestApiInterfaceClass = new RestApi;
     pRestApiInterfaceClass->setBaseURL("http://localhost:3000");
 
@@ -29,13 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    ui = nullptr;
-
     delete pMainMenu;
-    pMainMenu = nullptr;
-
     delete pRestApiInterfaceClass;
-    pRestApiInterfaceClass = nullptr;
 }
 
 
