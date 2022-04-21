@@ -1,7 +1,6 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-
 #include <QVector>
 #include <QStandardItemModel>
 #include <QWidget>
@@ -18,6 +17,8 @@
 #include "transactionswindow.h"
 #include "withdrawwindow.h"
 
+class MainWindow;
+
 namespace Ui {
 class MainMenu;
 }
@@ -27,7 +28,7 @@ class MainMenu : public QDialog
     Q_OBJECT
 
 public:
-    explicit MainMenu(QWidget *parent = nullptr,MainWindow * ptr = nullptr, RestApi *api = nullptr);
+    explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, RestApi *api = nullptr);
     ~MainMenu();
 
     QTimer * mainMenuTimer;
@@ -39,9 +40,6 @@ public:
     void printType(QString type);
     void printBalance(QString balance);
     void print5Transactions(QAbstractItemModel * list);
-
-public slots:
-
 
 private slots:
     void on_withdrawButton_clicked();
@@ -55,23 +53,16 @@ private slots:
     void updateBalance(long long balance);
     void updateList(QVector<QVector<QString>> list);
 
-
-
-
-
 private:
     Ui::MainMenu *ui;
 
     MainWindow * pMainWindow;
+    RestApi * pRestApiInterfaceClass;
     DonationWindow * pDonationWindow;
     TransactionsWindow * pTransactionsWindow;
     WithdrawWindow * pWithdrawWindow;
 
-    RestApi * pRestApiInterfaceClass;
-
     QString convertToEuros(long long sum);
-
-
 };
 
 #endif // MAINMENU_H

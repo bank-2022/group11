@@ -2,10 +2,9 @@
 #define DONATIONWINDOW_H
 
 #include <QDialog>
-
 #include "restapi.h"
 
-class MainWindow;
+class MainMenu;
 
 namespace Ui {
 class DonationWindow;
@@ -16,10 +15,8 @@ class DonationWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DonationWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr, RestApi *api = nullptr);
+    explicit DonationWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, RestApi *api = nullptr);
     ~DonationWindow();
-
-    void donateOtherAmount(QString i);
 
     QTimer * donationWindowTimer;
     void startDonationWindowTimer();
@@ -29,6 +26,8 @@ public:
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
     void printBalance(QString balance);
+
+    void donateOtherAmount(QString i);
 
 private slots:
     void on_tenButton_clicked();
@@ -44,6 +43,7 @@ private slots:
     void on_eightButton_clicked();
     void on_nineButton_clicked();
     void on_zeroButton_clicked();
+
     void on_cancelButton_clicked();
     void on_enterButton_clicked();
 
@@ -51,10 +51,11 @@ private slots:
 
 private:
     Ui::DonationWindow *ui;
-    MainWindow * pMainWindow;
-    RestApi * pRestApiInterfaceClass;
-    QString donationAmount;
 
+    MainMenu * pMainMenu;
+    RestApi * pRestApiInterfaceClass;
+
+    QString donationAmount;
 };
 
 #endif // DONATIONWINDOW_H

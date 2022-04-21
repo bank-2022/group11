@@ -1,10 +1,11 @@
 #include "donationwindow.h"
 #include "ui_donationwindow.h"
-#include "mainwindow.h"
-#include "mainmenu.h"
 
-DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr, RestApi *api) :
-    QDialog(parent), ui(new Ui::DonationWindow), pMainWindow(ptr)
+
+DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, RestApi *api) :
+    QDialog(parent),
+    ui(new Ui::DonationWindow),
+    pMainMenu(ptr)
 {
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Donate");
@@ -12,10 +13,10 @@ DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr, RestApi *api) :
     pRestApiInterfaceClass = api;
 
     donationWindowTimer = new QTimer();
-    donationWindowTimer->setInterval(10000);  // timer for 10 seconds
-    donationWindowTimer->setSingleShot(false); // timer works more than once
+    donationWindowTimer->setInterval(10000);  // 10 s timer
+    donationWindowTimer->setSingleShot(false);
 
-    // if the timer has ran out, this window will be closed
+    // if the 10 s timer has ran out, this window will be closed
     connect(donationWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
 }
@@ -27,6 +28,7 @@ DonationWindow::~DonationWindow()
 }
 
 
+/* customer info functions */
 void DonationWindow::printName(QString name)
 {
     ui->nameLabel->setText(name);
@@ -51,6 +53,7 @@ void DonationWindow::printBalance(QString balance)
 }
 
 
+/* timer functions */
 void DonationWindow::startDonationWindowTimer()
 {
     donationWindowTimer->start();
@@ -63,147 +66,129 @@ void DonationWindow::reStartDonationWindowTimer()
 }
 
 
-
-void DonationWindow::on_exitButton_clicked()
-{
-    this -> close();
-    //pMainMenu->startMainMenuTimer();
-}
-
-/* These functions are for different donation options (10e, 20e, 50e). */
-
+/* functions for different donation options (10e, 20e, 50e). */
 void DonationWindow::on_tenButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donationAmount="10";
     ui->amountLine->setText(donationAmount);
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_twentyButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donationAmount="20";
     ui->amountLine->setText(donationAmount);
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_fiftyButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donationAmount="50";
     ui->amountLine->setText(donationAmount);
-    donationWindowTimer->start();
 }
 
 
-/*** These next functions are used when user wants to choose the amount manually (numbers 0-9, enter, backspace). ***/
+/* functions for manually choosing the amount which will be donated (numbers 0-9, enter, backspace) */
 
 void DonationWindow::donateOtherAmount(QString i)
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donationAmount.append(i);
     ui->amountLine->setText(donationAmount);
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_oneButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("1");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_twoButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("2");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_threeButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("3");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_fourButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("4");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_fiveButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("5");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_sixButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("6");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_sevenButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("7");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_eightButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("8");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_nineButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("9");
-    donationWindowTimer->start();
 }
 
 
 void DonationWindow::on_zeroButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     donateOtherAmount("0");
-    donationWindowTimer->start();
 }
 
 
-// removes the last inserted character (aka backspace button)
+/* backspace button */
 void DonationWindow::on_cancelButton_clicked()
 {
-    donationWindowTimer->stop();
+    reStartDonationWindowTimer();
     int i = donationAmount.count();
     donationAmount.remove((i-1),1);
     ui->amountLine->setText(donationAmount);
-    donationWindowTimer->start();
 }
 
 
+/* donation functions */
 void DonationWindow::on_enterButton_clicked()
 {
-    donationWindowTimer->stop();
-    donationWindowTimer->start();
+    reStartDonationWindowTimer();
+}
 
+void DonationWindow::on_exitButton_clicked()
+{
+    donationWindowTimer->stop();
+    this -> close();
 }

@@ -57,6 +57,7 @@ void MainWindow::loginSuccessfulSlot()
 {
     ui->warningLabel->setText("Login Successful!");
     pMainMenu->show();
+    pMainMenu->startMainMenuTimer();
 
     getBalance();
     getCustomerInfo();

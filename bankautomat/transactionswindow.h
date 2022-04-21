@@ -2,10 +2,9 @@
 #define TRANSACTIONSWINDOW_H
 
 #include <QDialog>
-
 #include "restapi.h"
 
-class MainWindow;
+class MainMenu;
 
 namespace Ui {
 class TransactionsWindow;
@@ -16,7 +15,7 @@ class TransactionsWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit TransactionsWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr, RestApi *api = nullptr);
+    explicit TransactionsWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, RestApi *api = nullptr);
     ~TransactionsWindow();
 
     QTimer * transactionsWindowTimer;
@@ -37,7 +36,7 @@ private slots:
 
 private:
     Ui::TransactionsWindow *ui;
-    MainWindow * pMainWindow;
+    MainMenu * pMainMenu;
     RestApi * pRestApiInterfaceClass;
 };
 

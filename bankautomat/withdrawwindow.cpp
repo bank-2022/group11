@@ -3,7 +3,9 @@
 
 
 WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr,RestApi *api) :
-    QDialog(parent), ui(new Ui::WithdrawWindow), pMainMenu(ptr)
+    QDialog(parent),
+    ui(new Ui::WithdrawWindow),
+    pMainMenu(ptr)
 {
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Withdraw");
@@ -113,7 +115,7 @@ void WithdrawWindow::on_fiveHundredButton_clicked()
     ui->amountLine->setText(withdrawAmount);
 }
 
-/* functions for manually choosing the amount which will be withdrawn (numbers 0-9, enter, backspace). */
+/* functions for manually choosing the amount which will be withdrawn (numbers 0-9, enter, backspace) */
 
 void WithdrawWindow::withdrawOtherAmount(QString i) // adds the chosen number at the end of the string
 {
@@ -201,6 +203,7 @@ void WithdrawWindow::on_backspaceButton_clicked()
     ui->amountLine->setText(withdrawAmount);
 }
 
+
 /* withdraw functions */
 void WithdrawWindow::on_enterButton_clicked()
 {
@@ -244,5 +247,6 @@ void WithdrawWindow::withdrawMessage(QString message)
 
 void WithdrawWindow::on_exitButton_clicked()
 {
+    withdrawWindowTimer->stop();
     this->close();
 }

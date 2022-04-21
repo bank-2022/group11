@@ -1,9 +1,11 @@
 #include "transactionswindow.h"
 #include "ui_transactionswindow.h"
-#include "mainwindow.h"
 
-TransactionsWindow::TransactionsWindow(QWidget *parent, MainWindow *ptr,RestApi *api) :
-    QDialog(parent), ui(new Ui::TransactionsWindow), pMainWindow(ptr)
+
+TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr,RestApi *api) :
+    QDialog(parent),
+    ui(new Ui::TransactionsWindow),
+    pMainMenu(ptr)
 {
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Transactions");
@@ -11,10 +13,10 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainWindow *ptr,RestApi 
     pRestApiInterfaceClass = api;
 
     transactionsWindowTimer = new QTimer();
-    transactionsWindowTimer->setInterval(10000);  // timer for 10 seconds
-    transactionsWindowTimer->setSingleShot(false); // timer works more than once
+    transactionsWindowTimer->setInterval(10000);  // 10 s timer
+    transactionsWindowTimer->setSingleShot(false);
 
-    // if the timer has ran out, this window will be closed
+    // if the 10 s timer has ran out, this window will be closed
     connect(transactionsWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
 
@@ -24,13 +26,15 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainWindow *ptr,RestApi 
             Qt::QueuedConnection);*/
 }
 
+
 TransactionsWindow::~TransactionsWindow()
 {
     delete ui;
     delete transactionsWindowTimer;
 }
 
-/* These functions show customer info on transactions window. */
+
+/* customer info functions */
 void TransactionsWindow::printName(QString name)
 {
     ui->nameLabel->setText(name);
@@ -48,12 +52,14 @@ void TransactionsWindow::printType(QString type)
     ui->typeLabel->setText(type);
 }
 
+
 void TransactionsWindow::printBalance(QString balance)
 {
     ui->balanceLabel->setText(balance);
 }
 
-/* Timer functions */
+
+/* timer functions */
 void TransactionsWindow::startTransactionsWindowTimer()
 {
     transactionsWindowTimer->start();
@@ -74,15 +80,13 @@ void TransactionsWindow::showTransactions(QString accountNumber)
 
 void TransactionsWindow::on_nextButton_clicked()
 {
-    transactionsWindowTimer->stop();
-    transactionsWindowTimer->start();
+    reStartTransactionsWindowTimer();
 }
 
 
 void TransactionsWindow::on_previousButton_clicked()
 {
-    transactionsWindowTimer->stop();
-    transactionsWindowTimer->start();
+    reStartTransactionsWindowTimer();
 }
 
 
@@ -109,6 +113,7 @@ void TransactionsWindow::on_previousButton_clicked()
 
 void TransactionsWindow::on_exitButton_clicked()
 {
+    transactionsWindowTimer->stop();
     this-> close();
 }
 
