@@ -18,12 +18,10 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainWindow *ptr,RestApi 
     connect(transactionsWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
 
-    //connect(pRestApiInterfaceClass,
-            //SIGNAL(transactions10(QVector<QVector<QString> >)),
-            //this, SLOT(updateList(QVector<QVector<QString> >)),
-           // Qt::QueuedConnection);
-
-   // pRestApiInterfaceClass->get10Transactions("FI5566778899", 0);
+    /*connect(pRestApiInterfaceClass,
+            SIGNAL(transactions10(QVector<QVector<QString> >)),
+            this, SLOT(updateList(QVector<QVector<QString> >)),
+            Qt::QueuedConnection);*/
 }
 
 TransactionsWindow::~TransactionsWindow()
@@ -32,7 +30,7 @@ TransactionsWindow::~TransactionsWindow()
     delete transactionsWindowTimer;
 }
 
-
+/* These functions show customer info on transactions window. */
 void TransactionsWindow::printName(QString name)
 {
     ui->nameLabel->setText(name);
@@ -55,6 +53,7 @@ void TransactionsWindow::printBalance(QString balance)
     ui->balanceLabel->setText(balance);
 }
 
+/* Timer functions */
 void TransactionsWindow::startTransactionsWindowTimer()
 {
     transactionsWindowTimer->start();
@@ -65,6 +64,13 @@ void TransactionsWindow::reStartTransactionsWindowTimer()
     transactionsWindowTimer->stop();
     transactionsWindowTimer->start();
 }
+
+/* Functions for browsing transactions */
+void TransactionsWindow::showTransactions(QString accountNumber)
+{
+    pRestApiInterfaceClass->get10Transactions(accountNumber, 0);
+}
+
 
 void TransactionsWindow::on_nextButton_clicked()
 {
@@ -98,9 +104,8 @@ void TransactionsWindow::on_previousButton_clicked()
         table_model->setItem(i, 2, amount);
     }
     ui->transactionsList->setModel(table_model);
+}*/
 
-}
-*/
 
 void TransactionsWindow::on_exitButton_clicked()
 {

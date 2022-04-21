@@ -39,6 +39,11 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
             SIGNAL(transactions5(QVector<QVector<QString> >)),
             this, SLOT(updateList(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
+
+    connect(pRestApiInterfaceClass,
+            SIGNAL(transactions10(QVector<QVector<QString> >)),
+            this, SLOT(updateList(QVector<QVector<QString> >)),
+            Qt::QueuedConnection);
 }
 
 
@@ -143,11 +148,10 @@ void MainMenu::on_refreshButton_clicked()
     // on the main menu window when the
     // refresh button is clicked.
 
-    mainMenuTimer->stop();
+
     pRestApiInterfaceClass->getBalance("FI5566778899");
     pRestApiInterfaceClass->get5Transactions("FI5566778899");
-
-    mainMenuTimer->start();
+    reStartMainMenuTimer();
 }
 
 
@@ -175,6 +179,7 @@ void MainMenu::on_withdrawButton_clicked()
 void MainMenu::on_transactionsButton_clicked()
 {
     mainMenuTimer->stop();
+    //pTransactionsWindow->showTransactions("FI5566778899");
     pTransactionsWindow->show(); // Opens a window where the user can view transactions.
     pTransactionsWindow->startTransactionsWindowTimer();
 }

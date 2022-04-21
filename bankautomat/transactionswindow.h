@@ -27,11 +27,13 @@ public:
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
     void printBalance(QString balance);
+    void showTransactions(QString accountNumber);
 
 private slots:
     void on_nextButton_clicked();
     void on_previousButton_clicked();
     void on_exitButton_clicked();
+    //void updateList(QVector<QVector<QString>> list);
 
 private:
     Ui::TransactionsWindow *ui;

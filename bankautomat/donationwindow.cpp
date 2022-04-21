@@ -23,7 +23,7 @@ DonationWindow::DonationWindow(QWidget *parent, MainWindow *ptr, RestApi *api) :
 DonationWindow::~DonationWindow()
 {
     delete ui;
-    delete pMainWindow;
+    delete donationWindowTimer;
 }
 
 
