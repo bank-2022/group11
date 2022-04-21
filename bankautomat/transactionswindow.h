@@ -41,6 +41,9 @@ private:
     Ui::TransactionsWindow *ui;
     MainMenu * pMainMenu;
     RestApi * pRestApiInterfaceClass;
+
+    QString accountNum;
+    int index;
 };
 
 #endif // TRANSACTIONSWINDOW_H

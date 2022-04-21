@@ -76,19 +76,30 @@ void TransactionsWindow::reStartTransactionsWindowTimer()
 /* Functions for browsing transactions */
 void TransactionsWindow::showTransactions(QString accountNumber)
 {
-    pRestApiInterfaceClass->get10Transactions(accountNumber, 0);
+    accountNum = accountNumber;
+    index = 0;
+    pRestApiInterfaceClass->get10Transactions(accountNumber, index);
 }
 
 
 void TransactionsWindow::on_nextButton_clicked()
 {
     reStartTransactionsWindowTimer();
+    index += 10;
+    pRestApiInterfaceClass->get10Transactions(accountNum, index);
 }
 
 
 void TransactionsWindow::on_previousButton_clicked()
 {
     reStartTransactionsWindowTimer();
+    if (index != 0){
+        index -= 10;
+        pRestApiInterfaceClass->get10Transactions(accountNum, index);
+    }
+    else {
+        index = 0;
+    }
 }
 
 

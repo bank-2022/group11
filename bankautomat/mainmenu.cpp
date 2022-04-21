@@ -38,13 +38,13 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
 
     connect(pRestApiInterfaceClass,
             SIGNAL(transactions5(QVector<QVector<QString> >)),
-            this, SLOT(updateList(QVector<QVector<QString> >)),
+            this, SLOT(update5List(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass,
+    /*connect(pRestApiInterfaceClass,
             SIGNAL(transactions10(QVector<QVector<QString> >)),
             this, SLOT(updateList(QVector<QVector<QString> >)),
-            Qt::QueuedConnection);
+            Qt::QueuedConnection);*/
 }
 
 
@@ -101,7 +101,7 @@ void MainMenu::print5Transactions(QAbstractItemModel * list)
 }
 
 
-void MainMenu::updateList(QVector<QVector<QString>> list)
+void MainMenu::update5List(QVector<QVector<QString>> list)
 {
     QStandardItemModel *table_model =
             new QStandardItemModel(list.size(), 3);

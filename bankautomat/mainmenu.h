@@ -51,7 +51,7 @@ private slots:
     //void getCustomerInfo();
     //void updateCustomerInfo(QVector<QString> info);
     void updateBalance(long long balance);
-    void updateList(QVector<QVector<QString>> list);
+    void update5List(QVector<QVector<QString>> list);
 
 private:
     Ui::MainMenu *ui;
