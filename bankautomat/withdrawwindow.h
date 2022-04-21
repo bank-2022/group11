@@ -22,6 +22,8 @@ public:
     void startWithdrawWindowTimer();
     void reStartWithdrawWindowTimer();
 
+    QTimer * withdrawWarningTimer;
+
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
@@ -53,6 +55,8 @@ private slots:
     void on_enterButton_clicked();
 
     void on_exitButton_clicked();
+
+    void warningTimerFinished();
 
 private:
     Ui::WithdrawWindow *ui;

@@ -16,9 +16,17 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr,RestApi *api) :
     withdrawWindowTimer->setInterval(10000); // 10 s timer
     withdrawWindowTimer->setSingleShot(false);
 
+    withdrawWarningTimer = new QTimer();
+    withdrawWarningTimer->setInterval(5000); // 5 s timer
+    withdrawWarningTimer->setSingleShot(false);
+
     // if the 10 s timer has ran out, this window will be closed
     connect(withdrawWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
+
+    // if the 5 s timer has ran out, the warning will be closed
+    connect(withdrawWarningTimer, SIGNAL(timeout()),
+            this, SLOT(warningTimerFinished()));
 }
 
 
@@ -26,6 +34,7 @@ WithdrawWindow::~WithdrawWindow()
 {
     delete ui;
     delete withdrawWindowTimer;
+    delete withdrawWarningTimer;
 }
 
 
@@ -207,37 +216,41 @@ void WithdrawWindow::on_backspaceButton_clicked()
 /* withdraw functions */
 void WithdrawWindow::on_enterButton_clicked()
 {
-    reStartWithdrawWindowTimer();
+    withdrawWarningTimer->stop();
+    withdrawCents = withdrawAmount.toInt() * 100;
 
     if (cardType == debitType){ // the user has a debit card
         qDebug("Cardtype detected");
-        if (withdrawAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
-            withdrawMessage("lessThanTen");
-            qDebug("too small");
+        if (withdrawCents < 1000){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+            withdrawMessage("bad");
+            withdrawWarningTimer->start();
         }
-        if (withdrawAmount >= 10 && withdrawAmount<= 500){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            withdrawCents = withdrawAmount.toInt() * 100;
-            pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents); // doesn't work yet
-            withdrawMessage("success");
-            qDebug("good");
+        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+            pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents);
+            withdrawCents = 0;
+            withdrawAmount = "0";
+            withdrawMessage("good");
+            withdrawWarningTimer->start();
         }
-        if (withdrawAmount < 500){
-            withdrawMessage("tooMuch");
-            qDebug("too big");
+        else if (withdrawCents > 50000){
+            withdrawMessage("bad");
+            withdrawWarningTimer->start();
         }
     }
 
     if (cardType == creditType){ // the user has a credit card
-        if (withdrawAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
-            withdrawMessage("lessThanTen");
+
+        if (withdrawCents < 1000){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+            withdrawMessage("bad");
         }
-        else if (withdrawAmount >= 10 && withdrawAmount<= 500){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            withdrawCents = withdrawAmount.toInt() * 100;
-            pRestApiInterfaceClass->creditWithdrawal("0987666", 1000);
-            withdrawMessage("success");
+        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+            pRestApiInterfaceClass->creditWithdrawal("0987666", withdrawCents);
+            withdrawCents = 0;
+            withdrawAmount = "0";
+            withdrawMessage("good");
         }
-        else if (withdrawAmount < 500){
-            withdrawMessage("tooMuch");
+        else if (withdrawAmount > 50000){
+            withdrawMessage("bad");
         }
     }
 }
@@ -245,17 +258,24 @@ void WithdrawWindow::on_enterButton_clicked()
 
 void WithdrawWindow::withdrawMessage(QString message)
 {
-    if (message == "lessThanTen"){
-        ui->amountLine->setText("The minimum withdrawable amount is 10 €");
+    if (message == "bad"){
+        ui->amountLine->setText("Withdrawal must be between 10 - 400 €");
     }
 
-    if (message == "success"){
+    else if (message == "good"){
         ui->amountLine->setText("Successful withdrawal!");
     }
 
-    if (message == "tooMuch"){
-        ui->amountLine->setText("The maximum withdrawable amount is 400 €");
+    else {
+        ui->amountLine->setText("Unexpected error occurred!");
     }
+}
+
+
+void WithdrawWindow::warningTimerFinished()
+{
+    ui->amountLine->setText(withdrawAmount);
+    withdrawWarningTimer->start();
 }
 
 
