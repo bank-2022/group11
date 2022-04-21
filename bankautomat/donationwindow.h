@@ -28,6 +28,7 @@ public:
     void printBalance(QString balance);
 
     void donateOtherAmount(QString i);
+    void donateMessage(QString message);
 
 private slots:
     void on_tenButton_clicked();
@@ -56,6 +57,15 @@ private:
     RestApi * pRestApiInterfaceClass;
 
     QString donationAmount;
+    long long donationCents;
+
+    QString charityAccount = "FI5566778899";
+
+    QString cardType;
+    QString debitType = "debit";
+    QString creditType = "credit";
+
+    QString cardNumber = "0987666"; // This will be changed when the pin ui dll is ready.
 };
 
 #endif // DONATIONWINDOW_H

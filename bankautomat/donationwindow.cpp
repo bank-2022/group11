@@ -43,6 +43,7 @@ void DonationWindow::printAccountNumber(QString accountNumber)
 
 void DonationWindow::printType(QString type)
 {
+    cardType = type;
     ui->typeLabel->setText(type);
 }
 
@@ -185,7 +186,56 @@ void DonationWindow::on_cancelButton_clicked()
 void DonationWindow::on_enterButton_clicked()
 {
     reStartDonationWindowTimer();
+
+    if (cardType == debitType){ // the user has a debit card
+        qDebug("Cardtype detected");
+        if (donationAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+            qDebug("too small");
+            donateMessage("bad");
+        }
+        else if (donationAmount >= 10 && donationAmount<= 500){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+            qDebug("good");
+            donationCents = donationAmount.toInt() * 100;
+            pRestApiInterfaceClass->debitDonation("0987666", charityAccount, donationCents); // doesn't work yet
+            donateMessage("good");
+        }
+        else if (donationAmount < 1000){
+            qDebug("too big");
+            donateMessage("bad");
+        }
+    }
+
+    if (cardType == creditType){ // the user has a credit card
+        if (donationAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+            donateMessage("bad");
+        }
+        if (donationAmount >= 10 && donationAmount<= 500){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+            donationCents = donationAmount.toInt() * 100;
+            pRestApiInterfaceClass->creditDonation("0987666", charityAccount, 1000);
+            donateMessage("good");
+        }
+        if (donationAmount < 1000){
+            donateMessage("bad");
+        }
+    }
 }
+
+
+void DonationWindow::donateMessage(QString message)
+{
+    if (message == "bad"){
+        ui->amountLine->setText("Donation must be between 10 - 400 €");
+    }
+
+    else if (message == "good"){
+        ui->amountLine->setText("Successful withdrawal!");
+    }
+
+    else {
+        ui->amountLine->setText("ERROR!");
+    }
+}
+
 
 void DonationWindow::on_exitButton_clicked()
 {

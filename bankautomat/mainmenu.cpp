@@ -17,9 +17,9 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
     this->setWindowTitle("Turtle Software Banksimul");
 
     pRestApiInterfaceClass = api;
-    pDonationWindow = new DonationWindow;
-    pTransactionsWindow = new TransactionsWindow;
-    pWithdrawWindow = new WithdrawWindow;
+    pDonationWindow = new DonationWindow(parent, this, pRestApiInterfaceClass);
+    pTransactionsWindow = new TransactionsWindow(parent, this, pRestApiInterfaceClass);
+    pWithdrawWindow = new WithdrawWindow(parent, this, pRestApiInterfaceClass);
 
     mainMenuTimer = new QTimer();
     mainMenuTimer->setInterval(30000);  // 30 s timer
@@ -144,6 +144,7 @@ void MainMenu::on_refreshButton_clicked()
 
     reStartMainMenuTimer();
     pRestApiInterfaceClass->getBalance("FI5566778899");
+    //QThread::usleep(300);
     pRestApiInterfaceClass->get5Transactions("FI5566778899");
 }
 
@@ -163,10 +164,13 @@ QString MainMenu::convertToEuros(long long sum)
     int cents = abs(sum % 100);
     QString centString;
     if (cents < 10)
+    {
         centString = "0" + QString::number(cents);
+    }
     else
+    {
         centString = QString::number(cents);
-
+    }
     return QString::number(sum / 100) + "." + centString;
 }
 
@@ -182,7 +186,7 @@ void MainMenu::on_withdrawButton_clicked()
 void MainMenu::on_transactionsButton_clicked()
 {
     mainMenuTimer->stop();
-    //pTransactionsWindow->showTransactions("FI5566778899");
+    pTransactionsWindow->showTransactions("FI5566778899");
     pTransactionsWindow->show(); // Opens a window where the user can view transactions.
     pTransactionsWindow->startTransactionsWindowTimer();
 }

@@ -2,9 +2,12 @@
 #define TRANSACTIONSWINDOW_H
 
 #include <QDialog>
+#include <QStandardItemModel>
 #include "restapi.h"
 
 class MainMenu;
+
+
 
 namespace Ui {
 class TransactionsWindow;
@@ -32,7 +35,7 @@ private slots:
     void on_nextButton_clicked();
     void on_previousButton_clicked();
     void on_exitButton_clicked();
-    //void updateList(QVector<QVector<QString>> list);
+    void updateList(QVector<QVector<QString>> list);
 
 private:
     Ui::TransactionsWindow *ui;

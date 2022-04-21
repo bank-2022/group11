@@ -2,7 +2,7 @@
 #include "ui_transactionswindow.h"
 
 
-TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr,RestApi *api) :
+TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, RestApi *api) :
     QDialog(parent),
     ui(new Ui::TransactionsWindow),
     pMainMenu(ptr)
@@ -11,6 +11,7 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr,RestApi *a
     this->setWindowTitle("Turtle Software Banksimul - Transactions");
 
     pRestApiInterfaceClass = api;
+    pMainMenu = ptr;
 
     transactionsWindowTimer = new QTimer();
     transactionsWindowTimer->setInterval(10000);  // 10 s timer
@@ -20,10 +21,11 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr,RestApi *a
     connect(transactionsWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
 
-    /*connect(pRestApiInterfaceClass,
+    connect(pRestApiInterfaceClass,
             SIGNAL(transactions10(QVector<QVector<QString> >)),
             this, SLOT(updateList(QVector<QVector<QString> >)),
-            Qt::QueuedConnection);*/
+            Qt::QueuedConnection);
+
 }
 
 
@@ -90,7 +92,7 @@ void TransactionsWindow::on_previousButton_clicked()
 }
 
 
-/*void TransactionsWindow::updateList(QVector<QVector<QString>> list)
+void TransactionsWindow::updateList(QVector<QVector<QString>> list)
 {
     QStandardItemModel *table_model =
             new QStandardItemModel(list.size(), 3);
@@ -108,12 +110,13 @@ void TransactionsWindow::on_previousButton_clicked()
         table_model->setItem(i, 2, amount);
     }
     ui->transactionsList->setModel(table_model);
-}*/
+}
 
 
 void TransactionsWindow::on_exitButton_clicked()
 {
     transactionsWindowTimer->stop();
+    //pMainMenu->startMainMenuTimer();
     this-> close();
 }
 

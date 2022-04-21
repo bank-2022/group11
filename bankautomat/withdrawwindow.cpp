@@ -210,13 +210,20 @@ void WithdrawWindow::on_enterButton_clicked()
     reStartWithdrawWindowTimer();
 
     if (cardType == debitType){ // the user has a debit card
+        qDebug("Cardtype detected");
         if (withdrawAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
             withdrawMessage("lessThanTen");
+            qDebug("too small");
         }
-        if (withdrawAmount >= 10){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+        if (withdrawAmount >= 10 && withdrawAmount<= 500){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
             withdrawCents = withdrawAmount.toInt() * 100;
-            pRestApiInterfaceClass->debitWithdrawal("0987666", 1000);
+            pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents); // doesn't work yet
             withdrawMessage("success");
+            qDebug("good");
+        }
+        if (withdrawAmount < 500){
+            withdrawMessage("tooMuch");
+            qDebug("too big");
         }
     }
 
@@ -224,10 +231,13 @@ void WithdrawWindow::on_enterButton_clicked()
         if (withdrawAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
             withdrawMessage("lessThanTen");
         }
-        if (withdrawAmount >= 10){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+        else if (withdrawAmount >= 10 && withdrawAmount<= 500){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
             withdrawCents = withdrawAmount.toInt() * 100;
             pRestApiInterfaceClass->creditWithdrawal("0987666", 1000);
             withdrawMessage("success");
+        }
+        else if (withdrawAmount < 500){
+            withdrawMessage("tooMuch");
         }
     }
 }
@@ -236,11 +246,15 @@ void WithdrawWindow::on_enterButton_clicked()
 void WithdrawWindow::withdrawMessage(QString message)
 {
     if (message == "lessThanTen"){
-        ui->amountLine->setText("The withdrawable amount must be at least 10 €");
+        ui->amountLine->setText("The minimum withdrawable amount is 10 €");
     }
 
     if (message == "success"){
         ui->amountLine->setText("Successful withdrawal!");
+    }
+
+    if (message == "tooMuch"){
+        ui->amountLine->setText("The maximum withdrawable amount is 400 €");
     }
 }
 
