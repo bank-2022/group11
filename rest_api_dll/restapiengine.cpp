@@ -247,7 +247,8 @@ void RestApiEngine::loginSlot(QNetworkReply *reply)
     }
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
 void RestApiEngine::putLockedSlot(QNetworkReply *reply)
@@ -261,7 +262,8 @@ void RestApiEngine::putLockedSlot(QNetworkReply *reply)
 
     // Basic cleanup
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
 void RestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
@@ -271,7 +273,8 @@ void RestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
 void RestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
@@ -281,7 +284,8 @@ void RestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
 void RestApiEngine::creditDonationSlot(QNetworkReply *reply)
@@ -291,7 +295,8 @@ void RestApiEngine::creditDonationSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
 void RestApiEngine::debitDonationSlot(QNetworkReply *reply)
@@ -301,7 +306,8 @@ void RestApiEngine::debitDonationSlot(QNetworkReply *reply)
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
 void RestApiEngine::lockedSlot(QNetworkReply *reply)
@@ -320,7 +326,8 @@ void RestApiEngine::lockedSlot(QNetworkReply *reply)
     // qDebug() << locked;
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit lockedSignal(locked);
 }
@@ -339,7 +346,8 @@ void RestApiEngine::typeSlot(QNetworkReply *reply)
     type = json_obj["type"].toString();
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit typeSignal(type);
 }
@@ -361,7 +369,8 @@ void RestApiEngine::customerInfoSlot(QNetworkReply *reply)
     customerInfo[1] = json_obj["accountnumber"].toString();
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit customerInfoSignal(customerInfo);
 }
@@ -382,7 +391,8 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     //qDebug() << balance;
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit balanceSignal(balance);
 }
@@ -421,7 +431,8 @@ void RestApiEngine::transactions5Slot(QNetworkReply *reply)
         }
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit transactions5Signal(list);
 }
@@ -457,7 +468,8 @@ void RestApiEngine::transactions10Slot(QNetworkReply *reply)
         }
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit transactions10Signal(list);
 }
