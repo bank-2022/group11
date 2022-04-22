@@ -379,7 +379,7 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     QString balanceCents = json_obj["balance"].toString();
     long long balance = balanceCents.toLongLong();
 
-    qDebug() << balance;
+    //qDebug() << balance;
 
     reply->deleteLater();
     manager->deleteLater();
@@ -473,7 +473,7 @@ void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
 
 QString RestApiEngine::convertToEuros(long long sum)
 {
-    // This function converts a int of cents
+    // This function converts a long long of cents
     // to a string of euros
 
     short cents = abs(sum % 100);
