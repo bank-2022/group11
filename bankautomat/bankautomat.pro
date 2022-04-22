@@ -41,3 +41,8 @@ win32: LIBS += -L$$PWD/../rest_api_dll/build/debug/ -lrest_api_dll
 
 INCLUDEPATH += $$PWD/../rest_api_dll
 DEPENDPATH += $$PWD/../rest_api_dll
+
+unix:!macx: LIBS += -L$$PWD/../rest_api_dll/build/ -lrest_api_dll
+
+INCLUDEPATH += $$PWD/../rest_api_dll
+DEPENDPATH += $$PWD/../rest_api_dll
