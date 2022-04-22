@@ -33,8 +33,13 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr,RestApi *api) :
 WithdrawWindow::~WithdrawWindow()
 {
     delete ui;
+    ui = nullptr;
+
     delete withdrawWindowTimer;
+    withdrawWindowTimer = nullptr;
+
     delete withdrawWarningTimer;
+    withdrawWarningTimer = nullptr;
 }
 
 
@@ -59,6 +64,7 @@ void WithdrawWindow::printType(QString type)
 
 void WithdrawWindow::printBalance(QString balance)
 {
+    sBalance = balance;
     ui->balanceLabel->setText(balance);
 }
 
@@ -218,23 +224,31 @@ void WithdrawWindow::on_enterButton_clicked()
 {
     withdrawWarningTimer->stop();
     withdrawCents = withdrawAmount.toInt() * 100;
+    intBalance = sBalance.toInt() * 100;
 
     if (cardType == debitType){ // the user has a debit card
         qDebug("Cardtype detected");
+
         if (withdrawCents < 1000){ // If user tries to withdraw less than 10 €, progam will give a warning message.
             withdrawMessage("bad");
-            withdrawWarningTimer->start();
-        }
-        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents);
-            withdrawCents = 0;
-            withdrawAmount = "0";
-            withdrawMessage("good");
             withdrawWarningTimer->start();
         }
         else if (withdrawCents > 50000){
             withdrawMessage("bad");
             withdrawWarningTimer->start();
+        }
+        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
+            /*if (intBalance > withdrawCents){ // if the user has enough money while using a debit card, withdrawal is possible
+                */pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents);
+                withdrawCents = 0;
+                withdrawAmount = "0";
+                withdrawMessage("good");
+                withdrawWarningTimer->start();
+            /*}
+            else if (intBalance < withdrawCents){ // if user is trying to withdraw more money than they have with a debit card, a warning message will pop.
+                withdrawMessage("poor");
+                withdrawWarningTimer->start();
+            }*/
         }
     }
 
@@ -259,11 +273,15 @@ void WithdrawWindow::on_enterButton_clicked()
 void WithdrawWindow::withdrawMessage(QString message)
 {
     if (message == "bad"){
-        ui->amountLine->setText("Withdrawal must be between 10 - 400 €");
+        ui->amountLine->setText("Withdrawal must be between 10 - 500 €");
     }
 
     else if (message == "good"){
         ui->amountLine->setText("Successful withdrawal!");
+    }
+
+    else if (message == "poor"){
+        ui->amountLine->setText("Not enough money on account!");
     }
 
     else {

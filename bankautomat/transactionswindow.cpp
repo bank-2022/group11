@@ -25,14 +25,16 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, RestApi *
             SIGNAL(transactions10(QVector<QVector<QString> >)),
             this, SLOT(updateList(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
-
 }
 
 
 TransactionsWindow::~TransactionsWindow()
 {
     delete ui;
+    ui = nullptr;
+
     delete transactionsWindowTimer;
+    transactionsWindowTimer = nullptr;
 }
 
 

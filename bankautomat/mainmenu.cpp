@@ -51,10 +51,19 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
 MainMenu::~MainMenu()
 {
     delete ui;
+    ui = nullptr;
+
     delete mainMenuTimer;
+    mainMenuTimer = nullptr;
+
     delete pDonationWindow;
+    pDonationWindow = nullptr;
+
     delete pTransactionsWindow;
-    delete pWithdrawWindow;   
+    pTransactionsWindow = nullptr;
+
+    delete pWithdrawWindow;
+    pWithdrawWindow = nullptr;
 }
 
 

@@ -66,6 +66,10 @@ private:
 
     QString withdrawAmount;
     long long withdrawCents;
+
+    QString sBalance;
+    int intBalance;
+
     QString cardType;
     QString debitType = "debit";
     QString creditType = "credit";

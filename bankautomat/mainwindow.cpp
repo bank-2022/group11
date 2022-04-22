@@ -48,9 +48,15 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    ui = nullptr;
+
     delete pMainMenu;
+    pMainMenu = nullptr;
+
     delete pRestApiInterfaceClass;
+    pRestApiInterfaceClass = nullptr;
 }
+
 
 /* Login functions */
 void MainWindow::loginSuccessfulSlot()
