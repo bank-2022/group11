@@ -64,8 +64,10 @@ void WithdrawWindow::printType(QString type)
 
 void WithdrawWindow::printBalance(QString balance)
 {
-    sBalance = balance;
+    stringBalance = balance;
     ui->balanceLabel->setText(balance);
+    qDebug() << stringBalance;
+    qDebug("sBalance");
 }
 
 
@@ -224,7 +226,13 @@ void WithdrawWindow::on_enterButton_clicked()
 {
     withdrawWarningTimer->stop();
     withdrawCents = withdrawAmount.toInt() * 100;
-    intBalance = sBalance.toInt() * 100;
+
+    qDebug() << stringBalance;
+        qDebug("Toinen");
+
+    longCentsBalance = stringBalance.toDouble() * 100;
+     qDebug() << longCentsBalance;
+     qDebug("1");
 
     if (cardType == debitType){ // the user has a debit card
         qDebug("Cardtype detected");
@@ -238,17 +246,21 @@ void WithdrawWindow::on_enterButton_clicked()
             withdrawWarningTimer->start();
         }
         else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            /*if (intBalance > withdrawCents){ // if the user has enough money while using a debit card, withdrawal is possible
-                */pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents);
+            qDebug() << longCentsBalance;
+            qDebug("2");
+            if (longCentsBalance > withdrawCents){ // if the user has enough money while using a debit card, withdrawal is possible
+                pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents);
                 withdrawCents = 0;
                 withdrawAmount = "0";
                 withdrawMessage("good");
                 withdrawWarningTimer->start();
-            /*}
-            else if (intBalance < withdrawCents){ // if user is trying to withdraw more money than they have with a debit card, a warning message will pop.
+            }
+            else if (longCentsBalance < withdrawCents){ // if user is trying to withdraw more money than they have with a debit card, a warning message will pop.
                 withdrawMessage("poor");
                 withdrawWarningTimer->start();
-            }*/
+                qDebug() << longCentsBalance;
+                qDebug("3");
+            }
         }
     }
 

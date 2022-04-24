@@ -32,6 +32,7 @@ public:
     void withdrawOtherAmount(QString i);
     void withdrawMessage(QString message);
 
+
 private slots:
     void on_tenButton_clicked();
     void on_fourtyButton_clicked();
@@ -67,8 +68,8 @@ private:
     QString withdrawAmount;
     long long withdrawCents;
 
-    QString sBalance;
-    int intBalance;
+    QString stringBalance;
+    long longCentsBalance;
 
     QString cardType;
     QString debitType = "debit";
