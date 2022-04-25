@@ -225,58 +225,82 @@ void WithdrawWindow::on_backspaceButton_clicked()
 void WithdrawWindow::on_enterButton_clicked()
 {
     withdrawWarningTimer->stop();
+
     withdrawCents = withdrawAmount.toInt() * 100;
-
-    qDebug() << stringBalance;
-        qDebug("Toinen");
-
+    double remainder = withdrawCents % 1000;
     longCentsBalance = stringBalance.toDouble() * 100;
-     qDebug() << longCentsBalance;
-     qDebug("1");
 
-    if (cardType == debitType){ // the user has a debit card
-        qDebug("Cardtype detected");
+    double creditLimit = -500000; // credit limit is 5000 €
 
-        if (withdrawCents < 1000){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+    /* debit card */
+    if (cardType == debitType){
+
+        if (withdrawCents < 1000){ // user tries to withdraw less than 10 €
             withdrawMessage("bad");
             withdrawWarningTimer->start();
         }
-        else if (withdrawCents > 50000){
+        else if (withdrawCents > 50000){ // user tries to withdraw more than 500 €
             withdrawMessage("bad");
             withdrawWarningTimer->start();
         }
-        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            qDebug() << longCentsBalance;
-            qDebug("2");
-            if (longCentsBalance > withdrawCents){ // if the user has enough money while using a debit card, withdrawal is possible
-                pRestApiInterfaceClass->debitWithdrawal("0987666", withdrawCents);
-                withdrawCents = 0;
-                withdrawAmount = "0";
-                withdrawMessage("good");
-                withdrawWarningTimer->start();
+        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // the amount is 10 - 500 €
+
+            if (remainder != 0){ // the amount is not divisible by ten
+                withdrawMessage("false");
             }
-            else if (longCentsBalance < withdrawCents){ // if user is trying to withdraw more money than they have with a debit card, a warning message will pop.
-                withdrawMessage("poor");
-                withdrawWarningTimer->start();
-                qDebug() << longCentsBalance;
-                qDebug("3");
+
+            else if (remainder == 0){ // the amount is divisible by ten
+
+                if (longCentsBalance > withdrawCents){ // user has enough money (and is using a debit card)
+                    pRestApiInterfaceClass->debitWithdrawal(cardNumber, withdrawCents);
+                    withdrawCents = 0;
+                    withdrawAmount = "0";
+                    withdrawMessage("good");
+                    withdrawWarningTimer->start();
+                }
+
+                else if (longCentsBalance < withdrawCents){ // the balance isn't enough
+                    withdrawMessage("poor");
+                    withdrawWarningTimer->start();
+                }
             }
+
         }
     }
 
-    if (cardType == creditType){ // the user has a credit card
+    /* credit card */
+    if (cardType == creditType){
 
-        if (withdrawCents < 1000){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+        if (withdrawCents < 1000){ // user tries to withdraw less than 10 €
             withdrawMessage("bad");
+            withdrawWarningTimer->start();
         }
-        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            pRestApiInterfaceClass->creditWithdrawal("0987666", withdrawCents);
-            withdrawCents = 0;
-            withdrawAmount = "0";
-            withdrawMessage("good");
-        }
-        else if (withdrawAmount > 50000){
+        else if (withdrawCents > 50000){ // user tries to withdraw more than 500 €
             withdrawMessage("bad");
+            withdrawWarningTimer->start();
+        }
+        else if (withdrawCents >= 1000 && withdrawCents <= 50000){ // the amount is 10 - 500 €
+
+            if (remainder != 0){ // the amount is not divisible by ten
+                withdrawMessage("false");
+            }
+
+            else if (remainder == 0){ // the amount is divisible by ten
+
+                if (longCentsBalance > creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
+                    pRestApiInterfaceClass->debitWithdrawal(cardNumber, withdrawCents);
+                    withdrawCents = 0;
+                    withdrawAmount = "0";
+                    withdrawMessage("good");
+                    withdrawWarningTimer->start();
+                }
+
+                else if (longCentsBalance <= creditLimit){ // the credit limit has been exeeded
+                    withdrawMessage("poor");
+                    withdrawWarningTimer->start();
+                }
+            }
+
         }
     }
 }
@@ -294,6 +318,10 @@ void WithdrawWindow::withdrawMessage(QString message)
 
     else if (message == "poor"){
         ui->amountLine->setText("Not enough money on account!");
+    }
+
+    else if (message == "false"){
+        ui->amountLine->setText("Amount must be divisible by ten.");
     }
 
     else {
