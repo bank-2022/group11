@@ -69,6 +69,12 @@ void WithdrawWindow::printBalance(QString balance)
 }
 
 
+void WithdrawWindow::getCardNumber(QString cardnumber)
+{
+    cardNumber = cardnumber;
+}
+
+
 /* timer functions */
 void WithdrawWindow::startWithdrawWindowTimer()
 {

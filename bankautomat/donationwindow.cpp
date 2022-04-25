@@ -66,6 +66,12 @@ void DonationWindow::printBalance(QString balance)
 }
 
 
+void DonationWindow::getCardNumber(QString cardnumber)
+{
+    cardNumber = cardnumber;
+}
+
+
 /* timer functions */
 void DonationWindow::startDonationWindowTimer()
 {

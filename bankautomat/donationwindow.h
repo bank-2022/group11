@@ -32,6 +32,8 @@ public:
     void donateOtherAmount(QString i);
     void donateMessage(QString message);
 
+    void getCardNumber(QString cardnumber);
+
 private slots:
     void on_tenButton_clicked();
     void on_twentyButton_clicked();
@@ -72,7 +74,7 @@ private:
     QString debitType = "debit";
     QString creditType = "credit";
 
-    QString cardNumber = "66778899"; // This will be changed when the pin ui dll is ready.
+    QString cardNumber; // This will be changed when the pin ui dll is ready.
 };
 
 #endif // DONATIONWINDOW_H

@@ -41,6 +41,9 @@ public:
     void printBalance(QString balance);
     void print5Transactions(QAbstractItemModel * list);
 
+    void getCardNumber(QString cardnumber);
+    void getAccountNumber(QString accountnum);
+
 private slots:
     void on_withdrawButton_clicked();
     void on_transactionsButton_clicked();
@@ -62,7 +65,7 @@ private:
 
     QString convertToEuros(long long sum);
 
-    QString accountNumber = "FI4278907654123400";
+    QString accountNumber;
 };
 
 #endif // MAINMENU_H

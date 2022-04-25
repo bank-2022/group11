@@ -84,10 +84,27 @@ void MainWindow::forbiddenAccessDetected()
 }
 
 
-void MainWindow::on_mainMenuButton_clicked()
+void MainWindow::on_ruusuButton_clicked()
 {
+    accountNumber = "FI4278907654123400";
+    cardNumber = "66778899";
+    cardPin = "5566";
     pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pMainMenu->getCardNumber(cardNumber);
+    pMainMenu->getAccountNumber(accountNumber);
 }
+
+
+void MainWindow::on_olaviButton_clicked()
+{
+    accountNumber = "FI5566778899";
+    cardNumber = "0987666";
+    cardPin = "1234";
+    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pMainMenu->getCardNumber(cardNumber);
+    pMainMenu->getAccountNumber(accountNumber);
+}
+
 
 /* Customer info functions */
 void MainWindow::getCustomerInfo()
@@ -103,8 +120,6 @@ void MainWindow::updateCustomerInfo(QVector<QString> info)
 
     pMainMenu->printName(name);
     pMainMenu->printAccountNumber(accountNumber);
-
-    qDebug() << info;
 }
 
 
@@ -126,16 +141,19 @@ void MainWindow::getBalance()
     pRestApiInterfaceClass->getBalance(cardNumber);
 }
 
+
 void MainWindow::updateBalance(long long balance)
 {
     QString stringBalance = convertToEuros(balance);
     pMainMenu->printBalance(stringBalance);
 }
 
+
 void MainWindow::get5Transactions()
 {
     pRestApiInterfaceClass->get5Transactions(cardNumber);
 }
+
 
 void MainWindow::updateList(QVector<QVector<QString>> list)
 {

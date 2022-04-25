@@ -129,7 +129,6 @@ void TransactionsWindow::updateList(QVector<QVector<QString>> list)
 void TransactionsWindow::on_exitButton_clicked()
 {
     transactionsWindowTimer->stop();
-    //pMainMenu->startMainMenuTimer();
     this-> close();
 }
 

@@ -41,8 +41,6 @@ public slots:
     void forbiddenAccessDetected();
 
 private slots:
-    void on_mainMenuButton_clicked();
-
     void getCustomerInfo();
     void updateCustomerInfo(QVector<QString> info);
 
@@ -55,13 +53,17 @@ private slots:
     void get5Transactions();
     void updateList(QVector<QVector<QString>> list);
 
+    void on_ruusuButton_clicked();
+
+    void on_olaviButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
     RestApi * pRestApiInterfaceClass;
 
-    QString cardPin = "5566";
-    QString cardNumber = "66778899";
+    QString cardPin;
+    QString cardNumber;
 
     QString convertToEuros(long long sum);
 

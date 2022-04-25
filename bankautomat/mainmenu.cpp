@@ -40,11 +40,6 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
             SIGNAL(transactions5(QVector<QVector<QString> >)),
             this, SLOT(update5List(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
-
-    /*connect(pRestApiInterfaceClass,
-            SIGNAL(transactions10(QVector<QVector<QString> >)),
-            this, SLOT(updateList(QVector<QVector<QString> >)),
-            Qt::QueuedConnection);*/
 }
 
 
@@ -128,6 +123,18 @@ void MainMenu::update5List(QVector<QVector<QString>> list)
         table_model->setItem(i, 2, amount);
     }
     ui->fiveTransactionsTableView->setModel(table_model);
+}
+
+
+void MainMenu::getCardNumber(QString cardnumber)
+{
+    pDonationWindow->getCardNumber(cardnumber);
+    pWithdrawWindow->getCardNumber(cardnumber);
+}
+
+void MainMenu::getAccountNumber(QString accountnum)
+{
+    accountNumber = accountnum;
 }
 
 
