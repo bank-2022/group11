@@ -48,8 +48,6 @@ private slots:
     void on_logOutButton_clicked();
     void on_refreshButton_clicked();
 
-    //void getCustomerInfo();
-    //void updateCustomerInfo(QVector<QString> info);
     void updateBalance(long long balance);
     void update5List(QVector<QVector<QString>> list);
 
@@ -63,6 +61,8 @@ private:
     WithdrawWindow * pWithdrawWindow;
 
     QString convertToEuros(long long sum);
+
+    QString accountNumber = "FI4278907654123400";
 };
 
 #endif // MAINMENU_H

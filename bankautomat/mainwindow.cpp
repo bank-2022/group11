@@ -86,8 +86,6 @@ void MainWindow::forbiddenAccessDetected()
 
 void MainWindow::on_mainMenuButton_clicked()
 {
-    cardNumber = "0987666";
-    cardPin = "1234";
     pRestApiInterfaceClass->login(cardNumber, cardPin);
 }
 

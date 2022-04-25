@@ -60,8 +60,8 @@ private:
     MainMenu * pMainMenu;
     RestApi * pRestApiInterfaceClass;
 
-    QString cardPin;
-    QString cardNumber;
+    QString cardPin = "5566";
+    QString cardNumber = "66778899";
 
     QString convertToEuros(long long sum);
 

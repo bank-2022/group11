@@ -16,9 +16,17 @@ DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, RestApi *api) :
     donationWindowTimer->setInterval(10000);  // 10 s timer
     donationWindowTimer->setSingleShot(false);
 
+    donationWarningTimer = new QTimer();
+    donationWarningTimer->setInterval(5000);  // 5 s timer
+    donationWarningTimer->setSingleShot(false);
+
     // if the 10 s timer has ran out, this window will be closed
     connect(donationWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
+
+    // if the 5 s timer has ran out, the warning will be closed
+    connect(donationWarningTimer, SIGNAL(timeout()),
+            this, SLOT(warningTimerFinished()));
 }
 
 DonationWindow::~DonationWindow()
@@ -53,6 +61,7 @@ void DonationWindow::printType(QString type)
 
 void DonationWindow::printBalance(QString balance)
 {
+    stringBalance = balance;
     ui->balanceLabel->setText(balance);
 }
 
@@ -188,33 +197,84 @@ void DonationWindow::on_cancelButton_clicked()
 /* donation functions */
 void DonationWindow::on_enterButton_clicked()
 {
-    reStartDonationWindowTimer();
+    donationWarningTimer->stop();
 
-    if (cardType == debitType){ // the user has a debit card
-        if (donationAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+    donationCents = donationAmount.toInt() * 100;
+    double remainder = donationCents % 1000;
+    longCentsBalance = stringBalance.toDouble() * 100;
+
+    double creditLimit = -500000; // credit limit is 5000 €
+
+    /* debit card */
+    if (cardType == debitType){
+
+        if (donationCents < 1000){ // user tries to donate less than 10 €
             donateMessage("bad");
+            donationWarningTimer->start();
         }
-        else if (donationAmount >= 10 && donationAmount <= 1000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            donationCents = donationAmount.toInt() * 100;
-            pRestApiInterfaceClass->debitDonation("0987666", charityAccount, donationCents); // doesn't work yet
-            donateMessage("good");
-        }
-        else if (donationAmount > 1000){
+        else if (donationCents > 50000){ // user tries to donate more than 500 €
             donateMessage("bad");
+            donationWarningTimer->start();
+        }
+        else if (donationCents >= 1000 && donationCents <= 50000){ // the amount is 10 - 500 €
+
+            if (remainder != 0){ // the amount is not divisible by ten
+                donateMessage("false");
+                donationWarningTimer->start();
+            }
+
+            else if (remainder == 0){ // the amount is divisible by ten
+
+                if (longCentsBalance > donationCents){ // user has enough money (and is using a debit card)
+                    pRestApiInterfaceClass->debitDonation(cardNumber,charityAccount, donationCents);
+                    donationCents = 0;
+                    donationAmount = "0";
+                    donateMessage("good");
+                    donationWarningTimer->start();
+                }
+
+                else if (longCentsBalance < donationCents){ // the balance isn't enough
+                    donateMessage("poor");
+                    donationWarningTimer->start();
+                }
+            }
         }
     }
 
-    if (cardType == creditType){ // the user has a credit card
-        if (donationAmount < 10){ // If user tries to withdraw less than 10 €, progam will give a warning message.
+    /* credit card */
+    if (cardType == creditType){
+
+        if (donationCents < 1000){ // user tries to donate less than 10 €
             donateMessage("bad");
+            donationWarningTimer->start();
         }
-        if (donationAmount >= 10 && donationAmount <= 1000){ // If the amount is big enough to be withdrawn, the program will perform the withdrawal.
-            donationCents = donationAmount.toInt() * 100;
-            pRestApiInterfaceClass->creditDonation("0987666", charityAccount, 1000);
-            donateMessage("good");
-        }
-        if (donationAmount > 1000){
+        else if (donationCents > 50000){ // user tries to donate more than 500 €
             donateMessage("bad");
+            donationWarningTimer->start();
+        }
+        else if (donationCents >= 1000 && donationCents <= 50000){ // the amount is 10 - 500 €
+
+            if (remainder != 0){ // the amount is not divisible by ten
+                donateMessage("false");
+                donationWarningTimer->start();
+            }
+
+            else if (remainder == 0){ // the amount is divisible by ten
+
+                if (longCentsBalance > creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
+                    pRestApiInterfaceClass->creditDonation(cardNumber,charityAccount, donationCents);
+                    donationCents = 0;
+                    donationAmount = "0";
+                    donateMessage("good");
+                    donationWarningTimer->start();
+                }
+
+                else if (longCentsBalance <= creditLimit){ // the credit limit has been exeeded
+                    donateMessage("poor");
+                    donationWarningTimer->start();
+                }
+            }
+
         }
     }
 }
@@ -223,16 +283,31 @@ void DonationWindow::on_enterButton_clicked()
 void DonationWindow::donateMessage(QString message)
 {
     if (message == "bad"){
-        ui->amountLine->setText("Donation must be between 10 - 400 €");
+        ui->amountLine->setText("Donation must be between 10 - 500 €");
     }
 
     else if (message == "good"){
         ui->amountLine->setText("Successful donation!");
     }
 
-    else {
-        ui->amountLine->setText("ERROR!");
+    else if (message == "poor"){
+        ui->amountLine->setText("Not enough money on account!");
     }
+
+    else if (message == "false"){
+        ui->amountLine->setText("Amount must be divisible by ten.");
+    }
+
+    else {
+        ui->amountLine->setText("Unexpected error occurred!");
+    }
+}
+
+
+void DonationWindow::warningTimerFinished()
+{
+    ui->amountLine->setText(donationAmount);
+    donationWarningTimer->start();
 }
 
 

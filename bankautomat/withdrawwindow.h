@@ -75,7 +75,7 @@ private:
     QString debitType = "debit";
     QString creditType = "credit";
 
-    QString cardNumber = "0987666"; // This will be changed when the pin ui dll is ready.
+    QString cardNumber = "66778899"; // This will be changed when the pin ui dll is ready.
 };
 
 #endif // WITHDRAWWINDOW_H

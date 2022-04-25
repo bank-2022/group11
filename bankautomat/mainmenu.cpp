@@ -152,9 +152,8 @@ void MainMenu::on_refreshButton_clicked()
     // refresh button is clicked.
 
     reStartMainMenuTimer();
-    pRestApiInterfaceClass->getBalance("FI5566778899");
-    //QThread::usleep(300);
-    pRestApiInterfaceClass->get5Transactions("FI5566778899");
+    pRestApiInterfaceClass->getBalance(accountNumber);
+    pRestApiInterfaceClass->get5Transactions(accountNumber);
 }
 
 
@@ -195,7 +194,7 @@ void MainMenu::on_withdrawButton_clicked()
 void MainMenu::on_transactionsButton_clicked()
 {
     mainMenuTimer->stop();
-    pTransactionsWindow->showTransactions("FI5566778899");
+    pTransactionsWindow->showTransactions(accountNumber);
     pTransactionsWindow->show(); // Opens a window where the user can view transactions.
     pTransactionsWindow->startTransactionsWindowTimer();
 }

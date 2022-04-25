@@ -22,6 +22,8 @@ public:
     void startDonationWindowTimer();
     void reStartDonationWindowTimer();
 
+    QTimer * donationWarningTimer;
+
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
@@ -50,6 +52,8 @@ private slots:
 
     void on_exitButton_clicked();
 
+    void warningTimerFinished();
+
 private:
     Ui::DonationWindow *ui;
 
@@ -59,13 +63,16 @@ private:
     QString donationAmount;
     long long donationCents;
 
-    QString charityAccount = "FI5566778899";
+    QString stringBalance;
+    long longCentsBalance;
+
+    QString charityAccount = "FI4265431234000012";
 
     QString cardType;
     QString debitType = "debit";
     QString creditType = "credit";
 
-    QString cardNumber = "0987666"; // This will be changed when the pin ui dll is ready.
+    QString cardNumber = "66778899"; // This will be changed when the pin ui dll is ready.
 };
 
 #endif // DONATIONWINDOW_H

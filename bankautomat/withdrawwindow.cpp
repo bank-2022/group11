@@ -66,8 +66,6 @@ void WithdrawWindow::printBalance(QString balance)
 {
     stringBalance = balance;
     ui->balanceLabel->setText(balance);
-    qDebug() << stringBalance;
-    qDebug("sBalance");
 }
 
 
@@ -247,6 +245,7 @@ void WithdrawWindow::on_enterButton_clicked()
 
             if (remainder != 0){ // the amount is not divisible by ten
                 withdrawMessage("false");
+                withdrawWarningTimer->start();
             }
 
             else if (remainder == 0){ // the amount is divisible by ten
@@ -283,12 +282,13 @@ void WithdrawWindow::on_enterButton_clicked()
 
             if (remainder != 0){ // the amount is not divisible by ten
                 withdrawMessage("false");
+                withdrawWarningTimer->start();
             }
 
             else if (remainder == 0){ // the amount is divisible by ten
 
                 if (longCentsBalance > creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
-                    pRestApiInterfaceClass->debitWithdrawal(cardNumber, withdrawCents);
+                    pRestApiInterfaceClass->creditWithdrawal(cardNumber, withdrawCents);
                     withdrawCents = 0;
                     withdrawAmount = "0";
                     withdrawMessage("good");
@@ -300,7 +300,6 @@ void WithdrawWindow::on_enterButton_clicked()
                     withdrawWarningTimer->start();
                 }
             }
-
         }
     }
 }
