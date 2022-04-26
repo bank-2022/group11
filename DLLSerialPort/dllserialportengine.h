@@ -11,7 +11,7 @@ class DLLSerialPortEngine : public QObject
 {
     Q_OBJECT
 public:
-    DLLSerialPortEngine(QObject *parent = nullptr);
+    DLLSerialPortEngine(QString port);
     ~DLLSerialPortEngine();
     void openConnection();
 
