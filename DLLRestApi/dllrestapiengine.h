@@ -1,5 +1,5 @@
-#ifndef RESTAPIENGINE_H
-#define RESTAPIENGINE_H
+#ifndef DLLRESTAPIENGINE_H
+#define DLLRESTAPIENGINE_H
 
 #include <QObject>
 #include <QtNetwork>
@@ -9,12 +9,12 @@
 #include <QVector>
 #include <cmath>
 
-class RestApiEngine : public QObject
+class DLLRestApiEngine : public QObject
 {
     Q_OBJECT
 public:
-    explicit RestApiEngine(QObject *parent = nullptr);
-    ~RestApiEngine();
+    explicit DLLRestApiEngine(QObject *parent = nullptr);
+    ~DLLRestApiEngine();
 
     void setBaseURL(QString url);
 
@@ -79,4 +79,4 @@ private:
     QByteArray responseData;
 };
 
-#endif // RESTAPIENGINE_H
+#endif // DLLRESTAPIENGINE_H
