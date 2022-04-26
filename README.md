@@ -38,4 +38,11 @@ GRANT ALL ON banksimul.* to 'testman'@'localhost';
 
 Tietokannan ER-kaavio näyttää tältä <img src="documents/er-diagram-database.png">
 
- 
+
+
+## RFID tunnukset
+
+
+06000DE540
+
+0B0032AD79
