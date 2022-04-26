@@ -1,11 +1,11 @@
-#ifndef RESTAPI_H
-#define RESTAPI_H
+#ifndef DLLRESTAPI_H
+#define DLLRESTAPI_H
 
 #include <QObject>
 #include <QVector>
 
-#include "rest_api_dll_global.h"
-#include "restapiengine.h"
+#include "DLLRestApi_global.h"
+#include "dllrestapiengine.h"
 
 /* This REST API DLL can be used by the programmers of the EXE and
  * PIN UI components of the project to make HTTP requests to the
@@ -13,13 +13,13 @@
  * operations start with calling a public function from this interface
  * and a signal will be emited with information as needed as a response */
 
-class REST_API_DLL_EXPORT RestApi  : public QObject
+class DLLRESTAPI_EXPORT DLLRestApi  : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit RestApi(QObject *parent = nullptr);
-    ~RestApi();
+    explicit DLLRestApi(QObject *parent = nullptr);
+    ~DLLRestApi();
 
     // It is necessary to set the base url before the use of this component
     // by calling this function with an argument like "http://localhost:3000"
@@ -105,7 +105,8 @@ private slots:
     void transactions10Slot(QVector<QVector<QString>> list);
 
 private:
-    RestApiEngine *pRestApiEngine;
+    DLLRestApiEngine *pDLLRestApiEngine;
 };
 
-#endif // RESTAPI_H
+
+#endif // DLLRESTAPI_H

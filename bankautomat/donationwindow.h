@@ -2,7 +2,9 @@
 #define DONATIONWINDOW_H
 
 #include <QDialog>
-class MainWindow;
+#include "restapi.h"
+
+class MainMenu;
 
 namespace Ui {
 class DonationWindow;
@@ -13,10 +15,20 @@ class DonationWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DonationWindow(QWidget *parent = nullptr,MainWindow * ptr = nullptr);
+    explicit DonationWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, RestApi *api = nullptr);
     ~DonationWindow();
 
+    QTimer * donationWindowTimer;
+    void startDonationWindowTimer();
+    void reStartDonationWindowTimer();
+
+    void printName(QString name);
+    void printAccountNumber(QString accountNumber);
+    void printType(QString type);
+    void printBalance(QString balance);
+
     void donateOtherAmount(QString i);
+    void donateMessage(QString message);
 
 private slots:
     void on_tenButton_clicked();
@@ -32,6 +44,7 @@ private slots:
     void on_eightButton_clicked();
     void on_nineButton_clicked();
     void on_zeroButton_clicked();
+
     void on_cancelButton_clicked();
     void on_enterButton_clicked();
 
@@ -39,8 +52,20 @@ private slots:
 
 private:
     Ui::DonationWindow *ui;
-    MainWindow * pMainWindow;
+
+    MainMenu * pMainMenu;
+    RestApi * pRestApiInterfaceClass;
+
     QString donationAmount;
+    long long donationCents;
+
+    QString charityAccount = "FI5566778899";
+
+    QString cardType;
+    QString debitType = "debit";
+    QString creditType = "credit";
+
+    QString cardNumber = "0987666"; // This will be changed when the pin ui dll is ready.
 };
 
 #endif // DONATIONWINDOW_H

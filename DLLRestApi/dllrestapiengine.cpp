@@ -1,22 +1,22 @@
-#include "restapiengine.h"
+#include "dllrestapiengine.h"
 
-RestApiEngine::RestApiEngine(QObject *parent)
+DLLRestApiEngine::DLLRestApiEngine(QObject *parent)
 {
     // qDebug() << "EngineClass created";
 }
 
-RestApiEngine::~RestApiEngine()
+DLLRestApiEngine::~DLLRestApiEngine()
 {
     // qDebug() << "EngineClass destroyed";
 }
 
-void RestApiEngine::setBaseURL(QString url)
+void DLLRestApiEngine::setBaseURL(QString url)
 {
     base_url = url;
     // qDebug() << "Base URL set to: " << base_url;
 }
 
-void RestApiEngine::login(QString cardnumber, QString pin)
+void DLLRestApiEngine::login(QString cardnumber, QString pin)
 {
     QJsonObject jsonObj;
 
@@ -41,7 +41,7 @@ void RestApiEngine::login(QString cardnumber, QString pin)
     // All of the following functions are similar in construct
 }
 
-void RestApiEngine::creditWithdrawal(QString cardnumber, long long amount)
+void DLLRestApiEngine::creditWithdrawal(QString cardnumber, long long amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
@@ -60,7 +60,7 @@ void RestApiEngine::creditWithdrawal(QString cardnumber, long long amount)
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::debitWithdrawal(QString cardnumber, long long amount)
+void DLLRestApiEngine::debitWithdrawal(QString cardnumber, long long amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
@@ -78,7 +78,7 @@ void RestApiEngine::debitWithdrawal(QString cardnumber, long long amount)
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, long long amount)
+void DLLRestApiEngine::creditDonation(QString cardnumber, QString accountnumber, long long amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("cardnumber", cardnumber);
@@ -97,7 +97,7 @@ void RestApiEngine::creditDonation(QString cardnumber, QString accountnumber, lo
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, long long amount)
+void DLLRestApiEngine::debitDonation(QString cardnumber, QString accountnumber, long long amount)
 {
 
     QJsonObject jsonObj;
@@ -117,7 +117,7 @@ void RestApiEngine::debitDonation(QString cardnumber, QString accountnumber, lon
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::putLocked(QString cardnumber, QString locked)
+void DLLRestApiEngine::putLocked(QString cardnumber, QString locked)
 {
     QJsonObject jsonObj;
     jsonObj.insert("locked", locked);
@@ -136,7 +136,7 @@ void RestApiEngine::putLocked(QString cardnumber, QString locked)
     reply = manager->put(request, QJsonDocument(jsonObj).toJson());
 }
 
-void RestApiEngine::getLocked(QString cardnumber)
+void DLLRestApiEngine::getLocked(QString cardnumber)
 {
     QNetworkRequest request((base_url + "/locked/" + cardnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -149,7 +149,7 @@ void RestApiEngine::getLocked(QString cardnumber)
     reply = manager->get(request);
 }
 
-void RestApiEngine::getType(QString cardnumber)
+void DLLRestApiEngine::getType(QString cardnumber)
 {
     QNetworkRequest request((base_url + "/info/type/" + cardnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -162,7 +162,7 @@ void RestApiEngine::getType(QString cardnumber)
     reply = manager->get(request);
 }
 
-void RestApiEngine::getCustomerInfo(QString cardnumber)
+void DLLRestApiEngine::getCustomerInfo(QString cardnumber)
 {
     QNetworkRequest request((base_url + "/info/customer/" + cardnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -175,7 +175,7 @@ void RestApiEngine::getCustomerInfo(QString cardnumber)
     reply = manager->get(request);
 }
 
-void RestApiEngine::getBalance(QString accountnumber)
+void DLLRestApiEngine::getBalance(QString accountnumber)
 {
     QNetworkRequest request((base_url + "/info/balance/" + accountnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -188,7 +188,7 @@ void RestApiEngine::getBalance(QString accountnumber)
     reply = manager->get(request);
 }
 
-void RestApiEngine::get5Transactions(QString accountnumber)
+void DLLRestApiEngine::get5Transactions(QString accountnumber)
 {
     QNetworkRequest request((base_url + "/info/5transactions/" + accountnumber));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -201,7 +201,7 @@ void RestApiEngine::get5Transactions(QString accountnumber)
     reply = manager->get(request);
 }
 
-void RestApiEngine::get10Transactions(QString accountnumber, int index)
+void DLLRestApiEngine::get10Transactions(QString accountnumber, int index)
 {
     QNetworkRequest request((base_url + "/info/10transactions/" + accountnumber
                              + "/" + QString::number(index)));
@@ -215,7 +215,7 @@ void RestApiEngine::get10Transactions(QString accountnumber, int index)
     reply = manager->get(request);
 }
 
-void RestApiEngine::loginSlot(QNetworkReply *reply)
+void DLLRestApiEngine::loginSlot(QNetworkReply *reply)
 {
     responseData = reply->readAll();
     // qDebug() << responseData;
@@ -247,10 +247,11 @@ void RestApiEngine::loginSlot(QNetworkReply *reply)
     }
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
-void RestApiEngine::putLockedSlot(QNetworkReply *reply)
+void DLLRestApiEngine::putLockedSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -261,50 +262,55 @@ void RestApiEngine::putLockedSlot(QNetworkReply *reply)
 
     // Basic cleanup
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
-void RestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
+void DLLRestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
-void RestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
+void DLLRestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
-void RestApiEngine::creditDonationSlot(QNetworkReply *reply)
+void DLLRestApiEngine::creditDonationSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
-void RestApiEngine::debitDonationSlot(QNetworkReply *reply)
+void DLLRestApiEngine::debitDonationSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
     checkForbiddenAccess(response_data);
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 }
 
-void RestApiEngine::lockedSlot(QNetworkReply *reply)
+void DLLRestApiEngine::lockedSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -320,12 +326,13 @@ void RestApiEngine::lockedSlot(QNetworkReply *reply)
     // qDebug() << locked;
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit lockedSignal(locked);
 }
 
-void RestApiEngine::typeSlot(QNetworkReply *reply)
+void DLLRestApiEngine::typeSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -339,12 +346,13 @@ void RestApiEngine::typeSlot(QNetworkReply *reply)
     type = json_obj["type"].toString();
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit typeSignal(type);
 }
 
-void RestApiEngine::customerInfoSlot(QNetworkReply *reply)
+void DLLRestApiEngine::customerInfoSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -361,12 +369,13 @@ void RestApiEngine::customerInfoSlot(QNetworkReply *reply)
     customerInfo[1] = json_obj["accountnumber"].toString();
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit customerInfoSignal(customerInfo);
 }
 
-void RestApiEngine::balanceSlot(QNetworkReply *reply)
+void DLLRestApiEngine::balanceSlot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -379,15 +388,16 @@ void RestApiEngine::balanceSlot(QNetworkReply *reply)
     QString balanceCents = json_obj["balance"].toString();
     long long balance = balanceCents.toLongLong();
 
-    qDebug() << balance;
+    //qDebug() << balance;
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit balanceSignal(balance);
 }
 
-void RestApiEngine::transactions5Slot(QNetworkReply *reply)
+void DLLRestApiEngine::transactions5Slot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -421,12 +431,13 @@ void RestApiEngine::transactions5Slot(QNetworkReply *reply)
         }
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit transactions5Signal(list);
 }
 
-void RestApiEngine::transactions10Slot(QNetworkReply *reply)
+void DLLRestApiEngine::transactions10Slot(QNetworkReply *reply)
 {
     QByteArray response_data=reply->readAll();
 
@@ -457,12 +468,13 @@ void RestApiEngine::transactions10Slot(QNetworkReply *reply)
         }
 
     reply->deleteLater();
-    manager->deleteLater();
+    QObject *networkManager = sender();
+    networkManager->deleteLater();
 
     emit transactions10Signal(list);
 }
 
-void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
+void DLLRestApiEngine::checkForbiddenAccess(QByteArray response_data)
 {
     // This checks if the user is trying to access data unauthorized
     // and sends a signal to the main program
@@ -471,9 +483,9 @@ void RestApiEngine::checkForbiddenAccess(QByteArray response_data)
         emit forbiddenAccessSignal();
 }
 
-QString RestApiEngine::convertToEuros(long long sum)
+QString DLLRestApiEngine::convertToEuros(long long sum)
 {
-    // This function converts a int of cents
+    // This function converts a long long of cents
     // to a string of euros
 
     short cents = abs(sum % 100);
