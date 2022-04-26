@@ -64,7 +64,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Hello "+ name);
     pWithdrawWindow->printName(name);
     pDonationWindow->printName(name);
     pTransactionsWindow->printName(name);
@@ -107,6 +107,8 @@ void MainMenu::print5Transactions(QAbstractItemModel * list)
 
 void MainMenu::update5List(QVector<QVector<QString>> list)
 {
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+
     QStandardItemModel *table_model =
             new QStandardItemModel(list.size(), 3);
 
@@ -158,6 +160,7 @@ void MainMenu::on_refreshButton_clicked()
     // on the main menu window when the
     // refresh button is clicked.
 
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
     reStartMainMenuTimer();
     pRestApiInterfaceClass->getBalance(accountNumber);
     pRestApiInterfaceClass->get5Transactions(accountNumber);

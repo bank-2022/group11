@@ -11,6 +11,8 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 
+#include <qstylefactory.h>
+
 #include "dllrestapi.h"
 
 #include "donationwindow.h"

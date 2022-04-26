@@ -14,8 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(71, 71, 71);</string>
+   <string notr="true">background-color:rgb(66, 66, 66);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -25,6 +24,10 @@ color: rgb(71, 71, 71);</string>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QLabel" name="warningLabel">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 200, 221);
+font: 63 10pt &quot;Lato Semibold&quot;;</string>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -32,6 +35,10 @@ color: rgb(71, 71, 71);</string>
         </item>
         <item>
          <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 200, 221);
+font: 63 10pt &quot;Lato Semibold&quot;;</string>
+          </property>
           <property name="text">
            <string>Insert Card, please</string>
           </property>
@@ -43,6 +50,20 @@ color: rgb(71, 71, 71);</string>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="ruusuButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+          </property>
           <property name="text">
            <string>credit, ruusu</string>
           </property>
@@ -50,6 +71,20 @@ color: rgb(71, 71, 71);</string>
         </item>
         <item>
          <widget class="QPushButton" name="olaviButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+          </property>
           <property name="text">
            <string>debit, olavi</string>
           </property>
