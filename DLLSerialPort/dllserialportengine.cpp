@@ -1,9 +1,9 @@
 #include "dllserialportengine.h"
 
-DLLSerialPortEngine::DLLSerialPortEngine(QObject *parent) : QObject(parent)
+DLLSerialPortEngine::DLLSerialPortEngine(QString port)
 {
     objectQSerialPort = new QSerialPort(this);
-    objectQSerialPort->setPortName("COM8");
+    objectQSerialPort->setPortName(port);
     objectQSerialPort->setBaudRate(QSerialPort::Baud9600);
     objectQSerialPort->setDataBits(QSerialPort::Data8);
     objectQSerialPort->setParity(QSerialPort::NoParity);

@@ -8,7 +8,7 @@ class DLLSERIALPORTSHARED_EXPORT DLLSerialPort : public QObject
 {
     Q_OBJECT
 public:
-    DLLSerialPort();
+    DLLSerialPort(QString port);
     ~DLLSerialPort();
     void interfaceFunctionOpenConnection();
 

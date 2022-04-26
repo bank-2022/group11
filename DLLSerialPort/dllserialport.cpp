@@ -1,8 +1,8 @@
 #include "dllserialport.h"
 
-DLLSerialPort::DLLSerialPort()
+DLLSerialPort::DLLSerialPort(QString port)
 {
-    objectDLLSerialPortEngine = new DLLSerialPortEngine;
+    objectDLLSerialPortEngine = new DLLSerialPortEngine(port);
     connect(objectDLLSerialPortEngine, SIGNAL(sendString(QString)),
             this, SLOT(receiveValue(QString)), Qt::QueuedConnection);
 }
