@@ -4,5 +4,5 @@ bankautomat/build
 bankautomat/*.user
 pinui_dll/build
 pinui_dll/*.user
-rest_api_dll/build
-rest_api_dll/*.user
+DLLRestApi/build
+DLLRestApi/*.user
