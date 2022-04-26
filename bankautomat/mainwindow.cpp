@@ -37,11 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
-
-    connect(pRestApiInterfaceClass,
-            SIGNAL(transactions5(QVector<QVector<QString> >)),
-            this, SLOT(updateList(QVector<QVector<QString> >)),
-            Qt::QueuedConnection);
 }
 
 
@@ -65,10 +60,10 @@ void MainWindow::loginSuccessfulSlot()
     pMainMenu->show();
     pMainMenu->startMainMenuTimer();
 
-    getBalance();
     getCustomerInfo();
     getCustomerType();
     get5Transactions();
+    pMainMenu->print5Transactions();
 }
 
 
@@ -136,12 +131,6 @@ void MainWindow::updateType(QString type)
 }
 
 
-void MainWindow::getBalance()
-{
-    pRestApiInterfaceClass->getBalance(cardNumber);
-}
-
-
 void MainWindow::updateBalance(long long balance)
 {
     QString stringBalance = convertToEuros(balance);
@@ -152,28 +141,6 @@ void MainWindow::updateBalance(long long balance)
 void MainWindow::get5Transactions()
 {
     pRestApiInterfaceClass->get5Transactions(cardNumber);
-}
-
-
-void MainWindow::updateList(QVector<QVector<QString>> list)
-{
-    QStandardItemModel *table_model =
-            new QStandardItemModel(list.size(), 3);
-
-    table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Time"));
-    table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Transaction"));
-    table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Amount"));
-
-    for (short i = 0; i < list.size(); i++) {
-        QStandardItem *time = new QStandardItem(list[i][0]);
-        table_model->setItem(i, 0, time);
-        QStandardItem *transaction = new QStandardItem(list[i][1]);
-        table_model->setItem(i, 1, transaction);
-        QStandardItem *amount = new QStandardItem(list[i][2]);
-        table_model->setItem(i, 2, amount);
-    }
-
-    pMainMenu->print5Transactions(table_model);
 }
 
 

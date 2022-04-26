@@ -99,9 +99,9 @@ void MainMenu::printBalance(QString balance)
 }
 
 
-void MainMenu::print5Transactions(QAbstractItemModel * list)
+void MainMenu::print5Transactions()
 {
-    ui->fiveTransactionsTableView->setModel(list);
+    on_refreshButton_clicked();
 }
 
 

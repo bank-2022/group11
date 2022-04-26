@@ -47,11 +47,9 @@ private slots:
     void getCustomerType();
     void updateType(QString type);
 
-    void getBalance();
     void updateBalance(long long balance);
 
     void get5Transactions();
-    void updateList(QVector<QVector<QString>> list);
 
     void on_ruusuButton_clicked();
 
