@@ -31,7 +31,7 @@ void DLLSerialPortEngine::serialReceived()
 
     // trim excess
     objectQString.remove(0, 3);
-    objectQString.remove(6, 4);
+    objectQString.chop(3);
     emit sendString(objectQString);
 }
 

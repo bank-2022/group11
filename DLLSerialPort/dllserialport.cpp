@@ -4,7 +4,7 @@ DLLSerialPort::DLLSerialPort()
 {
     objectDLLSerialPortEngine = new DLLSerialPortEngine;
     connect(objectDLLSerialPortEngine, SIGNAL(sendString(QString)),
-            this, SLOT(receiveValue(QString)));
+            this, SLOT(receiveValue(QString)), Qt::QueuedConnection);
 }
 
 DLLSerialPort::~DLLSerialPort()
