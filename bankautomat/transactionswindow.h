@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QStandardItemModel>
-#include "restapi.h"
+#include "dllrestapi.h"
 
 class MainMenu;
 
@@ -18,7 +18,7 @@ class TransactionsWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit TransactionsWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, RestApi *api = nullptr);
+    explicit TransactionsWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, DLLRestApi *api = nullptr);
     ~TransactionsWindow();
 
     QTimer * transactionsWindowTimer;
@@ -40,7 +40,7 @@ private slots:
 private:
     Ui::TransactionsWindow *ui;
     MainMenu * pMainMenu;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
 
     QString accountNum;
     int index;

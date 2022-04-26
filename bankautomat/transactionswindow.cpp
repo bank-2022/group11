@@ -2,7 +2,7 @@
 #include "ui_transactionswindow.h"
 
 
-TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, RestApi *api) :
+TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::TransactionsWindow),
     pMainMenu(ptr)

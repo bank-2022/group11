@@ -2,7 +2,7 @@
 #define WITHDRAWWINDOW_H
 
 #include <QDialog>
-#include "restapi.h"
+#include "dllrestapi.h"
 
 class MainMenu;
 
@@ -15,7 +15,7 @@ class WithdrawWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WithdrawWindow(QWidget *parent = nullptr, MainMenu * ptr = nullptr, RestApi *api = nullptr);
+    explicit WithdrawWindow(QWidget *parent = nullptr, MainMenu * ptr = nullptr, DLLRestApi *api = nullptr);
     ~WithdrawWindow();
 
     QTimer * withdrawWindowTimer;
@@ -64,7 +64,7 @@ private:
     Ui::WithdrawWindow *ui;
 
     MainMenu * pMainMenu;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
 
     QString withdrawAmount;
     long long withdrawCents;

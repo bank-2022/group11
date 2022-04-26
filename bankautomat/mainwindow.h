@@ -15,7 +15,7 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 
-#include "restapi.h"
+#include "dllrestapi.h"
 
 #include "mainmenu.h"
 
@@ -60,7 +60,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
 
     QString cardPin;
     QString cardNumber;

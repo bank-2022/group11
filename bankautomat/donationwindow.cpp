@@ -2,7 +2,7 @@
 #include "ui_donationwindow.h"
 
 
-DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, RestApi *api) :
+DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::DonationWindow),
     pMainMenu(ptr)

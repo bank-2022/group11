@@ -2,7 +2,7 @@
 #include "ui_withdrawwindow.h"
 
 
-WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr,RestApi *api) :
+WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::WithdrawWindow),
     pMainMenu(ptr)

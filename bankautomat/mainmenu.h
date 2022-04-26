@@ -11,7 +11,7 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 
-#include "restapi.h"
+#include "dllrestapi.h"
 
 #include "donationwindow.h"
 #include "transactionswindow.h"
@@ -28,7 +28,7 @@ class MainMenu : public QDialog
     Q_OBJECT
 
 public:
-    explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, RestApi *api = nullptr);
+    explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, DLLRestApi *api = nullptr);
     ~MainMenu();
 
     QTimer * mainMenuTimer;
@@ -58,7 +58,7 @@ private:
     Ui::MainMenu *ui;
 
     MainWindow * pMainWindow;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
     DonationWindow * pDonationWindow;
     TransactionsWindow * pTransactionsWindow;
     WithdrawWindow * pWithdrawWindow;

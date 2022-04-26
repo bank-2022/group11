@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul");
 
-    pRestApiInterfaceClass = new RestApi;
+    pRestApiInterfaceClass = new DLLRestApi;
     pRestApiInterfaceClass->setBaseURL("http://localhost:3000");
 
     pMainMenu = new MainMenu(parent, this, pRestApiInterfaceClass);

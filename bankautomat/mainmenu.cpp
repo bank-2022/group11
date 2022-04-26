@@ -8,7 +8,7 @@
    in more depth or log out of the system. */
 
 
-MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
+MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::MainMenu),
     pMainWindow(ptr)
