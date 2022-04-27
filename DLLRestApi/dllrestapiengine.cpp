@@ -217,33 +217,42 @@ void DLLRestApiEngine::get10Transactions(QString accountnumber, int index)
 
 void DLLRestApiEngine::loginSlot(QNetworkReply *reply)
 {
-    responseData = reply->readAll();
-    // qDebug() << responseData;
-
-    // This returns the token from the REST API
-    // or an error message if login went wrong
-    // and emits a signal whether the login was
-    // succesful or not and why not
-
-    if (responseData == "Wrong pin") {
-        // qDebug() << "Login failed";
-        token = "Bearer " + responseData;
-        emit loginFailedSignal("Wrong pin");
-    }
-    else if (responseData == "Card does not exist") {
-        // qDebug() << "Login failed";
-        token = "Bearer " + responseData;
-        emit loginFailedSignal("Card does not exist");
-    }
-    else if (responseData == "Card number or pin missing") {
-        // qDebug() << "Login failed";
-        token = "Bearer " + responseData;
-        emit loginFailedSignal("Card number or pin missing");
-    }
+    if (reply->error() != QNetworkReply::NoError)
+        emit loginFailedSignal("Error connecting to server");
     else {
-        // qDebug() << "Login successful";
-        token = "Bearer " + responseData;
-        emit loginSuccessfulSignal();
+        responseData = reply->readAll();
+        // qDebug() << responseData;
+
+        // This returns the token from the REST API
+        // or an error message if login went wrong
+        // and emits a signal whether the login was
+        // succesful or not and why not
+
+        if (responseData == "Database error") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else if (responseData == "Wrong pin") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else if (responseData == "Card does not exist") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else if (responseData == "Card number or pin missing") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else {
+            // qDebug() << "Login successful";
+            token = "Bearer " + responseData;
+            emit loginSuccessfulSignal();
+        }
     }
 
     reply->deleteLater();

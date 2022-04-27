@@ -13,33 +13,34 @@ router.post('/',
       
         login.checkPassword(card, function(dbError, dbResult) {
           if(dbError){
-            response.json(dbError);
+            console.log("Database error");
+            response.send("Database error");
           }
-          else{
+          else {
             if (dbResult.length > 0) {
               bcrypt.compare(pin, dbResult[0].pin, function(err,compareResult) {
                 if(compareResult) {
-                  console.log("success");
+                  console.log("Success");
                   const token = generateAccessToken({ cardnumber: card });
                   response.send(token);
                 }
                 else {
-                    console.log("wrong pin");
+                    console.log("Wrong pin");
                     response.send("Wrong pin");
                 }			
               }
               );
             }
-            else{
-              console.log("card does not exists");
+            else {
+              console.log("Card does not exists");
               response.send("Card does not exist");
             }
           }
           }
         );
       }
-    else{
-      console.log("card number or pin missing");
+    else {
+      console.log("Card number or pin missing");
       response.send("Card number or pin missing");
     }
   }
