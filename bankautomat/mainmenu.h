@@ -10,6 +10,7 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include <stdio.h>
 
 #include <qstylefactory.h>
 
@@ -47,6 +48,7 @@ public:
     void getAccountNumber(QString accountnum);
 
     void clearMainMenuWindow();
+
 
 
 private slots:

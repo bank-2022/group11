@@ -1,6 +1,8 @@
 #include "withdrawwindow.h"
 #include "ui_withdrawwindow.h"
 
+#include "mainwindow.h"
+
 
 WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
@@ -371,5 +373,6 @@ void WithdrawWindow::on_exitButton_clicked()
 {
     withdrawWindowTimer->stop();
     ui->amountLine->clear();
+    pMainMenu->startMainMenuTimer();
     this->close();
 }

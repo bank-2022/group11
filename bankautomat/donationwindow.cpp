@@ -1,6 +1,8 @@
 #include "donationwindow.h"
 #include "ui_donationwindow.h"
 
+#include "mainwindow.h"
+
 
 DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
@@ -341,5 +343,7 @@ void DonationWindow::clearDonationWindow()
 void DonationWindow::on_exitButton_clicked()
 {
     donationWindowTimer->stop();
+    ui->amountLine->clear();
+    pMainMenu->startMainMenuTimer();
     this -> close();
 }

@@ -225,6 +225,8 @@ void MainMenu::clearMainMenuWindow()
     ui->fiveTransactionsTableView->clearSpans();
     ui->nameLabel->clear();
     ui->typeLabel->clear();
+
+
 }
 
 
@@ -235,5 +237,7 @@ void MainMenu::on_logOutButton_clicked()
     pDonationWindow->clearDonationWindow();
     pTransactionsWindow->clearTransactionsWindow();
     clearMainMenuWindow();
+
+
     this->close();
 }

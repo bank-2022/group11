@@ -1,6 +1,8 @@
 #include "transactionswindow.h"
 #include "ui_transactionswindow.h"
 
+#include "mainwindow.h"
+
 
 TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
@@ -140,6 +142,7 @@ void TransactionsWindow::clearTransactionsWindow()
 void TransactionsWindow::on_exitButton_clicked()
 {
     transactionsWindowTimer->stop();
+    pMainMenu->startMainMenuTimer();
     this-> close();
 }
 
