@@ -275,6 +275,8 @@ void DLLRestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
+
+    emit transactionCompleteSignal();
 }
 
 void DLLRestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
@@ -286,6 +288,8 @@ void DLLRestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
+
+    emit transactionCompleteSignal();
 }
 
 void DLLRestApiEngine::creditDonationSlot(QNetworkReply *reply)
@@ -297,6 +301,8 @@ void DLLRestApiEngine::creditDonationSlot(QNetworkReply *reply)
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
+
+    emit transactionCompleteSignal();
 }
 
 void DLLRestApiEngine::debitDonationSlot(QNetworkReply *reply)
@@ -308,6 +314,8 @@ void DLLRestApiEngine::debitDonationSlot(QNetworkReply *reply)
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
+
+    emit transactionCompleteSignal();
 }
 
 void DLLRestApiEngine::lockedSlot(QNetworkReply *reply)
@@ -388,7 +396,7 @@ void DLLRestApiEngine::balanceSlot(QNetworkReply *reply)
     QString balanceCents = json_obj["balance"].toString();
     long long balance = balanceCents.toLongLong();
 
-    //qDebug() << balance;
+    qDebug() << balance;
 
     reply->deleteLater();
     QObject *networkManager = sender();

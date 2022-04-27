@@ -68,6 +68,10 @@ signals:
     // the user out of the system
     void forbiddenAccess();
 
+    // This signal is emited when a transaction has been completed, so that the balance can be
+    // updated in the main program
+    void transactionComplete();
+
     /* These return information from the database and need to be connected to a slot
      * Customer info gets sent as a vector of 2 strings where [0] is the name and
      * [1] is account number.
@@ -96,6 +100,8 @@ private slots:
     void loginSuccessfulSlot();
     void loginFailedSlot(QString message);
     void forbiddenAccessSlot();
+
+    void transactionCompleteSlot();
 
     void lockedSlot(QString sLocked);
     void typeSlot(QString sType);
