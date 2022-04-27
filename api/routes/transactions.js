@@ -7,7 +7,7 @@ router.get('/:id?',
   if (request.params.id) {
     transactions.getById(request.params.id, function(err, dbResult) {
       if (err) {
-        response.json(err);
+        response.status(503).json(err);
       } else {
         response.json(dbResult);
       }
@@ -15,7 +15,7 @@ router.get('/:id?',
   } else {
     transactions.getAll(function(err, dbResult) {
       if (err) {
-        response.json(err);
+        response.status(503).json(err);
       } else {
         response.json(dbResult);
       }
@@ -28,7 +28,7 @@ router.post('/',
 function(request, response) {
   transactions.add(request.body, function(err, dbResult) {
     if (err) {
-      response.json(err);
+      response.status(503).json(err);
     } else {
       response.json(request.body);
     }
@@ -40,7 +40,7 @@ router.delete('/:id',
 function(request, response) {
   transactions.delete(request.params.id, function(err, dbResult) {
     if (err) {
-      response.json(err);
+      response.status(503).json(err);
     } else {
       response.json(dbResult);
     }
@@ -52,7 +52,7 @@ router.put('/:id',
 function(request, response) {
   transactions.update(request.params.id, request.body, function(err, dbResult) {
     if (err) {
-      response.json(err);
+      response.status(503).json(err);
     } else {
       response.json(dbResult);
     }
