@@ -33,6 +33,7 @@ public:
     void donateMessage(QString message);
 
     void getCardNumber(QString cardnumber);
+    void clearDonationWindow();
 
 private slots:
     void on_tenButton_clicked();
@@ -55,6 +56,8 @@ private slots:
     void on_exitButton_clicked();
 
     void warningTimerFinished();
+
+
 
 private:
     Ui::DonationWindow *ui;

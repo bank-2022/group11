@@ -30,6 +30,7 @@ public:
     void printType(QString type);
     void printBalance(QString balance);
     void showTransactions(QString accountNumber);
+    void clearTransactionsWindow();
 
 private slots:
     void on_nextButton_clicked();

@@ -126,6 +126,17 @@ void TransactionsWindow::updateList(QVector<QVector<QString>> list)
 }
 
 
+void TransactionsWindow::clearTransactionsWindow()
+{
+    ui->accountNumberLabel->clear();
+    ui->balanceLabel->clear();
+    ui->nameLabel->clear();
+    ui->typeLabel->clear();
+    ui->transactionsList->clearSpans();
+    this->close();
+}
+
+
 void TransactionsWindow::on_exitButton_clicked()
 {
     transactionsWindowTimer->stop();

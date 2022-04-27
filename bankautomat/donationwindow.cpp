@@ -327,6 +327,17 @@ void DonationWindow::warningTimerFinished()
 }
 
 
+void DonationWindow::clearDonationWindow()
+{
+    ui->amountLine->clear();
+    ui->accountNumberLabel->clear();
+    ui->balanceLabel->clear();
+    ui->nameLabel->clear();
+    ui->typeLabel->clear();
+    this->close();
+}
+
+
 void DonationWindow::on_exitButton_clicked()
 {
     donationWindowTimer->stop();

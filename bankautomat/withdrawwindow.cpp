@@ -356,8 +356,20 @@ void WithdrawWindow::warningTimerFinished()
 }
 
 
+void WithdrawWindow::clearWithdrawWindow()
+{
+    ui->amountLine->clear();
+    ui->accountNumberLabel->clear();
+    ui->balanceLabel->clear();
+    ui->nameLabel->clear();
+    ui->typeLabel->clear();
+    this->close();
+}
+
+
 void WithdrawWindow::on_exitButton_clicked()
 {
     withdrawWindowTimer->stop();
+    ui->amountLine->clear();
     this->close();
 }

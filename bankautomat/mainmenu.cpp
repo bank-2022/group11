@@ -218,8 +218,22 @@ void MainMenu::on_donateButton_clicked()
 }
 
 
+void MainMenu::clearMainMenuWindow()
+{
+    ui->accountNumberLabel->clear();
+    ui->balanceLabel->clear();
+    ui->fiveTransactionsTableView->clearSpans();
+    ui->nameLabel->clear();
+    ui->typeLabel->clear();
+}
+
+
 void MainMenu::on_logOutButton_clicked()
 {
     mainMenuTimer->stop();
-    this->close(); // Logs out of the system and closes the main menu window.
+    pWithdrawWindow->clearWithdrawWindow();
+    pDonationWindow->clearDonationWindow();
+    pTransactionsWindow->clearTransactionsWindow();
+    clearMainMenuWindow();
+    this->close();
 }

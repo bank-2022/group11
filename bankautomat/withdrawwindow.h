@@ -33,6 +33,7 @@ public:
     void withdrawMessage(QString message);
 
     void getCardNumber(QString cardnumber);
+    void clearWithdrawWindow();
 
 private slots:
     void on_tenButton_clicked();

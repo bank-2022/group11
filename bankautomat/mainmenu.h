@@ -46,6 +46,9 @@ public:
     void getCardNumber(QString cardnumber);
     void getAccountNumber(QString accountnum);
 
+    void clearMainMenuWindow();
+
+
 private slots:
     void on_withdrawButton_clicked();
     void on_transactionsButton_clicked();
