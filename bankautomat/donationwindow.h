@@ -75,6 +75,8 @@ private:
     QString creditType = "credit";
 
     QString cardNumber; // This will be changed when the pin ui dll is ready.
+
+    bool donationFlag;
 };
 
 #endif // DONATIONWINDOW_H

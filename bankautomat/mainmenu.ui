@@ -671,7 +671,7 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
+           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
             <widget class="QPushButton" name="withdrawButton">
              <property name="cursor">
               <cursorShape>PointingHandCursor</cursorShape>

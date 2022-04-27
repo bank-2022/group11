@@ -64,7 +64,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::printName(QString name)
 {
-    ui->nameLabel->setText("Hello "+ name);
+    ui->nameLabel->setText("Hello, "+ name);
     pWithdrawWindow->printName(name);
     pDonationWindow->printName(name);
     pTransactionsWindow->printName(name);

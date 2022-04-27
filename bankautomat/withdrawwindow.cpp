@@ -93,6 +93,7 @@ void WithdrawWindow::on_tenButton_clicked()
 {
     reStartWithdrawWindowTimer();
     withdrawAmount="10";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
 }
 
@@ -101,6 +102,7 @@ void WithdrawWindow::on_fourtyButton_clicked()
 {
     reStartWithdrawWindowTimer();
     withdrawAmount="40";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
 }
 
@@ -109,6 +111,7 @@ void WithdrawWindow::on_sixtyButton_clicked()
 {
     reStartWithdrawWindowTimer();
     withdrawAmount="60";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
 }
 
@@ -117,6 +120,7 @@ void WithdrawWindow::on_hundredButton_clicked()
 {
     reStartWithdrawWindowTimer();
     withdrawAmount="100";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
 }
 
@@ -125,6 +129,7 @@ void WithdrawWindow::on_twoHundredButton_clicked()
 {
     reStartWithdrawWindowTimer();
     withdrawAmount="200";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
 }
 
@@ -133,6 +138,7 @@ void WithdrawWindow::on_fiveHundredButton_clicked()
 {
     reStartWithdrawWindowTimer();
     withdrawAmount="500";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
 }
 
@@ -140,8 +146,16 @@ void WithdrawWindow::on_fiveHundredButton_clicked()
 
 void WithdrawWindow::withdrawOtherAmount(QString i) // adds the chosen number at the end of the string
 {
-    withdrawAmount.append(i);
-    ui->amountLine->setText(withdrawAmount);
+    if (withdrawFlag == true) {
+        withdrawAmount = i;
+        ui->amountLine->clear();
+        ui->amountLine->setText(withdrawAmount);
+        withdrawFlag = false;
+    }
+    else if (withdrawFlag == false) {
+        withdrawAmount.append(i);
+        ui->amountLine->setText(withdrawAmount);
+    }
 }
 
 

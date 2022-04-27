@@ -77,6 +77,8 @@ private:
     QString creditType = "credit";
 
     QString cardNumber;
+
+    bool withdrawFlag;
 };
 
 #endif // WITHDRAWWINDOW_H

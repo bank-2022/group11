@@ -90,6 +90,7 @@ void DonationWindow::on_tenButton_clicked()
 {
     reStartDonationWindowTimer();
     donationAmount="10";
+    donationFlag = true;
     ui->amountLine->setText(donationAmount);
 }
 
@@ -98,6 +99,7 @@ void DonationWindow::on_twentyButton_clicked()
 {
     reStartDonationWindowTimer();
     donationAmount="20";
+    donationFlag = true;
     ui->amountLine->setText(donationAmount);
 }
 
@@ -106,6 +108,7 @@ void DonationWindow::on_fiftyButton_clicked()
 {
     reStartDonationWindowTimer();
     donationAmount="50";
+    donationFlag = true;
     ui->amountLine->setText(donationAmount);
 }
 
@@ -114,9 +117,16 @@ void DonationWindow::on_fiftyButton_clicked()
 
 void DonationWindow::donateOtherAmount(QString i)
 {
-    reStartDonationWindowTimer();
-    donationAmount.append(i);
-    ui->amountLine->setText(donationAmount);
+    if (donationFlag == true) {
+        donationAmount = i;
+        ui->amountLine->clear();
+        ui->amountLine->setText(donationAmount);
+        donationFlag = false;
+    }
+    else if (donationFlag == false) {
+        donationAmount.append(i);
+        ui->amountLine->setText(donationAmount);
+    }
 }
 
 
