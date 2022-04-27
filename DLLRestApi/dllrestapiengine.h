@@ -40,6 +40,8 @@ signals:
     void loginFailedSignal(QString message);
     void forbiddenAccessSignal();
 
+    void transactionCompleteSignal();
+
     void lockedSignal(QString locked);
     void typeSignal(QString type);
     void customerInfoSignal(QVector<QString> info);
