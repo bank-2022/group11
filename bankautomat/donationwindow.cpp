@@ -29,6 +29,12 @@ DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     // if the 5 s timer has ran out, the warning will be closed
     connect(donationWarningTimer, SIGNAL(timeout()),
             this, SLOT(warningTimerFinished()));
+
+    connect(pRestApiInterfaceClass, SIGNAL(transactionComplete()),
+            this, SLOT(getBalance()), Qt::QueuedConnection);
+
+    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+            this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 }
 
 DonationWindow::~DonationWindow()
@@ -50,6 +56,7 @@ void DonationWindow::printName(QString name)
 
 void DonationWindow::printAccountNumber(QString accountNumber)
 {
+    accountNum = accountNumber;
     ui->accountNumberLabel->setText(accountNumber);
 }
 
@@ -319,6 +326,37 @@ void DonationWindow::donateMessage(QString message)
     else {
         ui->amountLine->setText("Unexpected error occurred!");
     }
+}
+
+void DonationWindow::getBalance()
+{
+    pRestApiInterfaceClass->getBalance(accountNum);
+}
+
+
+void DonationWindow::updateBalance(long long balance)
+{
+    QString stringBalance = convertToEuros(balance);
+    ui->balanceLabel->setText(stringBalance);
+}
+
+
+QString DonationWindow::convertToEuros(long long sum)
+{
+    // This function converts a long long of cents
+    // to a string of euros
+
+    int cents = abs(sum % 100);
+    QString centString;
+    if (cents < 10)
+    {
+        centString = "0" + QString::number(cents);
+    }
+    else
+    {
+        centString = QString::number(cents);
+    }
+    return QString::number(sum / 100) + "." + centString;
 }
 
 

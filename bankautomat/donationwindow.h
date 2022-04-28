@@ -56,7 +56,8 @@ private slots:
     void on_exitButton_clicked();
 
     void warningTimerFinished();
-
+    void getBalance();
+    void updateBalance(long long balance);
 
 
 private:
@@ -71,13 +72,16 @@ private:
     QString stringBalance;
     long longCentsBalance;
 
+    QString convertToEuros(long long sum);
+
     QString charityAccount = "FI4265431234000012";
 
     QString cardType;
     QString debitType = "debit";
     QString creditType = "credit";
 
-    QString cardNumber; // This will most probably be changed when the pin ui dll is ready.
+    QString cardNumber;
+    QString accountNum;
 
     bool donationFlag;
 };

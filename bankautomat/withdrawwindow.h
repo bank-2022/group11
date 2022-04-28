@@ -60,7 +60,7 @@ private slots:
     void on_exitButton_clicked();
 
     void warningTimerFinished();
-    void updateBalance();
+    void getBalance();
     void updateBalance(long long balance);
 
 private:

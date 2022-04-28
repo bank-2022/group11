@@ -31,7 +31,7 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
             this, SLOT(warningTimerFinished()));
 
     connect(pRestApiInterfaceClass, SIGNAL(transactionComplete()),
-            this, SLOT(updateBalance()), Qt::QueuedConnection);
+            this, SLOT(getBalance()), Qt::QueuedConnection);
 
     connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
@@ -358,7 +358,7 @@ void WithdrawWindow::withdrawMessage(QString message)
 }
 
 
-void WithdrawWindow::updateBalance()
+void WithdrawWindow::getBalance()
 {
     pRestApiInterfaceClass->getBalance(accountNum);
 }
