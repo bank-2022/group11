@@ -8,7 +8,7 @@
    in more depth or log out of the system. */
 
 
-MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
+MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::MainMenu),
     pMainWindow(ptr)
@@ -40,11 +40,6 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, RestApi *api) :
             SIGNAL(transactions5(QVector<QVector<QString> >)),
             this, SLOT(update5List(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
-
-    /*connect(pRestApiInterfaceClass,
-            SIGNAL(transactions10(QVector<QVector<QString> >)),
-            this, SLOT(updateList(QVector<QVector<QString> >)),
-            Qt::QueuedConnection);*/
 }
 
 
@@ -69,7 +64,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Hello, "+ name);
     pWithdrawWindow->printName(name);
     pDonationWindow->printName(name);
     pTransactionsWindow->printName(name);
@@ -104,30 +99,41 @@ void MainMenu::printBalance(QString balance)
 }
 
 
-void MainMenu::print5Transactions(QAbstractItemModel * list)
+void MainMenu::print5Transactions()
 {
-    ui->fiveTransactionsTableView->setModel(list);
+    on_refreshButton_clicked();
 }
 
 
 void MainMenu::update5List(QVector<QVector<QString>> list)
 {
-    QStandardItemModel *table_model =
-            new QStandardItemModel(list.size(), 3);
+    //QApplication::setStyle(QStyleFactory::create("Fusion"));
 
-    table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Time"));
-    table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Transaction"));
-    table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Amount"));
+    ui->transactionsTableWidget->setRowCount(list.size());
+    ui->transactionsTableWidget->setColumnCount(3);
+    QStringList headers = {"Time", "Transaction", "Amount"};
+    ui->transactionsTableWidget->setHorizontalHeaderLabels(headers);
 
     for (short i = 0; i < list.size(); i++) {
-        QStandardItem *time = new QStandardItem(list[i][0]);
-        table_model->setItem(i, 0, time);
-        QStandardItem *transaction = new QStandardItem(list[i][1]);
-        table_model->setItem(i, 1, transaction);
-        QStandardItem *amount = new QStandardItem(list[i][2]);
-        table_model->setItem(i, 2, amount);
+        QTableWidgetItem *time = new QTableWidgetItem(list[i][0]);
+        ui->transactionsTableWidget->setItem(i, 0, time);
+        QTableWidgetItem *transaction = new QTableWidgetItem(list[i][1]);
+        ui->transactionsTableWidget->setItem(i, 1, transaction);
+        QTableWidgetItem *amount = new QTableWidgetItem(list[i][2]);
+        ui->transactionsTableWidget->setItem(i, 2, amount);
     }
-    ui->fiveTransactionsTableView->setModel(table_model);
+}
+
+
+void MainMenu::getCardNumber(QString cardnumber)
+{
+    pDonationWindow->getCardNumber(cardnumber);
+    pWithdrawWindow->getCardNumber(cardnumber);
+}
+
+void MainMenu::getAccountNumber(QString accountnum)
+{
+    accountNumber = accountnum;
 }
 
 
@@ -151,10 +157,10 @@ void MainMenu::on_refreshButton_clicked()
     // on the main menu window when the
     // refresh button is clicked.
 
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
     reStartMainMenuTimer();
-    pRestApiInterfaceClass->getBalance("FI5566778899");
-    //QThread::usleep(300);
-    pRestApiInterfaceClass->get5Transactions("FI5566778899");
+    pRestApiInterfaceClass->getBalance(accountNumber);
+    pRestApiInterfaceClass->get5Transactions(accountNumber);
 }
 
 
@@ -195,7 +201,7 @@ void MainMenu::on_withdrawButton_clicked()
 void MainMenu::on_transactionsButton_clicked()
 {
     mainMenuTimer->stop();
-    pTransactionsWindow->showTransactions("FI5566778899");
+    pTransactionsWindow->showTransactions(accountNumber);
     pTransactionsWindow->show(); // Opens a window where the user can view transactions.
     pTransactionsWindow->startTransactionsWindowTimer();
 }
@@ -209,8 +215,25 @@ void MainMenu::on_donateButton_clicked()
 }
 
 
+void MainMenu::clearMainMenuWindow()
+{
+    ui->accountNumberLabel->clear();
+    ui->balanceLabel->clear();
+    ui->nameLabel->clear();
+    ui->typeLabel->clear();
+
+
+}
+
+
 void MainMenu::on_logOutButton_clicked()
 {
     mainMenuTimer->stop();
-    this->close(); // Logs out of the system and closes the main menu window.
+    pWithdrawWindow->clearWithdrawWindow();
+    pDonationWindow->clearDonationWindow();
+    pTransactionsWindow->clearTransactionsWindow();
+    clearMainMenuWindow();
+
+
+    this->close();
 }

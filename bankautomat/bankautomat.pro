@@ -37,12 +37,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-win32: LIBS += -L$$PWD/../rest_api_dll/build/debug/ -lrest_api_dll
+win32: LIBS += -L$$PWD/../DLLRestApi/build/debug/ -lDLLRestApi
 
-INCLUDEPATH += $$PWD/../rest_api_dll
-DEPENDPATH += $$PWD/../rest_api_dll
+INCLUDEPATH += $$PWD/../DLLRestApi
+DEPENDPATH += $$PWD/../DLLRestApi
 
-unix:!macx: LIBS += -L$$PWD/../rest_api_dll/build/ -lrest_api_dll
 
-INCLUDEPATH += $$PWD/../rest_api_dll
-DEPENDPATH += $$PWD/../rest_api_dll
+unix:!macx: LIBS += -L$$PWD/../DLLRestApi/build/ -lDLLRestApi
+
+INCLUDEPATH += $$PWD/../DLLRestApi
+DEPENDPATH += $$PWD/../DLLRestApi
+
+

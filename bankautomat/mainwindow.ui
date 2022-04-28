@@ -6,41 +6,109 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>173</width>
-    <height>173</height>
+    <width>399</width>
+    <height>271</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(71, 71, 71);</string>
+   <string notr="true">background-color:rgb(66, 66, 66);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QFormLayout" name="formLayout">
-    <item row="0" column="0" colspan="2">
-     <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="warningLabel">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 200, 221);
+font: 63 10pt &quot;Lato Semibold&quot;;</string>
+          </property>
+          <property name="text">
+           <string>Insert Card, please</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="warningLabel">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 200, 221);
+font: 63 10pt &quot;Lato Semibold&quot;;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Insert Card, please</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="mainMenuButton">
-        <property name="text">
-         <string>to main menu</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="ruusuButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string>credit, ruusu</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="failLoginButton">
+          <property name="styleSheet">
+           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string>fail login</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="olaviButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string>debit, olavi</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -52,7 +120,7 @@ color: rgb(71, 71, 71);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>173</width>
+     <width>399</width>
      <height>20</height>
     </rect>
    </property>

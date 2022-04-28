@@ -2,7 +2,7 @@
 #define DONATIONWINDOW_H
 
 #include <QDialog>
-#include "restapi.h"
+#include "dllrestapi.h"
 
 class MainMenu;
 
@@ -15,12 +15,14 @@ class DonationWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DonationWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, RestApi *api = nullptr);
+    explicit DonationWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, DLLRestApi *api = nullptr);
     ~DonationWindow();
 
     QTimer * donationWindowTimer;
     void startDonationWindowTimer();
     void reStartDonationWindowTimer();
+
+    QTimer * donationWarningTimer;
 
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
@@ -29,6 +31,9 @@ public:
 
     void donateOtherAmount(QString i);
     void donateMessage(QString message);
+
+    void getCardNumber(QString cardnumber);
+    void clearDonationWindow();
 
 private slots:
     void on_tenButton_clicked();
@@ -50,22 +55,35 @@ private slots:
 
     void on_exitButton_clicked();
 
+    void warningTimerFinished();
+    void getBalance();
+    void updateBalance(long long balance);
+
+
 private:
     Ui::DonationWindow *ui;
 
     MainMenu * pMainMenu;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
 
     QString donationAmount;
     long long donationCents;
 
-    QString charityAccount = "FI5566778899";
+    QString stringBalance;
+    long longCentsBalance;
+
+    QString convertToEuros(long long sum);
+
+    QString charityAccount = "FI4265431234000012";
 
     QString cardType;
     QString debitType = "debit";
     QString creditType = "credit";
 
-    QString cardNumber = "0987666"; // This will be changed when the pin ui dll is ready.
+    QString cardNumber;
+    QString accountNum;
+
+    bool donationFlag;
 };
 
 #endif // DONATIONWINDOW_H

@@ -10,8 +10,11 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include <stdio.h>
 
-#include "restapi.h"
+#include <qstylefactory.h>
+
+#include "dllrestapi.h"
 
 #include "donationwindow.h"
 #include "transactionswindow.h"
@@ -28,7 +31,7 @@ class MainMenu : public QDialog
     Q_OBJECT
 
 public:
-    explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, RestApi *api = nullptr);
+    explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, DLLRestApi *api = nullptr);
     ~MainMenu();
 
     QTimer * mainMenuTimer;
@@ -39,7 +42,14 @@ public:
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
     void printBalance(QString balance);
-    void print5Transactions(QAbstractItemModel * list);
+    void print5Transactions();
+
+    void getCardNumber(QString cardnumber);
+    void getAccountNumber(QString accountnum);
+
+    void clearMainMenuWindow();
+
+
 
 private slots:
     void on_withdrawButton_clicked();
@@ -48,8 +58,6 @@ private slots:
     void on_logOutButton_clicked();
     void on_refreshButton_clicked();
 
-    //void getCustomerInfo();
-    //void updateCustomerInfo(QVector<QString> info);
     void updateBalance(long long balance);
     void update5List(QVector<QVector<QString>> list);
 
@@ -57,12 +65,14 @@ private:
     Ui::MainMenu *ui;
 
     MainWindow * pMainWindow;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
     DonationWindow * pDonationWindow;
     TransactionsWindow * pTransactionsWindow;
     WithdrawWindow * pWithdrawWindow;
 
     QString convertToEuros(long long sum);
+
+    QString accountNumber;
 };
 
 #endif // MAINMENU_H

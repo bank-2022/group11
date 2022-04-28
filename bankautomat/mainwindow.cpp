@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul");
 
-    pRestApiInterfaceClass = new RestApi;
+    pRestApiInterfaceClass = new DLLRestApi;
     pRestApiInterfaceClass->setBaseURL("http://localhost:3000");
 
     pMainMenu = new MainMenu(parent, this, pRestApiInterfaceClass);
@@ -37,11 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
-
-    connect(pRestApiInterfaceClass,
-            SIGNAL(transactions5(QVector<QVector<QString> >)),
-            this, SLOT(updateList(QVector<QVector<QString> >)),
-            Qt::QueuedConnection);
 }
 
 
@@ -65,10 +60,10 @@ void MainWindow::loginSuccessfulSlot()
     pMainMenu->show();
     pMainMenu->startMainMenuTimer();
 
-    getBalance();
     getCustomerInfo();
     getCustomerType();
     get5Transactions();
+    pMainMenu->print5Transactions();
 }
 
 
@@ -84,12 +79,38 @@ void MainWindow::forbiddenAccessDetected()
 }
 
 
-void MainWindow::on_mainMenuButton_clicked()
+void MainWindow::on_ruusuButton_clicked()
 {
+    accountNumber = "FI4278907654123400";
+    cardNumber = "66778899";
+    cardPin = "5566";
+    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pMainMenu->getCardNumber(cardNumber);
+    pMainMenu->getAccountNumber(accountNumber);
+}
+
+
+void MainWindow::on_olaviButton_clicked()
+{
+    accountNumber = "FI5566778899";
     cardNumber = "0987666";
     cardPin = "1234";
     pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pMainMenu->getCardNumber(cardNumber);
+    pMainMenu->getAccountNumber(accountNumber);
 }
+
+
+void MainWindow::on_failLoginButton_clicked()
+{
+    accountNumber = "FI5566778899";
+    cardNumber = "0987666";
+    cardPin = "666";
+    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pMainMenu->getCardNumber(cardNumber);
+    pMainMenu->getAccountNumber(accountNumber);
+}
+
 
 /* Customer info functions */
 void MainWindow::getCustomerInfo()
@@ -105,8 +126,6 @@ void MainWindow::updateCustomerInfo(QVector<QString> info)
 
     pMainMenu->printName(name);
     pMainMenu->printAccountNumber(accountNumber);
-
-    qDebug() << info;
 }
 
 
@@ -123,41 +142,16 @@ void MainWindow::updateType(QString type)
 }
 
 
-void MainWindow::getBalance()
-{
-    pRestApiInterfaceClass->getBalance(cardNumber);
-}
-
 void MainWindow::updateBalance(long long balance)
 {
     QString stringBalance = convertToEuros(balance);
     pMainMenu->printBalance(stringBalance);
 }
 
+
 void MainWindow::get5Transactions()
 {
     pRestApiInterfaceClass->get5Transactions(cardNumber);
-}
-
-void MainWindow::updateList(QVector<QVector<QString>> list)
-{
-    QStandardItemModel *table_model =
-            new QStandardItemModel(list.size(), 3);
-
-    table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Time"));
-    table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Transaction"));
-    table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Amount"));
-
-    for (short i = 0; i < list.size(); i++) {
-        QStandardItem *time = new QStandardItem(list[i][0]);
-        table_model->setItem(i, 0, time);
-        QStandardItem *transaction = new QStandardItem(list[i][1]);
-        table_model->setItem(i, 1, transaction);
-        QStandardItem *amount = new QStandardItem(list[i][2]);
-        table_model->setItem(i, 2, amount);
-    }
-
-    pMainMenu->print5Transactions(table_model);
 }
 
 
@@ -175,3 +169,4 @@ QString MainWindow::convertToEuros(long long sum)
 
     return QString::number(sum / 100) + "." + centString;
 }
+

@@ -2,7 +2,7 @@
 #define WITHDRAWWINDOW_H
 
 #include <QDialog>
-#include "restapi.h"
+#include "dllrestapi.h"
 
 class MainMenu;
 
@@ -15,7 +15,7 @@ class WithdrawWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit WithdrawWindow(QWidget *parent = nullptr, MainMenu * ptr = nullptr, RestApi *api = nullptr);
+    explicit WithdrawWindow(QWidget *parent = nullptr, MainMenu * ptr = nullptr, DLLRestApi *api = nullptr);
     ~WithdrawWindow();
 
     QTimer * withdrawWindowTimer;
@@ -31,6 +31,9 @@ public:
 
     void withdrawOtherAmount(QString i);
     void withdrawMessage(QString message);
+
+    void getCardNumber(QString cardnumber);
+    void clearWithdrawWindow();
 
 private slots:
     void on_tenButton_clicked();
@@ -57,24 +60,31 @@ private slots:
     void on_exitButton_clicked();
 
     void warningTimerFinished();
+    void getBalance();
+    void updateBalance(long long balance);
 
 private:
     Ui::WithdrawWindow *ui;
 
     MainMenu * pMainMenu;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
 
     QString withdrawAmount;
     long long withdrawCents;
 
-    QString sBalance;
-    int intBalance;
+    QString stringBalance;
+    long longCentsBalance;
+
+    QString convertToEuros(long long sum);
 
     QString cardType;
     QString debitType = "debit";
     QString creditType = "credit";
 
-    QString cardNumber = "0987666"; // This will be changed when the pin ui dll is ready.
+    QString cardNumber;
+    QString accountNum;
+
+    bool withdrawFlag;
 };
 
 #endif // WITHDRAWWINDOW_H

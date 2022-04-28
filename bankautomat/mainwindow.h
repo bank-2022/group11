@@ -15,7 +15,7 @@
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
 
-#include "restapi.h"
+#include "dllrestapi.h"
 
 #include "mainmenu.h"
 
@@ -41,24 +41,26 @@ public slots:
     void forbiddenAccessDetected();
 
 private slots:
-    void on_mainMenuButton_clicked();
-
     void getCustomerInfo();
     void updateCustomerInfo(QVector<QString> info);
 
     void getCustomerType();
     void updateType(QString type);
 
-    void getBalance();
     void updateBalance(long long balance);
 
     void get5Transactions();
-    void updateList(QVector<QVector<QString>> list);
+
+    void on_ruusuButton_clicked();
+
+    void on_olaviButton_clicked();
+
+    void on_failLoginButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
-    RestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApiInterfaceClass;
 
     QString cardPin;
     QString cardNumber;
