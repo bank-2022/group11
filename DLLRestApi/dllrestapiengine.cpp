@@ -217,33 +217,42 @@ void DLLRestApiEngine::get10Transactions(QString accountnumber, int index)
 
 void DLLRestApiEngine::loginSlot(QNetworkReply *reply)
 {
-    responseData = reply->readAll();
-    // qDebug() << responseData;
-
-    // This returns the token from the REST API
-    // or an error message if login went wrong
-    // and emits a signal whether the login was
-    // succesful or not and why not
-
-    if (responseData == "Wrong pin") {
-        // qDebug() << "Login failed";
-        token = "Bearer " + responseData;
-        emit loginFailedSignal("Wrong pin");
-    }
-    else if (responseData == "Card does not exist") {
-        // qDebug() << "Login failed";
-        token = "Bearer " + responseData;
-        emit loginFailedSignal("Card does not exist");
-    }
-    else if (responseData == "Card number or pin missing") {
-        // qDebug() << "Login failed";
-        token = "Bearer " + responseData;
-        emit loginFailedSignal("Card number or pin missing");
-    }
+    if (reply->error() != QNetworkReply::NoError)
+        emit loginFailedSignal("Error connecting to server");
     else {
-        // qDebug() << "Login successful";
-        token = "Bearer " + responseData;
-        emit loginSuccessfulSignal();
+        responseData = reply->readAll();
+        // qDebug() << responseData;
+
+        // This returns the token from the REST API
+        // or an error message if login went wrong
+        // and emits a signal whether the login was
+        // succesful or not and why not
+
+        if (responseData == "Database error") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else if (responseData == "Wrong pin") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else if (responseData == "Card does not exist") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else if (responseData == "Card number or pin missing") {
+            // qDebug() << "Login failed";
+            token = "Bearer ";
+            emit loginFailedSignal(responseData);
+        }
+        else {
+            // qDebug() << "Login successful";
+            token = "Bearer " + responseData;
+            emit loginSuccessfulSignal();
+        }
     }
 
     reply->deleteLater();
@@ -253,12 +262,7 @@ void DLLRestApiEngine::loginSlot(QNetworkReply *reply)
 
 void DLLRestApiEngine::putLockedSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
-
-    // It is checked for each HTML operation
-    // if the user is trying to access the
-    // REST API services without a token
-    checkForbiddenAccess(response_data);
+    errorHandling(reply);
 
     // Basic cleanup
     reply->deleteLater();
@@ -268,20 +272,20 @@ void DLLRestApiEngine::putLockedSlot(QNetworkReply *reply)
 
 void DLLRestApiEngine::creditWithdrawalSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
-
-    checkForbiddenAccess(response_data);
+    if(errorHandling(reply))
+        emit transactionCompleteSignal();
 
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
+
+
 }
 
 void DLLRestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
-
-    checkForbiddenAccess(response_data);
+    if(errorHandling(reply))
+        emit transactionCompleteSignal();
 
     reply->deleteLater();
     QObject *networkManager = sender();
@@ -290,9 +294,8 @@ void DLLRestApiEngine::debitWithdrawalSlot(QNetworkReply *reply)
 
 void DLLRestApiEngine::creditDonationSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
-
-    checkForbiddenAccess(response_data);
+    if(errorHandling(reply))
+        emit transactionCompleteSignal();
 
     reply->deleteLater();
     QObject *networkManager = sender();
@@ -301,9 +304,8 @@ void DLLRestApiEngine::creditDonationSlot(QNetworkReply *reply)
 
 void DLLRestApiEngine::debitDonationSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
-
-    checkForbiddenAccess(response_data);
+    if(errorHandling(reply))
+        emit transactionCompleteSignal();
 
     reply->deleteLater();
     QObject *networkManager = sender();
@@ -312,175 +314,164 @@ void DLLRestApiEngine::debitDonationSlot(QNetworkReply *reply)
 
 void DLLRestApiEngine::lockedSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    if(errorHandling(reply)) {
+        QByteArray response_data=reply->readAll();
 
-    checkForbiddenAccess(response_data);
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
+        QString locked;
 
-    QString locked;
+        locked = json_obj["locked"].toString();
 
-    locked = json_obj["locked"].toString();
-
-    // qDebug() << locked;
+        emit lockedSignal(locked);
+    }
 
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
-
-    emit lockedSignal(locked);
 }
 
 void DLLRestApiEngine::typeSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    if(errorHandling(reply)) {
+        QByteArray response_data=reply->readAll();
 
-    checkForbiddenAccess(response_data);
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
+        QString type;
 
-    QString type;
+        type = json_obj["type"].toString();
 
-    type = json_obj["type"].toString();
+        emit typeSignal(type);
+    }
 
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
-
-    emit typeSignal(type);
 }
 
 void DLLRestApiEngine::customerInfoSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    if(errorHandling(reply)) {
+        QByteArray response_data=reply->readAll();
 
-    checkForbiddenAccess(response_data);
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
+        QVector<QString> customerInfo(2);
 
-    QVector<QString> customerInfo(2);
+        // This updates customers name and account number into a vector
+        // of 2 strings
+        customerInfo[0] = json_obj["name"].toString();
+        customerInfo[1] = json_obj["accountnumber"].toString();
 
-    // This updates customers name and account number into a vector
-    // of 2 strings
-    customerInfo[0] = json_obj["name"].toString();
-    customerInfo[1] = json_obj["accountnumber"].toString();
+        emit customerInfoSignal(customerInfo);
+    }
+
 
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
-
-    emit customerInfoSignal(customerInfo);
 }
 
 void DLLRestApiEngine::balanceSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    if(errorHandling(reply)) {
+        QByteArray response_data=reply->readAll();
 
-    checkForbiddenAccess(response_data);
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonObject json_obj = json_doc.object();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
+        // Balance gets converted to int. Balance is in cents for accuracy
+        QString balanceCents = json_obj["balance"].toString();
+        long long balance = balanceCents.toLongLong();
 
-    // Balance gets converted to int. Balance is in cents for accuracy
-    QString balanceCents = json_obj["balance"].toString();
-    long long balance = balanceCents.toLongLong();
+        emit balanceSignal(balance);
+    }
 
-    //qDebug() << balance;
 
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
-
-    emit balanceSignal(balance);
 }
 
 void DLLRestApiEngine::transactions5Slot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    if(errorHandling(reply)) {
+        QByteArray response_data=reply->readAll();
 
-    checkForbiddenAccess(response_data);
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonArray json_array = json_doc.array();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
+        // This creates a 2 dimensional vector for the transactions info
 
-    // This creates a 2 dimensional vector for the transactions info
+        QVector<QString> info(3);
+        QVector<QVector<QString>> list(5, info);
 
-    QVector<QString> info(3);
-    QVector<QVector<QString>> list(5, info);
+        // Transactions get added to a 2 dimensional vector where
+        // the vector contains all individual transactions
+        // and the three different fields are contained in a vector inside that
+        short index = 0;
+        foreach (const QJsonValue &value, json_array) {
+                QJsonObject json_obj = value.toObject();
+                list[index][0] = json_obj["datetime"].toString();
+                list[index][1] = json_obj["event"].toString();
+                // Cents get converted to a string of euros
+                QString stringCents = json_obj["sum"].toString();
+                long long sum = stringCents.toLongLong();
+                QString sumString = convertToEuros(sum);
+                if (list[index][1] == "withdrawal" || list[index][1] == "donation")
+                    list[index][2] = "- " + sumString;
+                else
+                    list[index][2] = "+ " + sumString;
+                index++;
+            }
 
-    // Transactions get added to a 2 dimensional vector where
-    // the vector contains all individual transactions
-    // and the three different fields are contained in a vector inside that
-    short index = 0;
-    foreach (const QJsonValue &value, json_array) {
-            QJsonObject json_obj = value.toObject();
-            list[index][0] = json_obj["datetime"].toString();
-            list[index][1] = json_obj["event"].toString();
-            // Cents get converted to a string of euros
-            QString stringCents = json_obj["sum"].toString();
-            long long sum = stringCents.toLongLong();
-            QString sumString = convertToEuros(sum);
-            if (list[index][1] == "withdrawal" || list[index][1] == "donation")
-                list[index][2] = "- " + sumString;
-            else
-                list[index][2] = "+ " + sumString;
-            index++;
-        }
+        emit transactions5Signal(list);
+    }
 
     reply->deleteLater();
     QObject *networkManager = sender();
     networkManager->deleteLater();
-
-    emit transactions5Signal(list);
 }
 
 void DLLRestApiEngine::transactions10Slot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    if(errorHandling(reply)) {
+        QByteArray response_data=reply->readAll();
 
-    checkForbiddenAccess(response_data);
+        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+        QJsonArray json_array = json_doc.array();
 
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
+        QVector<QString> info(3);
+        QVector<QVector<QString>> list(10, info);
 
-    QVector<QString> info(3);
-    QVector<QVector<QString>> list(10, info);
+        // These operations are the same as transactions5Slot but the vector
+        // size is bigger
 
-    // These operations are the same as transactions5Slot but the vector
-    // size is bigger
+        short index = 0;
+        foreach (const QJsonValue &value, json_array) {
+                QJsonObject json_obj = value.toObject();
+                list[index][0] = json_obj["datetime"].toString();
+                list[index][1] = json_obj["event"].toString();
+                QString stringCents = json_obj["sum"].toString();
+                long long sum = stringCents.toLongLong();
+                QString sumString = convertToEuros(sum);
+                if (list[index][1] == "withdrawal" || list[index][1] == "donation")
+                    list[index][2] = "- " + sumString;
+                else
+                    list[index][2] = "+ " + sumString;
+                index++;
+            }
 
-    short index = 0;
-    foreach (const QJsonValue &value, json_array) {
-            QJsonObject json_obj = value.toObject();
-            list[index][0] = json_obj["datetime"].toString();
-            list[index][1] = json_obj["event"].toString();
-            QString stringCents = json_obj["sum"].toString();
-            long long sum = stringCents.toLongLong();
-            QString sumString = convertToEuros(sum);
-            if (list[index][1] == "withdrawal" || list[index][1] == "donation")
-                list[index][2] = "- " + sumString;
-            else
-                list[index][2] = "+ " + sumString;
-            index++;
-        }
+        emit transactions10Signal(list);
+    }
 
     reply->deleteLater();
     QObject *networkManager = sender();
-    networkManager->deleteLater();
-
-    emit transactions10Signal(list);
-}
-
-void DLLRestApiEngine::checkForbiddenAccess(QByteArray response_data)
-{
-    // This checks if the user is trying to access data unauthorized
-    // and sends a signal to the main program
-
-    if (response_data == "Forbidden" || response_data == "Unauthorized")
-        emit forbiddenAccessSignal();
+    networkManager->deleteLater();  
 }
 
 QString DLLRestApiEngine::convertToEuros(long long sum)
@@ -496,4 +487,21 @@ QString DLLRestApiEngine::convertToEuros(long long sum)
         centString = QString::number(cents);
 
     return QString::number(sum / 100) + "." + centString;
+}
+
+bool DLLRestApiEngine::errorHandling(QNetworkReply *reply)
+{
+    QNetworkReply::NetworkError errorType = reply->error();
+    if (errorType == QNetworkReply::ContentAccessDenied ||
+        errorType == QNetworkReply::ContentOperationNotPermittedError ||
+        errorType == QNetworkReply::AuthenticationRequiredError) {
+        emit forbiddenAccessSignal();
+        return false;
+    }
+    else if (errorType != QNetworkReply::NoError) {
+        emit errorSignal();
+        return false;
+    }
+    else
+        return true;
 }
