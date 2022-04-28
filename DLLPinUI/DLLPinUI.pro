@@ -1,8 +1,8 @@
-#QT -= gui
+QT -= gui
 QT += widgets
 
 TEMPLATE = lib
-DEFINES += PINUI_DLL_LIBRARY
+DEFINES += DLLPINUI_LIBRARY
 
 CONFIG += c++11
 
@@ -11,19 +11,14 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    pin.cpp \
-    pinui_dll.cpp
+    dllpinui.cpp
 
 HEADERS += \
-    pin.h \
-    pinui_dll_global.h \
-    pinui_dll.h
+    DLLPinUI_global.h \
+    dllpinui.h
 
 # Default rules for deployment.
 unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
-
-FORMS += \
-    pin.ui
