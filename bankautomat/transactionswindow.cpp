@@ -109,22 +109,19 @@ void TransactionsWindow::on_previousButton_clicked()
 
 void TransactionsWindow::updateList(QVector<QVector<QString>> list)
 {
-    QStandardItemModel *table_model =
-            new QStandardItemModel(list.size(), 3);
-
-    table_model->setHeaderData(0, Qt::Horizontal, QObject::tr("Time"));
-    table_model->setHeaderData(1, Qt::Horizontal, QObject::tr("Transaction"));
-    table_model->setHeaderData(2, Qt::Horizontal, QObject::tr("Amount"));
+    ui->transactionsTableWidget->setRowCount(list.size());
+    ui->transactionsTableWidget->setColumnCount(3);
+    QStringList headers = {"Time", "Transaction", "Amount"};
+    ui->transactionsTableWidget->setHorizontalHeaderLabels(headers);
 
     for (short i = 0; i < list.size(); i++) {
-        QStandardItem *time = new QStandardItem(list[i][0]);
-        table_model->setItem(i, 0, time);
-        QStandardItem *transaction = new QStandardItem(list[i][1]);
-        table_model->setItem(i, 1, transaction);
-        QStandardItem *amount = new QStandardItem(list[i][2]);
-        table_model->setItem(i, 2, amount);
+        QTableWidgetItem *time = new QTableWidgetItem(list[i][0]);
+        ui->transactionsTableWidget->setItem(i, 0, time);
+        QTableWidgetItem *transaction = new QTableWidgetItem(list[i][1]);
+        ui->transactionsTableWidget->setItem(i, 1, transaction);
+        QTableWidgetItem *amount = new QTableWidgetItem(list[i][2]);
+        ui->transactionsTableWidget->setItem(i, 2, amount);
     }
-    ui->transactionsList->setModel(table_model);
 }
 
 
@@ -134,7 +131,7 @@ void TransactionsWindow::clearTransactionsWindow()
     ui->balanceLabel->clear();
     ui->nameLabel->clear();
     ui->typeLabel->clear();
-    ui->transactionsList->clearSpans();
+    ui->transactionsTableWidget->clearSpans();
     this->close();
 }
 
