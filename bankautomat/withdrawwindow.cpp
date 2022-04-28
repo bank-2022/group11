@@ -29,6 +29,12 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     // if the 5 s timer has ran out, the warning will be closed
     connect(withdrawWarningTimer, SIGNAL(timeout()),
             this, SLOT(warningTimerFinished()));
+
+    connect(pRestApiInterfaceClass, SIGNAL(transactionComplete()),
+            this, SLOT(updateBalance()), Qt::QueuedConnection);
+
+    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+            this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 }
 
 
@@ -54,6 +60,7 @@ void WithdrawWindow::printName(QString name)
 
 void WithdrawWindow::printAccountNumber(QString accountNumber)
 {
+    accountNum = accountNumber;
     ui->accountNumberLabel->setText(accountNumber);
 }
 
@@ -348,6 +355,38 @@ void WithdrawWindow::withdrawMessage(QString message)
     else {
         ui->amountLine->setText("Unexpected error occurred!");
     }
+}
+
+
+void WithdrawWindow::updateBalance()
+{
+    pRestApiInterfaceClass->getBalance(accountNum);
+}
+
+
+void WithdrawWindow::updateBalance(long long balance)
+{
+    QString stringBalance = convertToEuros(balance);
+    ui->balanceLabel->setText(stringBalance);
+}
+
+
+QString WithdrawWindow::convertToEuros(long long sum)
+{
+    // This function converts a long long of cents
+    // to a string of euros
+
+    int cents = abs(sum % 100);
+    QString centString;
+    if (cents < 10)
+    {
+        centString = "0" + QString::number(cents);
+    }
+    else
+    {
+        centString = QString::number(cents);
+    }
+    return QString::number(sum / 100) + "." + centString;
 }
 
 

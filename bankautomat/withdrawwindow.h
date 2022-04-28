@@ -60,6 +60,8 @@ private slots:
     void on_exitButton_clicked();
 
     void warningTimerFinished();
+    void updateBalance();
+    void updateBalance(long long balance);
 
 private:
     Ui::WithdrawWindow *ui;
@@ -73,11 +75,14 @@ private:
     QString stringBalance;
     long longCentsBalance;
 
+    QString convertToEuros(long long sum);
+
     QString cardType;
     QString debitType = "debit";
     QString creditType = "credit";
 
     QString cardNumber;
+    QString accountNum;
 
     bool withdrawFlag;
 };
