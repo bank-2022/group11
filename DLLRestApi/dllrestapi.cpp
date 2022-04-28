@@ -18,6 +18,9 @@ DLLRestApi::DLLRestApi(QObject *parent)
     connect(pDLLRestApiEngine, SIGNAL(forbiddenAccessSignal()),
             this, SLOT(forbiddenAccessSlot()), Qt::QueuedConnection);
 
+    connect(pDLLRestApiEngine, SIGNAL(errorSignal()),
+            this, SLOT(errorSlot()), Qt::QueuedConnection);
+
     connect(pDLLRestApiEngine, SIGNAL(lockedSignal(QString)),
             this, SLOT(lockedSlot(QString)), Qt::QueuedConnection);
 
@@ -128,6 +131,11 @@ void DLLRestApi::loginFailedSlot(QString message)
 void DLLRestApi::forbiddenAccessSlot()
 {
     emit forbiddenAccess();
+}
+
+void DLLRestApi::errorSlot()
+{
+    emit error();
 }
 
 void DLLRestApi::transactionCompleteSlot()

@@ -68,6 +68,9 @@ signals:
     // the user out of the system
     void forbiddenAccess();
 
+    // This signal gets raised if there was an error connecting to server
+    void error();
+
     // This signal is emited when a transaction has been completed, so that the balance can be
     // updated in the main program
     void transactionComplete();
@@ -100,6 +103,7 @@ private slots:
     void loginSuccessfulSlot();
     void loginFailedSlot(QString message);
     void forbiddenAccessSlot();
+    void errorSlot();
 
     void transactionCompleteSlot();
 

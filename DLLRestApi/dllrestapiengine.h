@@ -35,10 +35,10 @@ public:
     void get10Transactions(QString accountnumber, int index);
 
 signals:
-
     void loginSuccessfulSignal();
     void loginFailedSignal(QString message);
     void forbiddenAccessSignal();
+    void errorSignal();
 
     void transactionCompleteSignal();
 
@@ -72,9 +72,8 @@ private:
     // The token is kept in the rest api engine for use
     QByteArray token;
 
-    void checkForbiddenAccess(QByteArray response_data);
-
     QString convertToEuros(long long sum);
+    bool errorHandling(QNetworkReply *reply);
 
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
