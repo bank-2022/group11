@@ -101,6 +101,17 @@ void MainWindow::on_olaviButton_clicked()
 }
 
 
+void MainWindow::on_failLoginButton_clicked()
+{
+    accountNumber = "FI5566778899";
+    cardNumber = "0987666";
+    cardPin = "666";
+    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pMainMenu->getCardNumber(cardNumber);
+    pMainMenu->getAccountNumber(accountNumber);
+}
+
+
 /* Customer info functions */
 void MainWindow::getCustomerInfo()
 {
@@ -158,3 +169,4 @@ QString MainWindow::convertToEuros(long long sum)
 
     return QString::number(sum / 100) + "." + centString;
 }
+

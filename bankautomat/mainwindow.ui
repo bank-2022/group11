@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
-    <height>149</height>
+    <width>399</width>
+    <height>271</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,18 +22,7 @@
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QLabel" name="warningLabel">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 200, 221);
-font: 63 10pt &quot;Lato Semibold&quot;;</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
+        <item alignment="Qt::AlignHCenter">
          <widget class="QLabel" name="label">
           <property name="styleSheet">
            <string notr="true">color: rgb(255, 200, 221);
@@ -41,6 +30,17 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
           </property>
           <property name="text">
            <string>Insert Card, please</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="warningLabel">
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 200, 221);
+font: 63 10pt &quot;Lato Semibold&quot;;</string>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -66,6 +66,24 @@ padding: 5px;</string>
           </property>
           <property name="text">
            <string>credit, ruusu</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="failLoginButton">
+          <property name="styleSheet">
+           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+          </property>
+          <property name="text">
+           <string>fail login</string>
           </property>
          </widget>
         </item>
@@ -102,7 +120,7 @@ padding: 5px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>200</width>
+     <width>399</width>
      <height>20</height>
     </rect>
    </property>

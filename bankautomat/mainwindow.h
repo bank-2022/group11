@@ -55,6 +55,8 @@ private slots:
 
     void on_olaviButton_clicked();
 
+    void on_failLoginButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
