@@ -239,12 +239,12 @@ void WithdrawWindow::on_zeroButton_clicked()
 
 
 /* backspace button */
-void WithdrawWindow::on_backspaceButton_clicked()
+void WithdrawWindow::on_clearButton_clicked()
 {
     reStartWithdrawWindowTimer();
-    int i = withdrawAmount.count();
-    withdrawAmount.remove((i-1),1);
-    ui->amountLine->setText(withdrawAmount);
+    withdrawAmount="0";
+    withdrawFlag = true;
+    ui->amountLine->clear();
 }
 
 
@@ -411,6 +411,8 @@ void WithdrawWindow::clearWithdrawWindow()
 void WithdrawWindow::on_exitButton_clicked()
 {
     withdrawWindowTimer->stop();
+    withdrawAmount="0";
+    withdrawFlag = true;
     ui->amountLine->clear();
     pMainMenu->startMainMenuTimer();
     this->close();

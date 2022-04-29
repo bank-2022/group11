@@ -577,7 +577,7 @@ padding: 5px;</string>
             </widget>
            </item>
            <item row="3" column="0">
-            <widget class="QPushButton" name="cancelButton">
+            <widget class="QPushButton" name="clearButton">
              <property name="minimumSize">
               <size>
                <width>42</width>

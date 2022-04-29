@@ -210,12 +210,12 @@ void DonationWindow::on_zeroButton_clicked()
 
 
 /* backspace button */
-void DonationWindow::on_cancelButton_clicked()
+void DonationWindow::on_clearButton_clicked()
 {
     reStartDonationWindowTimer();
-    int i = donationAmount.count();
-    donationAmount.remove((i-1),1);
-    ui->amountLine->setText(donationAmount);
+    donationAmount="0";
+    donationFlag = true;
+    ui->amountLine->clear();
 }
 
 
@@ -365,6 +365,8 @@ void DonationWindow::clearDonationWindow()
 void DonationWindow::on_exitButton_clicked()
 {
     donationWindowTimer->stop();
+    donationAmount="0";
+    donationFlag = true;
     ui->amountLine->clear();
     pMainMenu->startMainMenuTimer();
     this -> close();

@@ -50,7 +50,7 @@ private slots:
     void on_nineButton_clicked();
     void on_zeroButton_clicked();
 
-    void on_cancelButton_clicked();
+    void on_clearButton_clicked();
     void on_enterButton_clicked();
 
     void on_exitButton_clicked();
