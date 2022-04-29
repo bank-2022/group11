@@ -225,7 +225,6 @@ void DonationWindow::on_enterButton_clicked()
     donationWarningTimer->stop();
 
     donationCents = donationAmount.toInt() * 100;
-    double remainder = donationCents % 1000;
     longCentsBalance = stringBalance.toDouble() * 100;
 
     double creditLimit = -500000; // credit limit is 5000 €
@@ -237,31 +236,25 @@ void DonationWindow::on_enterButton_clicked()
             donateMessage("bad");
             donationWarningTimer->start();
         }
+
         else if (donationCents > 50000){ // user tries to donate more than 500 €
             donateMessage("bad");
             donationWarningTimer->start();
         }
+
         else if (donationCents >= 1000 && donationCents <= 50000){ // the amount is 10 - 500 €
 
-            if (remainder != 0){ // the amount is not divisible by ten
-                donateMessage("false");
+            if (longCentsBalance >= donationCents){ // user has enough money (and is using a debit card)
+                pRestApi->debitDonation(cardNumber,charityAccount, donationCents);
+                donationCents = 0;
+                donationAmount = "0";
+                donateMessage("good");
                 donationWarningTimer->start();
             }
 
-            else if (remainder == 0){ // the amount is divisible by ten
-
-                if (longCentsBalance >= donationCents){ // user has enough money (and is using a debit card)
-                    pRestApi->debitDonation(cardNumber,charityAccount, donationCents);
-                    donationCents = 0;
-                    donationAmount = "0";
-                    donateMessage("good");
-                    donationWarningTimer->start();
-                }
-
-                else if (longCentsBalance < donationCents){ // the balance isn't enough
-                    donateMessage("poor");
-                    donationWarningTimer->start();
-                }
+            else if (longCentsBalance < donationCents){ // the balance isn't enough
+                donateMessage("poor");
+                donationWarningTimer->start();
             }
         }
     }
@@ -279,27 +272,18 @@ void DonationWindow::on_enterButton_clicked()
         }
         else if (donationCents >= 1000 && donationCents <= 50000){ // the amount is 10 - 500 €
 
-            if (remainder != 0){ // the amount is not divisible by ten
-                donateMessage("false");
+            if (longCentsBalance >= creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
+                pRestApi->creditDonation(cardNumber,charityAccount, donationCents);
+                donationCents = 0;
+                donationAmount = "0";
+                donateMessage("good");
                 donationWarningTimer->start();
             }
 
-            else if (remainder == 0){ // the amount is divisible by ten
-
-                if (longCentsBalance >= creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
-                    pRestApi->creditDonation(cardNumber,charityAccount, donationCents);
-                    donationCents = 0;
-                    donationAmount = "0";
-                    donateMessage("good");
-                    donationWarningTimer->start();
-                }
-
-                else if (longCentsBalance <= creditLimit){ // the credit limit has been exeeded
-                    donateMessage("poor");
-                    donationWarningTimer->start();
-                }
+            else if (longCentsBalance <= creditLimit){ // the credit limit has been exeeded
+                donateMessage("verypoor");
+                donationWarningTimer->start();
             }
-
         }
     }
 }
@@ -319,8 +303,8 @@ void DonationWindow::donateMessage(QString message)
         ui->amountLine->setText("Not enough money on account!");
     }
 
-    else if (message == "false"){
-        ui->amountLine->setText("Amount must be divisible by ten.");
+    else if (message == "verypoor"){
+        ui->amountLine->setText("Credit limit exeeded!");
     }
 
     else {
