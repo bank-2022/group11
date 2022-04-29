@@ -33,6 +33,9 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
             this, SLOT(on_logOutButton_clicked()));
 
     // rest api functions
+    connect(pRestApi, SIGNAL(transactionComplete()),
+            this, SLOT(updateTransactions()), Qt::QueuedConnection);
+
     connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 
@@ -96,6 +99,15 @@ void MainMenu::printBalance(QString balance)
     pWithdrawWindow->printBalance(balance);
     pDonationWindow->printBalance(balance);
     pTransactionsWindow->printBalance(balance);
+}
+
+
+void MainMenu::updateTransactions()
+{
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    reStartMainMenuTimer();
+    pRestApi->getBalance(accountNumber);
+    pRestApi->get5Transactions(accountNumber);
 }
 
 

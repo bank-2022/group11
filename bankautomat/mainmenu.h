@@ -61,6 +61,8 @@ private slots:
     void updateBalance(long long balance);
     void update5List(QVector<QVector<QString>> list);
 
+    void updateTransactions();
+
 private:
     Ui::MainMenu *ui;
 
