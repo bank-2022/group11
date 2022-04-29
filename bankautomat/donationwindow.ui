@@ -134,9 +134,9 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
 font: 63 10pt &quot;Lato Semibold&quot;;</string>
        </property>
        <property name="text">
-        <string>Donated money will be used to fulfill 
-the adventurous drinking dreams of 
-Turtle Software personnel.</string>
+        <string>Donations will be used for 
+improvements and updates 
+to BankSimul</string>
        </property>
       </widget>
      </item>

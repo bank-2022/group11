@@ -49,18 +49,13 @@ public:
 
     void clearMainMenuWindow();
 
-
-
 private slots:
     void on_withdrawButton_clicked();
     void on_transactionsButton_clicked();
     void on_donateButton_clicked();
     void on_logOutButton_clicked();
-    void on_refreshButton_clicked();
-
     void updateBalance(long long balance);
     void update5List(QVector<QVector<QString>> list);
-
     void updateTransactions();
 
 private:

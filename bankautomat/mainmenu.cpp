@@ -113,7 +113,13 @@ void MainMenu::updateTransactions()
 
 void MainMenu::print5Transactions()
 {
-    on_refreshButton_clicked();
+    // This function updates the balance and transactions
+    // on the main menu window as it opens
+
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    reStartMainMenuTimer();
+    pRestApi->getBalance(accountNumber);
+    pRestApi->get5Transactions(accountNumber);
 }
 
 
@@ -160,19 +166,6 @@ void MainMenu::reStartMainMenuTimer()
 {
     mainMenuTimer->stop();
     mainMenuTimer->start();
-}
-
-
-void MainMenu::on_refreshButton_clicked()
-{
-    // This function updates the balance and transactions
-    // on the main menu window when the
-    // refresh button is clicked.
-
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
-    reStartMainMenuTimer();
-    pRestApi->getBalance(accountNumber);
-    pRestApi->get5Transactions(accountNumber);
 }
 
 
