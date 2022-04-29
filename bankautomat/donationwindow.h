@@ -64,7 +64,7 @@ private:
     Ui::DonationWindow *ui;
 
     MainMenu * pMainMenu;
-    DLLRestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApi;
 
     QString donationAmount;
     long long donationCents;

@@ -12,30 +12,30 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul");
 
-    pRestApiInterfaceClass = new DLLRestApi;
-    pRestApiInterfaceClass->setBaseURL("http://localhost:3000");
+    pRestApi = new DLLRestApi;
+    pRestApi->setBaseURL("http://localhost:3000");
 
-    pMainMenu = new MainMenu(parent, this, pRestApiInterfaceClass);
+    pMainMenu = new MainMenu(parent, this, pRestApi);
 
     qRegisterMetaType<QVector<QString>>("QVector<QString");
 
     // rest api functions
-    connect(pRestApiInterfaceClass, SIGNAL(loginSuccessful()),
+    connect(pRestApi, SIGNAL(loginSuccessful()),
             this, SLOT(loginSuccessfulSlot()), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(loginFailed(QString)),
+    connect(pRestApi, SIGNAL(loginFailed(QString)),
             this, SLOT(loginFailedSlot(QString)), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(forbiddenAccess()),
+    connect(pRestApi, SIGNAL(forbiddenAccess()),
             this, SLOT(forbiddenAccessDetected()), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass,SIGNAL(customerInfo(QVector<QString>)),
+    connect(pRestApi,SIGNAL(customerInfo(QVector<QString>)),
             this, SLOT(updateCustomerInfo(QVector<QString>)),Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(type(QString)),
+    connect(pRestApi, SIGNAL(type(QString)),
             this, SLOT(updateType(QString)), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+    connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 }
 
@@ -48,8 +48,8 @@ MainWindow::~MainWindow()
     delete pMainMenu;
     pMainMenu = nullptr;
 
-    delete pRestApiInterfaceClass;
-    pRestApiInterfaceClass = nullptr;
+    delete pRestApi;
+    pRestApi = nullptr;
 }
 
 
@@ -84,7 +84,7 @@ void MainWindow::on_ruusuButton_clicked()
     accountNumber = "FI4278907654123400";
     cardNumber = "66778899";
     cardPin = "5566";
-    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pRestApi->login(cardNumber, cardPin);
     pMainMenu->getCardNumber(cardNumber);
     pMainMenu->getAccountNumber(accountNumber);
 }
@@ -95,7 +95,7 @@ void MainWindow::on_olaviButton_clicked()
     accountNumber = "FI5566778899";
     cardNumber = "0987666";
     cardPin = "1234";
-    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pRestApi->login(cardNumber, cardPin);
     pMainMenu->getCardNumber(cardNumber);
     pMainMenu->getAccountNumber(accountNumber);
 }
@@ -106,7 +106,7 @@ void MainWindow::on_failLoginButton_clicked()
     accountNumber = "FI5566778899";
     cardNumber = "0987666";
     cardPin = "666";
-    pRestApiInterfaceClass->login(cardNumber, cardPin);
+    pRestApi->login(cardNumber, cardPin);
     pMainMenu->getCardNumber(cardNumber);
     pMainMenu->getAccountNumber(accountNumber);
 }
@@ -115,7 +115,7 @@ void MainWindow::on_failLoginButton_clicked()
 /* Customer info functions */
 void MainWindow::getCustomerInfo()
 {
-    pRestApiInterfaceClass->getCustomerInfo(cardNumber);
+    pRestApi->getCustomerInfo(cardNumber);
 }
 
 
@@ -131,7 +131,7 @@ void MainWindow::updateCustomerInfo(QVector<QString> info)
 
 void MainWindow::getCustomerType()
 {
-    pRestApiInterfaceClass->getType(cardNumber);
+    pRestApi->getType(cardNumber);
 }
 
 
@@ -151,7 +151,7 @@ void MainWindow::updateBalance(long long balance)
 
 void MainWindow::get5Transactions()
 {
-    pRestApiInterfaceClass->get5Transactions(cardNumber);
+    pRestApi->get5Transactions(cardNumber);
 }
 
 

@@ -60,7 +60,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
-    DLLRestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApi;
 
     QString cardPin;
     QString cardNumber;

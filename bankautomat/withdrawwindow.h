@@ -67,7 +67,7 @@ private:
     Ui::WithdrawWindow *ui;
 
     MainMenu * pMainMenu;
-    DLLRestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApi;
 
     QString withdrawAmount;
     long long withdrawCents;

@@ -65,7 +65,7 @@ private:
     Ui::MainMenu *ui;
 
     MainWindow * pMainWindow;
-    DLLRestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApi;
     DonationWindow * pDonationWindow;
     TransactionsWindow * pTransactionsWindow;
     WithdrawWindow * pWithdrawWindow;

@@ -12,7 +12,7 @@ DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Donate");
 
-    pRestApiInterfaceClass = api;
+    pRestApi = api;
 
     donationWindowTimer = new QTimer();
     donationWindowTimer->setInterval(10000);  // 10 s timer
@@ -30,10 +30,10 @@ DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     connect(donationWarningTimer, SIGNAL(timeout()),
             this, SLOT(warningTimerFinished()));
 
-    connect(pRestApiInterfaceClass, SIGNAL(transactionComplete()),
+    connect(pRestApi, SIGNAL(transactionComplete()),
             this, SLOT(getBalance()), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+    connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 }
 
@@ -250,8 +250,8 @@ void DonationWindow::on_enterButton_clicked()
 
             else if (remainder == 0){ // the amount is divisible by ten
 
-                if (longCentsBalance > donationCents){ // user has enough money (and is using a debit card)
-                    pRestApiInterfaceClass->debitDonation(cardNumber,charityAccount, donationCents);
+                if (longCentsBalance >= donationCents){ // user has enough money (and is using a debit card)
+                    pRestApi->debitDonation(cardNumber,charityAccount, donationCents);
                     donationCents = 0;
                     donationAmount = "0";
                     donateMessage("good");
@@ -286,8 +286,8 @@ void DonationWindow::on_enterButton_clicked()
 
             else if (remainder == 0){ // the amount is divisible by ten
 
-                if (longCentsBalance > creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
-                    pRestApiInterfaceClass->creditDonation(cardNumber,charityAccount, donationCents);
+                if (longCentsBalance >= creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
+                    pRestApi->creditDonation(cardNumber,charityAccount, donationCents);
                     donationCents = 0;
                     donationAmount = "0";
                     donateMessage("good");
@@ -330,7 +330,7 @@ void DonationWindow::donateMessage(QString message)
 
 void DonationWindow::getBalance()
 {
-    pRestApiInterfaceClass->getBalance(accountNum);
+    pRestApi->getBalance(accountNum);
 }
 
 

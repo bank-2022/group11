@@ -16,10 +16,10 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul");
 
-    pRestApiInterfaceClass = api;
-    pDonationWindow = new DonationWindow(parent, this, pRestApiInterfaceClass);
-    pTransactionsWindow = new TransactionsWindow(parent, this, pRestApiInterfaceClass);
-    pWithdrawWindow = new WithdrawWindow(parent, this, pRestApiInterfaceClass);
+    pRestApi = api;
+    pDonationWindow = new DonationWindow(parent, this, pRestApi);
+    pTransactionsWindow = new TransactionsWindow(parent, this, pRestApi);
+    pWithdrawWindow = new WithdrawWindow(parent, this, pRestApi);
 
     mainMenuTimer = new QTimer();
     mainMenuTimer->setInterval(30000);  // 30 s timer
@@ -33,10 +33,10 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
             this, SLOT(on_logOutButton_clicked()));
 
     // rest api functions
-    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+    connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass,
+    connect(pRestApi,
             SIGNAL(transactions5(QVector<QVector<QString> >)),
             this, SLOT(update5List(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
@@ -159,8 +159,8 @@ void MainMenu::on_refreshButton_clicked()
 
     QApplication::setStyle(QStyleFactory::create("Fusion"));
     reStartMainMenuTimer();
-    pRestApiInterfaceClass->getBalance(accountNumber);
-    pRestApiInterfaceClass->get5Transactions(accountNumber);
+    pRestApi->getBalance(accountNumber);
+    pRestApi->get5Transactions(accountNumber);
 }
 
 

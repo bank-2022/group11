@@ -470,7 +470,7 @@ min-width: 1em;
 padding: 5px;</string>
                </property>
                <property name="text">
-                <string>cancel</string>
+                <string>clear</string>
                </property>
               </widget>
              </item>

@@ -12,7 +12,7 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Withdraw");
 
-    pRestApiInterfaceClass = api;
+    pRestApi = api;
 
     withdrawWindowTimer = new QTimer();
     withdrawWindowTimer->setInterval(10000); // 10 s timer
@@ -30,10 +30,10 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     connect(withdrawWarningTimer, SIGNAL(timeout()),
             this, SLOT(warningTimerFinished()));
 
-    connect(pRestApiInterfaceClass, SIGNAL(transactionComplete()),
+    connect(pRestApi, SIGNAL(transactionComplete()),
             this, SLOT(getBalance()), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+    connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 }
 
@@ -279,8 +279,8 @@ void WithdrawWindow::on_enterButton_clicked()
 
             else if (remainder == 0){ // the amount is divisible by ten
 
-                if (longCentsBalance > withdrawCents){ // user has enough money (and is using a debit card)
-                    pRestApiInterfaceClass->debitWithdrawal(cardNumber, withdrawCents);
+                if (longCentsBalance >= withdrawCents){ // user has enough money (and is using a debit card)
+                    pRestApi->debitWithdrawal(cardNumber, withdrawCents);
                     withdrawCents = 0;
                     withdrawAmount = "0";
                     withdrawMessage("good");
@@ -316,8 +316,8 @@ void WithdrawWindow::on_enterButton_clicked()
 
             else if (remainder == 0){ // the amount is divisible by ten
 
-                if (longCentsBalance > creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
-                    pRestApiInterfaceClass->creditWithdrawal(cardNumber, withdrawCents);
+                if (longCentsBalance >= creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
+                    pRestApi->creditWithdrawal(cardNumber, withdrawCents);
                     withdrawCents = 0;
                     withdrawAmount = "0";
                     withdrawMessage("good");
@@ -360,7 +360,7 @@ void WithdrawWindow::withdrawMessage(QString message)
 
 void WithdrawWindow::getBalance()
 {
-    pRestApiInterfaceClass->getBalance(accountNum);
+    pRestApi->getBalance(accountNum);
 }
 
 
