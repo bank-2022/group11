@@ -50,14 +50,14 @@ DonationWindow::~DonationWindow()
 /* customer info functions */
 void DonationWindow::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Name: "+name);
 }
 
 
 void DonationWindow::printAccountNumber(QString accountNumber)
 {
     accountNum = accountNumber;
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
 }
 
 
@@ -71,7 +71,7 @@ void DonationWindow::printType(QString type)
 void DonationWindow::printBalance(QString balance)
 {
     stringBalance = balance;
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
 }
 
 

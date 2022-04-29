@@ -54,14 +54,14 @@ WithdrawWindow::~WithdrawWindow()
 /* customer info functions */
 void WithdrawWindow::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Name: "+name);
 }
 
 
 void WithdrawWindow::printAccountNumber(QString accountNumber)
 {
     accountNum = accountNumber;
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
 }
 
 
@@ -74,7 +74,7 @@ void WithdrawWindow::printType(QString type)
 void WithdrawWindow::printBalance(QString balance)
 {
     stringBalance = balance;
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
 }
 
 

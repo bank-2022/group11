@@ -77,7 +77,7 @@ void MainMenu::printName(QString name)
 /* customer info functions */
 void MainMenu::printAccountNumber(QString accountNumber)
 {
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
     pWithdrawWindow->printAccountNumber(accountNumber);
     pDonationWindow->printAccountNumber(accountNumber);
     pTransactionsWindow->printAccountNumber(accountNumber);
@@ -95,7 +95,7 @@ void MainMenu::printType(QString type)
 
 void MainMenu::printBalance(QString balance)
 {
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
     pWithdrawWindow->printBalance(balance);
     pDonationWindow->printBalance(balance);
     pTransactionsWindow->printBalance(balance);

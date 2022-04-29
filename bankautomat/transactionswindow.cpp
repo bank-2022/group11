@@ -43,13 +43,13 @@ TransactionsWindow::~TransactionsWindow()
 /* customer info functions */
 void TransactionsWindow::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Name: "+name);
 }
 
 
 void TransactionsWindow::printAccountNumber(QString accountNumber)
 {
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
 }
 
 
@@ -61,7 +61,7 @@ void TransactionsWindow::printType(QString type)
 
 void TransactionsWindow::printBalance(QString balance)
 {
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
 }
 
 
