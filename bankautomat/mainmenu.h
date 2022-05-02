@@ -42,7 +42,7 @@ public:
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
     void printBalance(QString balance);
-    void print5Transactions();
+    void print5Transactions(QString accNum);
 
     void getCardNumber(QString cardnumber);
     void getAccountNumber(QString accountnum);

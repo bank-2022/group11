@@ -111,15 +111,15 @@ void MainMenu::updateTransactions()
 }
 
 
-void MainMenu::print5Transactions()
+void MainMenu::print5Transactions(QString accNum)
 {
     // This function updates the balance and transactions
     // on the main menu window as it opens
 
     QApplication::setStyle(QStyleFactory::create("Fusion"));
     reStartMainMenuTimer();
-    pRestApi->getBalance(accountNumber);
-    pRestApi->get5Transactions(accountNumber);
+    pRestApi->getBalance(accNum);
+    pRestApi->get5Transactions(accNum);
 }
 
 

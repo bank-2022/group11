@@ -57,13 +57,15 @@ MainWindow::~MainWindow()
 void MainWindow::loginSuccessfulSlot()
 {
     ui->warningLabel->setText("Login Successful!");
-    pMainMenu->show();
-    pMainMenu->startMainMenuTimer();
 
     getCustomerInfo();
     getCustomerType();
     get5Transactions();
-    pMainMenu->print5Transactions();
+
+    pMainMenu->show();
+    pMainMenu->startMainMenuTimer();
+
+
 }
 
 
@@ -81,34 +83,28 @@ void MainWindow::forbiddenAccessDetected()
 
 void MainWindow::on_ruusuButton_clicked()
 {
-    accountNumber = "FI4278907654123400";
     cardNumber = "66778899";
     cardPin = "5566";
     pRestApi->login(cardNumber, cardPin);
     pMainMenu->getCardNumber(cardNumber);
-    pMainMenu->getAccountNumber(accountNumber);
 }
 
 
 void MainWindow::on_olaviButton_clicked()
 {
-    accountNumber = "FI5566778899";
     cardNumber = "0987666";
     cardPin = "1234";
     pRestApi->login(cardNumber, cardPin);
     pMainMenu->getCardNumber(cardNumber);
-    pMainMenu->getAccountNumber(accountNumber);
 }
 
 
 void MainWindow::on_failLoginButton_clicked()
 {
-    accountNumber = "FI5566778899";
     cardNumber = "0987666";
     cardPin = "666";
     pRestApi->login(cardNumber, cardPin);
     pMainMenu->getCardNumber(cardNumber);
-    pMainMenu->getAccountNumber(accountNumber);
 }
 
 
@@ -126,6 +122,8 @@ void MainWindow::updateCustomerInfo(QVector<QString> info)
 
     pMainMenu->printName(name);
     pMainMenu->printAccountNumber(accountNumber);
+    pMainMenu->getAccountNumber(accountNumber);
+    pMainMenu->print5Transactions(accountNumber);
 }
 
 
