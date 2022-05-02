@@ -50,7 +50,7 @@ private slots:
     void on_nineButton_clicked();
     void on_zeroButton_clicked();
 
-    void on_cancelButton_clicked();
+    void on_clearButton_clicked();
     void on_enterButton_clicked();
 
     void on_exitButton_clicked();
@@ -64,7 +64,7 @@ private:
     Ui::DonationWindow *ui;
 
     MainMenu * pMainMenu;
-    DLLRestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApi;
 
     QString donationAmount;
     long long donationCents;

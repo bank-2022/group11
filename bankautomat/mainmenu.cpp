@@ -16,10 +16,10 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul");
 
-    pRestApiInterfaceClass = api;
-    pDonationWindow = new DonationWindow(parent, this, pRestApiInterfaceClass);
-    pTransactionsWindow = new TransactionsWindow(parent, this, pRestApiInterfaceClass);
-    pWithdrawWindow = new WithdrawWindow(parent, this, pRestApiInterfaceClass);
+    pRestApi = api;
+    pDonationWindow = new DonationWindow(parent, this, pRestApi);
+    pTransactionsWindow = new TransactionsWindow(parent, this, pRestApi);
+    pWithdrawWindow = new WithdrawWindow(parent, this, pRestApi);
 
     mainMenuTimer = new QTimer();
     mainMenuTimer->setInterval(30000);  // 30 s timer
@@ -33,10 +33,13 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
             this, SLOT(on_logOutButton_clicked()));
 
     // rest api functions
-    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+    connect(pRestApi, SIGNAL(transactionComplete()),
+            this, SLOT(updateTransactions()), Qt::QueuedConnection);
+
+    connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass,
+    connect(pRestApi,
             SIGNAL(transactions5(QVector<QVector<QString> >)),
             this, SLOT(update5List(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
@@ -74,7 +77,7 @@ void MainMenu::printName(QString name)
 /* customer info functions */
 void MainMenu::printAccountNumber(QString accountNumber)
 {
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
     pWithdrawWindow->printAccountNumber(accountNumber);
     pDonationWindow->printAccountNumber(accountNumber);
     pTransactionsWindow->printAccountNumber(accountNumber);
@@ -92,16 +95,31 @@ void MainMenu::printType(QString type)
 
 void MainMenu::printBalance(QString balance)
 {
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
     pWithdrawWindow->printBalance(balance);
     pDonationWindow->printBalance(balance);
     pTransactionsWindow->printBalance(balance);
 }
 
 
-void MainMenu::print5Transactions()
+void MainMenu::updateTransactions()
 {
-    on_refreshButton_clicked();
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    reStartMainMenuTimer();
+    pRestApi->getBalance(accountNumber);
+    pRestApi->get5Transactions(accountNumber);
+}
+
+
+void MainMenu::print5Transactions(QString accNum)
+{
+    // This function updates the balance and transactions
+    // on the main menu window as it opens
+
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    reStartMainMenuTimer();
+    pRestApi->getBalance(accNum);
+    pRestApi->get5Transactions(accNum);
 }
 
 
@@ -148,19 +166,6 @@ void MainMenu::reStartMainMenuTimer()
 {
     mainMenuTimer->stop();
     mainMenuTimer->start();
-}
-
-
-void MainMenu::on_refreshButton_clicked()
-{
-    // This function updates the balance and transactions
-    // on the main menu window when the
-    // refresh button is clicked.
-
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
-    reStartMainMenuTimer();
-    pRestApiInterfaceClass->getBalance(accountNumber);
-    pRestApiInterfaceClass->get5Transactions(accountNumber);
 }
 
 

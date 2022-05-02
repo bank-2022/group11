@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>521</height>
+    <width>340</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,11 @@
   <property name="styleSheet">
    <string notr="true">background-color:rgb(66, 66, 66);</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
         <widget class="QLabel" name="headerLabel">
          <property name="sizePolicy">
@@ -31,7 +31,7 @@
          </property>
          <property name="styleSheet">
           <string notr="true">color: rgb(255, 200, 221);
-font: 63 10pt &quot;Lato Semibold&quot;;</string>
+font: 63 12pt &quot;Lato Semibold&quot;;</string>
          </property>
          <property name="text">
           <string>Transactions:</string>
@@ -39,9 +39,25 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QLabel" name="nameLabel">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>178</width>
+             <height>17</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="typeLabel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
              <horstretch>0</horstretch>
@@ -53,24 +69,14 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
 font: 63 10pt &quot;Lato Semibold&quot;;</string>
            </property>
            <property name="text">
-            <string>Name:</string>
+            <string>Type</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="accountNumberLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(255, 200, 221);
-font: 63 10pt &quot;Lato Semibold&quot;;</string>
-           </property>
+          <widget class="QLabel" name="label_4">
            <property name="text">
-            <string>Account Number:</string>
+            <string>  </string>
            </property>
           </widget>
          </item>
@@ -79,25 +85,33 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <widget class="Line" name="line_3">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>280</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="typeLabel">
+        <widget class="QLabel" name="nameLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 200, 221);
+font: 63 10pt &quot;Lato Semibold&quot;;</string>
+         </property>
+         <property name="text">
+          <string>name</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="accountNumberLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -109,14 +123,14 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
 font: 63 10pt &quot;Lato Semibold&quot;;</string>
          </property>
          <property name="text">
-          <string>Type</string>
+          <string>number</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="balanceLabel">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -126,43 +140,48 @@ font: 63 10pt &quot;Lato Semibold&quot;;</string>
 font: 63 10pt &quot;Lato Semibold&quot;;</string>
          </property>
          <property name="text">
-          <string>Balance:</string>
+          <string>balance</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QTableWidget" name="transactionsTableWidget">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 200, 221);
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="transactionsTableWidget">
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 200, 221);
 font: 63 8pt &quot;Lato Semibold&quot;;
 border: 2px rgb(76, 76, 76);</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QPushButton" name="nextButton">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="nextButton">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
 color: rgb(66, 66, 66);
 background-color:rgb(255, 200, 221);
 border-style: outset;
@@ -171,25 +190,25 @@ border-radius: 10px;
 border-color:rgb(255, 200, 221);
 min-width: 1em;
 padding: 5px;</string>
-         </property>
-         <property name="text">
-          <string>Next</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="previousButton">
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+           </property>
+           <property name="text">
+            <string>Next</string>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>16</width>
+             <height>16</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="previousButton">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
 color: rgb(66, 66, 66);
 background-color:rgb(255, 200, 221);
 border-style: outset;
@@ -198,19 +217,19 @@ border-radius: 10px;
 border-color:rgb(255, 200, 221);
 min-width: 1em;
 padding: 5px;</string>
-         </property>
-         <property name="text">
-          <string>Previous</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="exitButton">
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+           </property>
+           <property name="text">
+            <string>Previous</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="exitButton">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
 color: rgb(66, 66, 66);
 background-color:rgb(255, 200, 221);
 border-style: outset;
@@ -219,11 +238,13 @@ border-radius: 10px;
 border-color:rgb(255, 200, 221);
 min-width: 1em;
 padding: 5px;</string>
-         </property>
-         <property name="text">
-          <string>Exit</string>
-         </property>
-        </widget>
+           </property>
+           <property name="text">
+            <string>Exit</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>

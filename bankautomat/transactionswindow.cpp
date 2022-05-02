@@ -12,7 +12,7 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestAp
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Transactions");
 
-    pRestApiInterfaceClass = api;
+    pRestApi = api;
     pMainMenu = ptr;
 
     transactionsWindowTimer = new QTimer();
@@ -23,7 +23,7 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestAp
     connect(transactionsWindowTimer, SIGNAL(timeout()),
             this, SLOT(on_exitButton_clicked()));
 
-    connect(pRestApiInterfaceClass,
+    connect(pRestApi,
             SIGNAL(transactions10(QVector<QVector<QString> >)),
             this, SLOT(updateList(QVector<QVector<QString> >)),
             Qt::QueuedConnection);
@@ -43,13 +43,13 @@ TransactionsWindow::~TransactionsWindow()
 /* customer info functions */
 void TransactionsWindow::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Name: "+name);
 }
 
 
 void TransactionsWindow::printAccountNumber(QString accountNumber)
 {
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
 }
 
 
@@ -61,7 +61,7 @@ void TransactionsWindow::printType(QString type)
 
 void TransactionsWindow::printBalance(QString balance)
 {
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
 }
 
 
@@ -82,7 +82,7 @@ void TransactionsWindow::showTransactions(QString accountNumber)
 {
     accountNum = accountNumber;
     index = 0;
-    pRestApiInterfaceClass->get10Transactions(accountNumber, index);
+    pRestApi->get10Transactions(accountNumber, index);
 }
 
 
@@ -90,7 +90,7 @@ void TransactionsWindow::on_nextButton_clicked()
 {
     reStartTransactionsWindowTimer();
     index += 10;
-    pRestApiInterfaceClass->get10Transactions(accountNum, index);
+    pRestApi->get10Transactions(accountNum, index);
 }
 
 
@@ -99,7 +99,7 @@ void TransactionsWindow::on_previousButton_clicked()
     reStartTransactionsWindowTimer();
     if (index != 0){
         index -= 10;
-        pRestApiInterfaceClass->get10Transactions(accountNum, index);
+        pRestApi->get10Transactions(accountNum, index);
     }
     else {
         index = 0;

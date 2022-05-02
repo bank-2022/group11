@@ -12,7 +12,7 @@ DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     ui->setupUi(this);
     this->setWindowTitle("Turtle Software Banksimul - Donate");
 
-    pRestApiInterfaceClass = api;
+    pRestApi = api;
 
     donationWindowTimer = new QTimer();
     donationWindowTimer->setInterval(10000);  // 10 s timer
@@ -30,10 +30,10 @@ DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
     connect(donationWarningTimer, SIGNAL(timeout()),
             this, SLOT(warningTimerFinished()));
 
-    connect(pRestApiInterfaceClass, SIGNAL(transactionComplete()),
+    connect(pRestApi, SIGNAL(transactionComplete()),
             this, SLOT(getBalance()), Qt::QueuedConnection);
 
-    connect(pRestApiInterfaceClass, SIGNAL(balance(long long)),
+    connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
 }
 
@@ -50,14 +50,14 @@ DonationWindow::~DonationWindow()
 /* customer info functions */
 void DonationWindow::printName(QString name)
 {
-    ui->nameLabel->setText(name);
+    ui->nameLabel->setText("Name: "+name);
 }
 
 
 void DonationWindow::printAccountNumber(QString accountNumber)
 {
     accountNum = accountNumber;
-    ui->accountNumberLabel->setText(accountNumber);
+    ui->accountNumberLabel->setText("Account: "+accountNumber);
 }
 
 
@@ -71,7 +71,7 @@ void DonationWindow::printType(QString type)
 void DonationWindow::printBalance(QString balance)
 {
     stringBalance = balance;
-    ui->balanceLabel->setText(balance);
+    ui->balanceLabel->setText("Balance: "+balance+" €");
 }
 
 
@@ -210,12 +210,12 @@ void DonationWindow::on_zeroButton_clicked()
 
 
 /* backspace button */
-void DonationWindow::on_cancelButton_clicked()
+void DonationWindow::on_clearButton_clicked()
 {
     reStartDonationWindowTimer();
-    int i = donationAmount.count();
-    donationAmount.remove((i-1),1);
-    ui->amountLine->setText(donationAmount);
+    donationAmount="0";
+    donationFlag = true;
+    ui->amountLine->clear();
 }
 
 
@@ -225,7 +225,6 @@ void DonationWindow::on_enterButton_clicked()
     donationWarningTimer->stop();
 
     donationCents = donationAmount.toInt() * 100;
-    double remainder = donationCents % 1000;
     longCentsBalance = stringBalance.toDouble() * 100;
 
     double creditLimit = -500000; // credit limit is 5000 €
@@ -237,31 +236,25 @@ void DonationWindow::on_enterButton_clicked()
             donateMessage("bad");
             donationWarningTimer->start();
         }
+
         else if (donationCents > 50000){ // user tries to donate more than 500 €
             donateMessage("bad");
             donationWarningTimer->start();
         }
+
         else if (donationCents >= 1000 && donationCents <= 50000){ // the amount is 10 - 500 €
 
-            if (remainder != 0){ // the amount is not divisible by ten
-                donateMessage("false");
+            if (longCentsBalance >= donationCents){ // user has enough money (and is using a debit card)
+                pRestApi->debitDonation(cardNumber,charityAccount, donationCents);
+                donationCents = 0;
+                donationAmount = "0";
+                donateMessage("good");
                 donationWarningTimer->start();
             }
 
-            else if (remainder == 0){ // the amount is divisible by ten
-
-                if (longCentsBalance > donationCents){ // user has enough money (and is using a debit card)
-                    pRestApiInterfaceClass->debitDonation(cardNumber,charityAccount, donationCents);
-                    donationCents = 0;
-                    donationAmount = "0";
-                    donateMessage("good");
-                    donationWarningTimer->start();
-                }
-
-                else if (longCentsBalance < donationCents){ // the balance isn't enough
-                    donateMessage("poor");
-                    donationWarningTimer->start();
-                }
+            else if (longCentsBalance < donationCents){ // the balance isn't enough
+                donateMessage("poor");
+                donationWarningTimer->start();
             }
         }
     }
@@ -279,27 +272,18 @@ void DonationWindow::on_enterButton_clicked()
         }
         else if (donationCents >= 1000 && donationCents <= 50000){ // the amount is 10 - 500 €
 
-            if (remainder != 0){ // the amount is not divisible by ten
-                donateMessage("false");
+            if (longCentsBalance >= creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
+                pRestApi->creditDonation(cardNumber,charityAccount, donationCents);
+                donationCents = 0;
+                donationAmount = "0";
+                donateMessage("good");
                 donationWarningTimer->start();
             }
 
-            else if (remainder == 0){ // the amount is divisible by ten
-
-                if (longCentsBalance > creditLimit){ // user has not exeeded the credit limit (and is using a credit card)
-                    pRestApiInterfaceClass->creditDonation(cardNumber,charityAccount, donationCents);
-                    donationCents = 0;
-                    donationAmount = "0";
-                    donateMessage("good");
-                    donationWarningTimer->start();
-                }
-
-                else if (longCentsBalance <= creditLimit){ // the credit limit has been exeeded
-                    donateMessage("poor");
-                    donationWarningTimer->start();
-                }
+            else if (longCentsBalance <= creditLimit){ // the credit limit has been exeeded
+                donateMessage("verypoor");
+                donationWarningTimer->start();
             }
-
         }
     }
 }
@@ -319,8 +303,8 @@ void DonationWindow::donateMessage(QString message)
         ui->amountLine->setText("Not enough money on account!");
     }
 
-    else if (message == "false"){
-        ui->amountLine->setText("Amount must be divisible by ten.");
+    else if (message == "verypoor"){
+        ui->amountLine->setText("Credit limit exeeded!");
     }
 
     else {
@@ -330,7 +314,7 @@ void DonationWindow::donateMessage(QString message)
 
 void DonationWindow::getBalance()
 {
-    pRestApiInterfaceClass->getBalance(accountNum);
+    pRestApi->getBalance(accountNum);
 }
 
 
@@ -381,6 +365,8 @@ void DonationWindow::clearDonationWindow()
 void DonationWindow::on_exitButton_clicked()
 {
     donationWindowTimer->stop();
+    donationAmount="0";
+    donationFlag = true;
     ui->amountLine->clear();
     pMainMenu->startMainMenuTimer();
     this -> close();

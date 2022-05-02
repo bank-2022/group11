@@ -43,7 +43,7 @@ private slots:
 private:
     Ui::TransactionsWindow *ui;
     MainMenu * pMainMenu;
-    DLLRestApi * pRestApiInterfaceClass;
+    DLLRestApi * pRestApi;
 
     QString accountNum;
     int index;
