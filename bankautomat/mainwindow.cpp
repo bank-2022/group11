@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     pRestApi = new DLLRestApi;
     pRestApi->setBaseURL("http://localhost:3000");
 
+    pSerialPort = new DLLSerialPort("COM5");
+
     pMainMenu = new MainMenu(parent, this, pRestApi);
 
     qRegisterMetaType<QVector<QString>>("QVector<QString");
@@ -37,6 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
+
+    connect(pSerialPort, SIGNAL(returnValue(QString)),
+            this, SLOT(receiveCardNumber(QString)), Qt::QueuedConnection);
+    pSerialPort->interfaceFunctionOpenConnection();
 }
 
 
@@ -54,6 +60,12 @@ MainWindow::~MainWindow()
 
 
 /* Login functions */
+void MainWindow::receiveCardNumber(QString rfid)
+{
+    ui->warningLabel->setText(rfid);
+}
+
+
 void MainWindow::loginSuccessfulSlot()
 {
     ui->warningLabel->setText("Login Successful!");

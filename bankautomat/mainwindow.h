@@ -16,6 +16,7 @@
 #include <QJsonDocument>
 
 #include "dllrestapi.h"
+#include "dllserialport.h"
 
 #include "mainmenu.h"
 
@@ -43,24 +44,23 @@ public slots:
 private slots:
     void getCustomerInfo();
     void updateCustomerInfo(QVector<QString> info);
-
     void getCustomerType();
     void updateType(QString type);
-
     void updateBalance(long long balance);
-
     void get5Transactions();
 
+    void receiveCardNumber(QString);
+
+    // these are for testing
     void on_ruusuButton_clicked();
-
     void on_olaviButton_clicked();
-
     void on_failLoginButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
     DLLRestApi * pRestApi;
+    DLLSerialPort * pSerialPort;
 
     QString cardPin;
     QString cardNumber;
