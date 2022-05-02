@@ -5,6 +5,8 @@
 #include <QObject>
 #include "creditdebit.h"
 #include "pincode.h"
+#include <QStackedWidget>
+#include <QVBoxLayout>
 
 class DLLPINUI_EXPORT DLLPinUI : public QObject
 {
@@ -14,18 +16,25 @@ public:
     DLLPinUI();
     ~DLLPinUI();
     void showPincode();
-    void loginSuccessful();
+    void loginSuccessful(bool locked);
     void loginFailed(QString message);
+    void showCreditDebit(QString type);
 
 signals:
     void sendPincode(QString pin);
+    void getType();
+    void putLocked(QString locked);
 
 private slots:
     void receivePincode(QString pin);
+    void getTypeSlot();
+    void putLockedSlot(QString locked);
 
 private:
     Pincode * pPincode;
     CreditDebit * pCreditDebit;
+    QStackedWidget * pStackedWidget;
+    QVBoxLayout * pLayout;
 
 };
 

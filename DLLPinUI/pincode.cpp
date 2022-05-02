@@ -16,17 +16,13 @@ Pincode::Pincode(QWidget *parent) :
     napit.append(ui->B8);
     napit.append(ui->B9);
 
+    loginAttempts = 0;
+
 }
 
 Pincode::~Pincode()
 {
     delete ui;
-}
-
-void Pincode::handleClick()
-{
-    QObject * sender = QObject::sender();
-    qDebug() << sender->objectName();
 }
 
 void Pincode::pinNumber(QString x)
@@ -43,19 +39,34 @@ void Pincode::pinNumber(QString x)
     }
 }
 
-void Pincode::loginSuccessful()
+void Pincode::loginSuccessful(bool locked)
 {
-    ui->label_2->setText("Login successful");
+    if (locked == true){
+        ui->label_2->setText("Card locked");
+    }
+    else {
+        ui->label_2->setText("Login successful");
+        emit getType();
+    }
 }
 
 void Pincode::loginFailed(QString message)
 {
+    ui->lineEdit->clear();
+    if (message != "Error connecting to server" ||
+        message != "Database error"){
+        loginAttempts++;
+    }
     ui->label_2->setText(message);
+
+    if (loginAttempts >= 3){
+        ui->label_2->setText("Card locked");
+        emit putLocked("yes");
+    }
 }
 
 void Pincode::on_B1_clicked()
 {
-    handleClick();
     pinNumber("1");
     pinFlag = true;
 }
@@ -63,7 +74,6 @@ void Pincode::on_B1_clicked()
 
 void Pincode::on_B2_clicked()
 {
-    handleClick();
     pinNumber("2");
     pinFlag = true;
 }
@@ -71,7 +81,6 @@ void Pincode::on_B2_clicked()
 
 void Pincode::on_B3_clicked()
 {
-    handleClick();
     pinNumber("3");
     pinFlag = true;
 }
@@ -79,7 +88,6 @@ void Pincode::on_B3_clicked()
 
 void Pincode::on_B4_clicked()
 {
-    handleClick();
     pinNumber("4");
     pinFlag = true;
 }
@@ -87,7 +95,6 @@ void Pincode::on_B4_clicked()
 
 void Pincode::on_B5_clicked()
 {
-    handleClick();
     pinNumber("5");
     pinFlag = true;
 }
@@ -95,7 +102,6 @@ void Pincode::on_B5_clicked()
 
 void Pincode::on_B6_clicked()
 {
-    handleClick();
     pinNumber("6");
     pinFlag = true;
 }
@@ -103,7 +109,6 @@ void Pincode::on_B6_clicked()
 
 void Pincode::on_B7_clicked()
 {
-    handleClick();
     pinNumber("7");
     pinFlag = true;
 }
@@ -111,7 +116,6 @@ void Pincode::on_B7_clicked()
 
 void Pincode::on_B8_clicked()
 {
-    handleClick();
     pinNumber("8");
     pinFlag = true;
 }
@@ -119,7 +123,6 @@ void Pincode::on_B8_clicked()
 
 void Pincode::on_B9_clicked()
 {
-    handleClick();
     pinNumber("9");
     pinFlag = true;
 }
@@ -127,7 +130,6 @@ void Pincode::on_B9_clicked()
 
 void Pincode::on_BBack_clicked()
 {
-    handleClick();
     ui->lineEdit->clear();
     pinFlag = false;
 }
@@ -135,7 +137,6 @@ void Pincode::on_BBack_clicked()
 
 void Pincode::on_B0_clicked()
 {
-    handleClick();
     pinNumber("0");
     pinFlag = true;
 }
@@ -143,7 +144,6 @@ void Pincode::on_B0_clicked()
 
 void Pincode::on_BEnter_clicked()
 {
-    handleClick();
     QString pin = ui->lineEdit->text();
     emit sendPincode(pin);
 }

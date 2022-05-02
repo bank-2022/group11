@@ -2,6 +2,7 @@
 
 DLLPinUI::DLLPinUI()
 {
+
 }
 
 DLLPinUI::~DLLPinUI()
@@ -13,15 +14,21 @@ DLLPinUI::~DLLPinUI()
 void DLLPinUI::showPincode()
 {
     pPincode = new Pincode;
-    pPincode->show();
     connect(pPincode, SIGNAL(sendPincode(QString)),
             this, SLOT(receivePincode(QString)),
             Qt::QueuedConnection);
+    connect(pPincode, SIGNAL(getType()),
+            this, SLOT(getTypeSlot()),
+            Qt::QueuedConnection);
+    connect(pPincode, SIGNAL(putLocked(QString)),
+            this, SLOT(putLockedSlot(QString)),
+            Qt::QueuedConnection);
+    pPincode->show();
 }
 
-void DLLPinUI::loginSuccessful()
+void DLLPinUI::loginSuccessful(bool locked)
 {
-    pPincode->loginSuccessful();
+    pPincode->loginSuccessful(locked);
 }
 
 void DLLPinUI::loginFailed(QString message)
@@ -29,8 +36,29 @@ void DLLPinUI::loginFailed(QString message)
     pPincode->loginFailed(message);
 }
 
+void DLLPinUI::showCreditDebit(QString type)
+{
+    if (type == "credit") {
+        pPincode->close();
+        pCreditDebit = new CreditDebit;
+        pCreditDebit->show();
+    }
+    else {
+        pPincode->close();
+    }
+}
+
 void DLLPinUI::receivePincode(QString pin)
 {
-    qDebug()<<pin;
     emit sendPincode(pin);
+}
+
+void DLLPinUI::getTypeSlot()
+{
+    emit getType();
+}
+
+void DLLPinUI::putLockedSlot(QString locked)
+{
+    emit putLocked(locked);
 }
