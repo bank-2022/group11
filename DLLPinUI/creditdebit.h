@@ -15,6 +15,14 @@ public:
     explicit CreditDebit(QWidget *parent = nullptr);
     ~CreditDebit();
 
+private slots:
+    void on_CreditButton_clicked();
+
+    void on_DebitButton_clicked();
+
+signals:
+    void creditDebitSignal(QString choice);
+
 private:
     Ui::CreditDebit *ui;
 };

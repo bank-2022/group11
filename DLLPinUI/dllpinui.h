@@ -16,19 +16,19 @@ public:
     DLLPinUI();
     ~DLLPinUI();
     void showPincode();
-    void loginSuccessful(bool locked);
+    void loginSuccessful();
     void loginFailed(QString message);
     void showCreditDebit(QString type);
 
 signals:
     void sendPincode(QString pin);
     void getType();
-    void putLocked(QString locked);
+    void creditDebit(QString choice);
 
 private slots:
     void receivePincode(QString pin);
     void getTypeSlot();
-    void putLockedSlot(QString locked);
+    void creditDebitSlot(QString choice);
 
 private:
     Pincode * pPincode;

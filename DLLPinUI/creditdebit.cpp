@@ -12,3 +12,17 @@ CreditDebit::~CreditDebit()
 {
     delete ui;
 }
+
+void CreditDebit::on_CreditButton_clicked()
+{
+    emit creditDebitSignal("credit");
+    this->close();
+}
+
+
+void CreditDebit::on_DebitButton_clicked()
+{
+    emit creditDebitSignal("debit");
+    this->close();
+}
+

@@ -17,13 +17,12 @@ public:
     ~Pincode();
     void handleClick();
     void pinNumber(QString x);
-    void loginSuccessful(bool locked);
+    void loginSuccessful();
     void loginFailed(QString message);
 
 signals:
     void sendPincode(QString pin);
     void getType();
-    void putLocked(QString locked);
 
 private slots:
     void on_B1_clicked();
@@ -56,8 +55,8 @@ private:
     short i;
     QString pin;
     bool pinFlag;
-    bool locked;
     short loginAttempts;
+    bool locked;
 };
 
 #endif // PINCODE_H

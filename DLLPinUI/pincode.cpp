@@ -17,6 +17,7 @@ Pincode::Pincode(QWidget *parent) :
     napit.append(ui->B9);
 
     loginAttempts = 0;
+    locked = false;
 
 }
 
@@ -39,20 +40,20 @@ void Pincode::pinNumber(QString x)
     }
 }
 
-void Pincode::loginSuccessful(bool locked)
+void Pincode::loginSuccessful()
 {
-    if (locked == true){
-        ui->label_2->setText("Card locked");
+    if (locked == false){
+        emit getType();
     }
     else {
-        ui->label_2->setText("Login successful");
-        emit getType();
+        ui->label_2->setText("Card locked");
     }
 }
 
 void Pincode::loginFailed(QString message)
 {
     ui->lineEdit->clear();
+    pinFlag = false;
     if (message != "Error connecting to server" ||
         message != "Database error"){
         loginAttempts++;
@@ -60,8 +61,8 @@ void Pincode::loginFailed(QString message)
     ui->label_2->setText(message);
 
     if (loginAttempts >= 3){
+        locked = true;
         ui->label_2->setText("Card locked");
-        emit putLocked("yes");
     }
 }
 
