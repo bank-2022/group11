@@ -4,6 +4,10 @@
 #include "mainwindow.h"
 
 
+/* In this window the user will be able to donate money to a pre-selected charity.
+ * The user can also view their account information (name, balance and accountnumber).*/
+
+
 DonationWindow::DonationWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::DonationWindow),
@@ -94,6 +98,13 @@ void DonationWindow::reStartDonationWindowTimer()
 }
 
 
+void DonationWindow::warningTimerFinished()
+{
+    ui->amountLine->setText(donationAmount);
+    donationWarningTimer->start();
+}
+
+
 /* functions for different donation options (10e, 20e, 50e). */
 void DonationWindow::on_tenButton_clicked()
 {
@@ -122,8 +133,8 @@ void DonationWindow::on_fiftyButton_clicked()
 }
 
 
-/* functions for manually choosing the amount which will be donated (numbers 0-9, enter, backspace) */
-
+/* functions for manually choosing the amount which
+ * will be donated (numbers 0-9, enter, backspace) */
 void DonationWindow::donateOtherAmount(QString i)
 {
     if (donationFlag == true) {
@@ -344,10 +355,19 @@ QString DonationWindow::convertToEuros(long long sum)
 }
 
 
-void DonationWindow::warningTimerFinished()
+void DonationWindow::on_exitButton_clicked()
 {
-    ui->amountLine->setText(donationAmount);
-    donationWarningTimer->start();
+    /* stops the donation window timer,
+     * clears donation amount and amount line
+     * starts the main menu timer
+     * and closes the donation window */
+
+    donationWindowTimer->stop();
+    donationAmount="0";
+    donationFlag = true;
+    ui->amountLine->clear();
+    pMainMenu->startMainMenuTimer();
+    this -> close();
 }
 
 
@@ -359,15 +379,4 @@ void DonationWindow::clearDonationWindow()
     ui->nameLabel->clear();
     ui->typeLabel->clear();
     this->close();
-}
-
-
-void DonationWindow::on_exitButton_clicked()
-{
-    donationWindowTimer->stop();
-    donationAmount="0";
-    donationFlag = true;
-    ui->amountLine->clear();
-    pMainMenu->startMainMenuTimer();
-    this -> close();
 }

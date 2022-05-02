@@ -4,6 +4,10 @@
 #include "mainwindow.h"
 
 
+/* In this window the user will be able to withdraw money from their account. The
+ * user can also view their account information (name, balance and accountnumber).*/
+
+
 WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
     ui(new Ui::WithdrawWindow),
@@ -94,6 +98,13 @@ void WithdrawWindow::reStartWithdrawWindowTimer()
 {
     withdrawWindowTimer->stop();
     withdrawWindowTimer->start();
+}
+
+
+void WithdrawWindow::warningTimerFinished()
+{
+    ui->amountLine->setText(withdrawAmount);
+    withdrawWarningTimer->start();
 }
 
 
@@ -390,10 +401,19 @@ QString WithdrawWindow::convertToEuros(long long sum)
 }
 
 
-void WithdrawWindow::warningTimerFinished()
+void WithdrawWindow::on_exitButton_clicked()
 {
-    ui->amountLine->setText(withdrawAmount);
-    withdrawWarningTimer->start();
+    /* stops the withdraw window timer,
+     * clears withdraw amount and amount line
+     * starts the main menu timer
+     * and closes the withdraw window */
+
+    withdrawWindowTimer->stop();
+    withdrawAmount="0";
+    withdrawFlag = true;
+    ui->amountLine->clear();
+    pMainMenu->startMainMenuTimer();
+    this->close();
 }
 
 
@@ -404,16 +424,5 @@ void WithdrawWindow::clearWithdrawWindow()
     ui->balanceLabel->clear();
     ui->nameLabel->clear();
     ui->typeLabel->clear();
-    this->close();
-}
-
-
-void WithdrawWindow::on_exitButton_clicked()
-{
-    withdrawWindowTimer->stop();
-    withdrawAmount="0";
-    withdrawFlag = true;
-    ui->amountLine->clear();
-    pMainMenu->startMainMenuTimer();
     this->close();
 }

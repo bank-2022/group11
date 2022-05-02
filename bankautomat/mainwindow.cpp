@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     pRestApi = new DLLRestApi;
     pRestApi->setBaseURL("http://localhost:3000");
 
-    pSerialPort = new DLLSerialPort("COM5");
+    pSerialPort = new DLLSerialPort("COM5"); // change this depending on what port is used
 
     pMainMenu = new MainMenu(parent, this, pRestApi);
 

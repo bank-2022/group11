@@ -165,8 +165,6 @@ void MainMenu::update5List(QVector<QVector<QString>> list)
     }
 }
 
-////////////////////////////////////////////////////////////////
-
 
 void MainMenu::getCardNumber(QString cardnumber)
 {
@@ -179,12 +177,14 @@ void MainMenu::getCardNumber(QString cardnumber)
 
 void MainMenu::getAccountNumber(QString accountNum)
 {
+    /* saves the accountnumber to variable */
     accountNumber = accountNum;
 }
 
 
 void MainMenu::updateBalance(long long balance)
 {
+    /* updates the balance */
     QString stringBalance = convertToEuros(balance);
     ui->balanceLabel->setText(stringBalance);
 }
@@ -206,8 +206,6 @@ QString MainMenu::convertToEuros(long long sum)
     }
     return QString::number(sum / 100) + "." + centString;
 }
-
-//////////////////////////////////////////////////////
 
 
 /* timer functions */
@@ -264,6 +262,10 @@ void MainMenu::on_donateButton_clicked()
 
 void MainMenu::on_logOutButton_clicked()
 {
+    /* stops the main menu timer,
+     * clears all windows
+     * and closes main menu window */
+
     mainMenuTimer->stop();
     pWithdrawWindow->clearWithdrawWindow();
     pDonationWindow->clearDonationWindow();
