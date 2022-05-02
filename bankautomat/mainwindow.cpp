@@ -63,6 +63,20 @@ MainWindow::~MainWindow()
 void MainWindow::receiveCardNumber(QString rfid)
 {
     ui->warningLabel->setText(rfid);
+    cardNumber = rfid;
+
+    if ( cardNumber == "06000DE540"){
+        cardNumber = "06000DE540";
+        cardPin = "1234";
+        pRestApi->login(cardNumber, cardPin);
+        pMainMenu->getCardNumber(cardNumber);
+    }
+    else if ( cardNumber == "0B0032AD79"){
+            cardNumber = "0B0032AD79";
+            cardPin = "4321";
+            pRestApi->login(cardNumber, cardPin);
+            pMainMenu->getCardNumber(cardNumber);
+        }
 }
 
 
