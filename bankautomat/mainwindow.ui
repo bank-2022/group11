@@ -17,100 +17,17 @@
    <string notr="true">background-color:rgb(66, 66, 66);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="label">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 200, 221);
-font: 63 10pt &quot;Lato Semibold&quot;;</string>
-          </property>
-          <property name="text">
-           <string>Insert Card, please</string>
-          </property>
-         </widget>
-        </item>
-        <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="warningLabel">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 200, 221);
-font: 63 10pt &quot;Lato Semibold&quot;;</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="ruusuButton">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
-color: rgb(66, 66, 66);
-background-color:rgb(255, 200, 221);
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-border-color:rgb(255, 200, 221);
-min-width: 1em;
-padding: 5px;</string>
-          </property>
-          <property name="text">
-           <string>credit, ruusu</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="failLoginButton">
-          <property name="styleSheet">
-           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
-color: rgb(66, 66, 66);
-background-color:rgb(255, 200, 221);
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-border-color:rgb(255, 200, 221);
-min-width: 1em;
-padding: 5px;</string>
-          </property>
-          <property name="text">
-           <string>fail login</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="olaviButton">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
-color: rgb(66, 66, 66);
-background-color:rgb(255, 200, 221);
-border-style: outset;
-border-width: 1px;
-border-radius: 10px;
-border-color:rgb(255, 200, 221);
-min-width: 1em;
-padding: 5px;</string>
-          </property>
-          <property name="text">
-           <string>debit, olavi</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QLabel" name="label">
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 200, 221);
+font: 63 12pt &quot;Lato Semibold&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Insert Card, please</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

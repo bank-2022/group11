@@ -34,13 +34,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QString name;
-    QString accountNumber;
-
 public slots:
     void loginSuccessfulSlot();
     void loginFailedSlot(QString message);
-    void forbiddenAccessDetected();
 
 private slots:
     void receivePincode(QString pin);
@@ -54,11 +50,6 @@ private slots:
     void receiveCardNumber(QString);
     void showMainMenu(QString type);
 
-    // these are for testing
-    void on_ruusuButton_clicked();
-    void on_olaviButton_clicked();
-    void on_failLoginButton_clicked();
-
 private:
     Ui::MainWindow *ui;
     MainMenu * pMainMenu;
@@ -68,6 +59,8 @@ private:
 
     QString cardPin;
     QString cardNumber;
+    QString name;
+    QString accountNumber;
 
     QString convertToEuros(long long sum);
 

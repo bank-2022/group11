@@ -30,9 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pRestApi, SIGNAL(loginFailed(QString)),
             this, SLOT(loginFailedSlot(QString)), Qt::QueuedConnection);
 
-    connect(pRestApi, SIGNAL(forbiddenAccess()),
-            this, SLOT(forbiddenAccessDetected()), Qt::QueuedConnection);
-
     connect(pRestApi,SIGNAL(customerInfo(QVector<QString>)),
             this, SLOT(updateCustomerInfo(QVector<QString>)),Qt::QueuedConnection);
 
@@ -81,23 +78,9 @@ MainWindow::~MainWindow()
 /* Login functions */
 void MainWindow::receiveCardNumber(QString rfid)
 {
-    ui->warningLabel->setText(rfid);
     cardNumber = rfid;
     pPinUI->showPincode();
     pMainMenu->getCardNumber(cardNumber);
-
-    /*if ( cardNumber == "06000DE540"){
-        cardNumber = "06000DE540";
-        cardPin = "1234";
-        pRestApi->login(cardNumber, cardPin);
-        pMainMenu->getCardNumber(cardNumber);
-    }
-    else if ( cardNumber == "0B0032AD79"){
-            cardNumber = "0B0032AD79";
-            cardPin = "4321";
-            pRestApi->login(cardNumber, cardPin);
-            pMainMenu->getCardNumber(cardNumber);
-        }*/
 }
 
 
@@ -109,18 +92,9 @@ void MainWindow::receivePincode(QString pin)
 
 void MainWindow::loginSuccessfulSlot()
 {
-    ui->warningLabel->setText("Login Successful!");
-
     getCustomerInfo();
-    //getCustomerType();
     get5Transactions();
-
     pPinUI->loginSuccessful();
-
-    /*pMainMenu->show();
-    pMainMenu->startMainMenuTimer();*/
-
-
 }
 
 
@@ -135,39 +109,6 @@ void MainWindow::showMainMenu(QString type)
 void MainWindow::loginFailedSlot(QString message)
 {
     pPinUI->loginFailed(message);
-}
-
-
-void MainWindow::forbiddenAccessDetected()
-{
-    ui->warningLabel->setText("FORBIDDEN");
-}
-
-
-void MainWindow::on_ruusuButton_clicked()
-{
-    cardNumber = "66778899";
-    cardPin = "5566";
-    pRestApi->login(cardNumber, cardPin);
-    pMainMenu->getCardNumber(cardNumber);
-}
-
-
-void MainWindow::on_olaviButton_clicked()
-{
-    cardNumber = "0987666";
-    cardPin = "1234";
-    pRestApi->login(cardNumber, cardPin);
-    pMainMenu->getCardNumber(cardNumber);
-}
-
-
-void MainWindow::on_failLoginButton_clicked()
-{
-    cardNumber = "0987666";
-    cardPin = "666";
-    pRestApi->login(cardNumber, cardPin);
-    pMainMenu->getCardNumber(cardNumber);
 }
 
 
