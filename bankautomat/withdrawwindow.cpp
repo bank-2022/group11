@@ -28,11 +28,11 @@ WithdrawWindow::WithdrawWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) 
 
     // if the 10 s timer has ran out, this window will be closed
     connect(withdrawWindowTimer, SIGNAL(timeout()),
-            this, SLOT(on_exitButton_clicked()));
+            this, SLOT(on_exitButton_clicked()), Qt::QueuedConnection);
 
     // if the 5 s timer has ran out, the warning will be closed
     connect(withdrawWarningTimer, SIGNAL(timeout()),
-            this, SLOT(warningTimerFinished()));
+            this, SLOT(warningTimerFinished()), Qt::QueuedConnection);
 
     connect(pRestApi, SIGNAL(transactionComplete()),
             this, SLOT(getBalance()), Qt::QueuedConnection);

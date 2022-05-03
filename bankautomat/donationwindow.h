@@ -18,11 +18,11 @@ public:
     explicit DonationWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, DLLRestApi *api = nullptr);
     ~DonationWindow();
 
-    QTimer * donationWindowTimer;
+
     void startDonationWindowTimer();
     void reStartDonationWindowTimer();
 
-    QTimer * donationWarningTimer;
+
 
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
@@ -84,6 +84,9 @@ private:
     QString accountNum;
 
     bool donationFlag;
+
+    QTimer * donationWindowTimer;
+    QTimer * donationWarningTimer;
 };
 
 #endif // DONATIONWINDOW_H

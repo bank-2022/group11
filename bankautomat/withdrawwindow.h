@@ -18,11 +18,8 @@ public:
     explicit WithdrawWindow(QWidget *parent = nullptr, MainMenu * ptr = nullptr, DLLRestApi *api = nullptr);
     ~WithdrawWindow();
 
-    QTimer * withdrawWindowTimer;
     void startWithdrawWindowTimer();
     void reStartWithdrawWindowTimer();
-
-    QTimer * withdrawWarningTimer;
 
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
@@ -85,6 +82,9 @@ private:
     QString accountNum;
 
     bool withdrawFlag;
+
+    QTimer * withdrawWindowTimer;
+    QTimer * withdrawWarningTimer;
 };
 
 #endif // WITHDRAWWINDOW_H

@@ -23,7 +23,7 @@ public:
     explicit TransactionsWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, DLLRestApi *api = nullptr);
     ~TransactionsWindow();
 
-    QTimer * transactionsWindowTimer;
+
     void startTransactionsWindowTimer();
     void reStartTransactionsWindowTimer();
 
@@ -45,6 +45,7 @@ private:
     MainMenu * pMainMenu;
     DLLRestApi * pRestApi;
 
+    QTimer * transactionsWindowTimer;
     QString accountNum;
     int index;
 };

@@ -30,7 +30,7 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
 
     // if the 30 s timer has ran out, this window will be closed
     connect(mainMenuTimer, SIGNAL(timeout()),
-            this, SLOT(on_logOutButton_clicked()));
+            this, SLOT(on_logOutButton_clicked()), Qt::QueuedConnection);
 
     // rest api functions
     connect(pRestApi, SIGNAL(transactionComplete()),

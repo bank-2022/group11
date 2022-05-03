@@ -34,7 +34,7 @@ public:
     explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, DLLRestApi *api = nullptr);
     ~MainMenu();
 
-    QTimer * mainMenuTimer;
+
     void startMainMenuTimer();
     void reStartMainMenuTimer();
 
@@ -71,6 +71,8 @@ private:
 
     QString accountNumber;
     QString cardNumber;
+
+    QTimer * mainMenuTimer;
 };
 
 #endif // MAINMENU_H

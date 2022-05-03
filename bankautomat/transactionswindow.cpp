@@ -24,7 +24,7 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestAp
 
     // if the 10 s timer has ran out, this window will be closed
     connect(transactionsWindowTimer, SIGNAL(timeout()),
-            this, SLOT(on_exitButton_clicked()));
+            this, SLOT(on_exitButton_clicked()), Qt::QueuedConnection);
 
     connect(pRestApi,
             SIGNAL(transactions10(QVector<QVector<QString> >)),
