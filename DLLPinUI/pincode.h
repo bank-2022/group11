@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDebug>
+#include <QTimer>
 
 namespace Ui {
 class Pincode;
@@ -15,10 +16,11 @@ class Pincode : public QDialog
 public:
     explicit Pincode(QWidget *parent = nullptr);
     ~Pincode();
-    void handleClick();
     void pinNumber(QString x);
     void loginSuccessful();
     void loginFailed(QString message);
+    void startPincodeTimer();
+    void restartPincodeTimer();
 
 signals:
     void sendPincode(QString pin);
@@ -57,6 +59,7 @@ private:
     bool pinFlag;
     short loginAttempts;
     bool locked;
+    QTimer * pincodeTimer;
 };
 
 #endif // PINCODE_H

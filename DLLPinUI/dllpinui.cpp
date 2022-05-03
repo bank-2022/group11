@@ -2,24 +2,32 @@
 
 DLLPinUI::DLLPinUI()
 {
-
-}
-
-DLLPinUI::~DLLPinUI()
-{
-
-}
-
-void DLLPinUI::showPincode()
-{
     pPincode = new Pincode;
+    pCreditDebit = new CreditDebit;
+
     connect(pPincode, SIGNAL(sendPincode(QString)),
             this, SLOT(receivePincode(QString)),
             Qt::QueuedConnection);
     connect(pPincode, SIGNAL(getType()),
             this, SLOT(getTypeSlot()),
             Qt::QueuedConnection);
+    connect(pCreditDebit, SIGNAL(creditDebitSignal(QString)),
+            this, SLOT(creditDebitSlot(QString)),
+            Qt::QueuedConnection);
+}
+
+DLLPinUI::~DLLPinUI()
+{
+    delete pPincode;
+    pPincode = nullptr;
+    delete pCreditDebit;
+    pCreditDebit = nullptr;
+}
+
+void DLLPinUI::showPincode()
+{
     pPincode->show();
+    pPincode->startPincodeTimer();
 }
 
 void DLLPinUI::loginSuccessful()
@@ -36,17 +44,12 @@ void DLLPinUI::showCreditDebit(QString type)
 {
     if (type == "credit") {
         pPincode->close();
-        pCreditDebit = new CreditDebit;
-        connect(pCreditDebit, SIGNAL(creditDebitSignal(QString)),
-                this, SLOT(creditDebitSlot(QString)),
-                Qt::QueuedConnection);
         pCreditDebit->show();
+        pCreditDebit->startCreditDebitTimer();
     }
     else {
         emit creditDebit("debit");
         pPincode->close();
-        delete pPincode;
-        pPincode = nullptr;
     }
 }
 
@@ -63,7 +66,5 @@ void DLLPinUI::getTypeSlot()
 void DLLPinUI::creditDebitSlot(QString choice)
 {
     emit creditDebit(choice);
-    delete pCreditDebit;
-    pCreditDebit = nullptr;
 }
 

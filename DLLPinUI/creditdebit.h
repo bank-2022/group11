@@ -2,6 +2,7 @@
 #define CREDITDEBIT_H
 
 #include <QDialog>
+#include <QTimer>
 
 namespace Ui {
 class CreditDebit;
@@ -14,6 +15,7 @@ class CreditDebit : public QDialog
 public:
     explicit CreditDebit(QWidget *parent = nullptr);
     ~CreditDebit();
+    void startCreditDebitTimer();
 
 private slots:
     void on_CreditButton_clicked();
@@ -25,6 +27,7 @@ signals:
 
 private:
     Ui::CreditDebit *ui;
+    QTimer * creditDebitTimer;
 };
 
 #endif // CREDITDEBIT_H
