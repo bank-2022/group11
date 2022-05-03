@@ -17,6 +17,7 @@
 
 #include "dllrestapi.h"
 #include "dllserialport.h"
+#include "dllpinui.h"
 
 #include "mainmenu.h"
 
@@ -42,6 +43,7 @@ public slots:
     void forbiddenAccessDetected();
 
 private slots:
+    void receivePincode(QString pin);
     void getCustomerInfo();
     void updateCustomerInfo(QVector<QString> info);
     void getCustomerType();
@@ -50,6 +52,7 @@ private slots:
     void get5Transactions();
 
     void receiveCardNumber(QString);
+    void showMainMenu();
 
     // these are for testing
     void on_ruusuButton_clicked();
@@ -61,6 +64,7 @@ private:
     MainMenu * pMainMenu;
     DLLRestApi * pRestApi;
     DLLSerialPort * pSerialPort;
+    DLLPinUI * pPinUI;
 
     QString cardPin;
     QString cardNumber;

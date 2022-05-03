@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     pSerialPort = new DLLSerialPort("COM5"); // change this depending on what port is used
 
+    pPinUI = new DLLPinUI;
+
     pMainMenu = new MainMenu(parent, this, pRestApi);
 
     qRegisterMetaType<QVector<QString>>("QVector<QString>");
@@ -43,6 +45,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pSerialPort, SIGNAL(returnValue(QString)),
             this, SLOT(receiveCardNumber(QString)), Qt::QueuedConnection);
     pSerialPort->interfaceFunctionOpenConnection();
+
+    // pin UI
+    connect(pPinUI, SIGNAL(sendPincode(QString)),
+            this, SLOT(receivePincode(QString)), Qt::QueuedConnection);
+
+    connect(pPinUI, SIGNAL(getType()),
+            this, SLOT(getCustomerType()), Qt::QueuedConnection);
+
+    connect(pPinUI, SIGNAL(creditDebit(QString)),
+            this, SLOT(showMainMenu()), Qt::QueuedConnection);
+
 }
 
 
@@ -56,6 +69,12 @@ MainWindow::~MainWindow()
 
     delete pRestApi;
     pRestApi = nullptr;
+
+    delete pSerialPort;
+    pRestApi = nullptr;
+
+    delete pPinUI;
+    pPinUI = nullptr;
 }
 
 
@@ -64,8 +83,10 @@ void MainWindow::receiveCardNumber(QString rfid)
 {
     ui->warningLabel->setText(rfid);
     cardNumber = rfid;
+    pPinUI->showPincode();
+    pMainMenu->getCardNumber(cardNumber);
 
-    if ( cardNumber == "06000DE540"){
+    /*if ( cardNumber == "06000DE540"){
         cardNumber = "06000DE540";
         cardPin = "1234";
         pRestApi->login(cardNumber, cardPin);
@@ -76,7 +97,13 @@ void MainWindow::receiveCardNumber(QString rfid)
             cardPin = "4321";
             pRestApi->login(cardNumber, cardPin);
             pMainMenu->getCardNumber(cardNumber);
-        }
+        }*/
+}
+
+
+void MainWindow::receivePincode(QString pin)
+{
+    pRestApi->login(cardNumber, pin);
 }
 
 
@@ -85,19 +112,28 @@ void MainWindow::loginSuccessfulSlot()
     ui->warningLabel->setText("Login Successful!");
 
     getCustomerInfo();
-    getCustomerType();
+    //getCustomerType();
     get5Transactions();
 
-    pMainMenu->show();
-    pMainMenu->startMainMenuTimer();
+    pPinUI->loginSuccessful();
+
+    /*pMainMenu->show();
+    pMainMenu->startMainMenuTimer();*/
 
 
 }
 
 
+void MainWindow::showMainMenu()
+{
+    pMainMenu->show();
+    pMainMenu->startMainMenuTimer();
+}
+
+
 void MainWindow::loginFailedSlot(QString message)
 {
-    ui->warningLabel->setText(message + "!");
+    pPinUI->loginFailed(message);
 }
 
 
@@ -162,7 +198,7 @@ void MainWindow::getCustomerType()
 void MainWindow::updateType(QString type)
 {
     pMainMenu->printType(type);
-
+    pPinUI->showCreditDebit(type);
 }
 
 

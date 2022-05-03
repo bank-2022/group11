@@ -54,3 +54,8 @@ win32: LIBS += -L$$PWD/../DLLSerialPort/build/debug/ -lDLLSerialPort
 
 INCLUDEPATH += $$PWD/../DLLSerialPort
 DEPENDPATH += $$PWD/../DLLSerialPort
+
+win32: LIBS += -L$$PWD/../DLLPinUI/build/debug/ -lDLLPinUI
+
+INCLUDEPATH += $$PWD/../DLLPinUI
+DEPENDPATH += $$PWD/../DLLPinUI
