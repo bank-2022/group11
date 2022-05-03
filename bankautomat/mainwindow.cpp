@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     pMainMenu = new MainMenu(parent, this, pRestApi);
 
-    qRegisterMetaType<QVector<QString>>("QVector<QString");
+    qRegisterMetaType<QVector<QString>>("QVector<QString>");
 
     // rest api functions
     connect(pRestApi, SIGNAL(loginSuccessful()),

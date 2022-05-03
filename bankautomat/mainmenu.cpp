@@ -25,7 +25,7 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     mainMenuTimer->setInterval(30000);  // 30 s timer
     mainMenuTimer->setSingleShot(true);
 
-    qRegisterMetaType<QVector<QString>>("QVector<QString");
+    qRegisterMetaType<QVector<QString>>("QVector<QString>");
     qRegisterMetaType<QVector<QVector<QString>>>("QVector<QVector<QString>>");
 
     // if the 30 s timer has ran out, this window will be closed
