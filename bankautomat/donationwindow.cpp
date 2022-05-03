@@ -100,8 +100,10 @@ void DonationWindow::reStartDonationWindowTimer()
 
 void DonationWindow::warningTimerFinished()
 {
+    donationWarningTimer->stop();
+    donationAmount="0";
+    donationFlag = true;
     ui->amountLine->setText(donationAmount);
-    donationWarningTimer->start();
 }
 
 
@@ -303,7 +305,7 @@ void DonationWindow::on_enterButton_clicked()
 void DonationWindow::donateMessage(QString message)
 {
     if (message == "bad"){
-        ui->amountLine->setText("Donation must be between 10 - 500 €");
+        ui->amountLine->setText("Donation must be 10 - 500 €");
     }
 
     else if (message == "good"){

@@ -103,8 +103,10 @@ void WithdrawWindow::reStartWithdrawWindowTimer()
 
 void WithdrawWindow::warningTimerFinished()
 {
+    withdrawWarningTimer->stop();
+    withdrawAmount="0";
+    withdrawFlag = true;
     ui->amountLine->setText(withdrawAmount);
-    withdrawWarningTimer->start();
 }
 
 
