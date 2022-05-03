@@ -6,6 +6,7 @@ CreditDebit::CreditDebit(QWidget *parent) :
     ui(new Ui::CreditDebit)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Turtle Software Banksimul - Type Selection");
     creditDebitTimer = new QTimer();
     creditDebitTimer->setInterval(30000);
     creditDebitTimer->setSingleShot(false);

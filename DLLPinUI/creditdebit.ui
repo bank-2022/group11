@@ -13,13 +13,20 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(66, 66, 66);</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
+     <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 200, 221);
+font: 63 12pt &quot;Lato Semibold&quot;;</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>Credit or Debit?</string>
        </property>
       </widget>
      </item>
@@ -29,6 +36,20 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="CreditButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+       </property>
        <property name="text">
         <string>Credit</string>
        </property>
@@ -36,6 +57,20 @@
      </item>
      <item>
       <widget class="QPushButton" name="DebitButton">
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 63 9pt &quot;Lato Semibold&quot;;
+color: rgb(66, 66, 66);
+background-color:rgb(255, 200, 221);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color:rgb(255, 200, 221);
+min-width: 1em;
+padding: 5px;</string>
+       </property>
        <property name="text">
         <string>Debit</string>
        </property>
