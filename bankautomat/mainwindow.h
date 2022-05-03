@@ -52,7 +52,7 @@ private slots:
     void get5Transactions();
 
     void receiveCardNumber(QString);
-    void showMainMenu();
+    void showMainMenu(QString type);
 
     // these are for testing
     void on_ruusuButton_clicked();

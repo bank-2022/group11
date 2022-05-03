@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(getCustomerType()), Qt::QueuedConnection);
 
     connect(pPinUI, SIGNAL(creditDebit(QString)),
-            this, SLOT(showMainMenu()), Qt::QueuedConnection);
+            this, SLOT(showMainMenu(QString)), Qt::QueuedConnection);
 
 }
 
@@ -124,8 +124,9 @@ void MainWindow::loginSuccessfulSlot()
 }
 
 
-void MainWindow::showMainMenu()
+void MainWindow::showMainMenu(QString type)
 {
+    pMainMenu->printType(type);
     pMainMenu->show();
     pMainMenu->startMainMenuTimer();
 }
@@ -197,7 +198,6 @@ void MainWindow::getCustomerType()
 
 void MainWindow::updateType(QString type)
 {
-    pMainMenu->printType(type);
     pPinUI->showCreditDebit(type);
 }
 
