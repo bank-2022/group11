@@ -18,21 +18,18 @@ public:
     explicit DonationWindow(QWidget *parent = nullptr, MainMenu *ptr = nullptr, DLLRestApi *api = nullptr);
     ~DonationWindow();
 
-    QTimer * donationWindowTimer;
     void startDonationWindowTimer();
     void reStartDonationWindowTimer();
-
-    QTimer * donationWarningTimer;
 
     void printName(QString name);
     void printAccountNumber(QString accountNumber);
     void printType(QString type);
     void printBalance(QString balance);
+    void getCardNumber(QString cardnumber);
 
     void donateOtherAmount(QString i);
     void donateMessage(QString message);
 
-    void getCardNumber(QString cardnumber);
     void clearDonationWindow();
 
 private slots:
@@ -84,6 +81,9 @@ private:
     QString accountNum;
 
     bool donationFlag;
+
+    QTimer * donationWindowTimer;
+    QTimer * donationWarningTimer;
 };
 
 #endif // DONATIONWINDOW_H

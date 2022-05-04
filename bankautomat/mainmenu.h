@@ -34,18 +34,18 @@ public:
     explicit MainMenu(QWidget *parent = nullptr, MainWindow *ptr = nullptr, DLLRestApi *api = nullptr);
     ~MainMenu();
 
-    QTimer * mainMenuTimer;
+
     void startMainMenuTimer();
     void reStartMainMenuTimer();
 
     void printName(QString name);
-    void printAccountNumber(QString accountNumber);
+    void printAccountNumber(QString accountNum);
     void printType(QString type);
     void printBalance(QString balance);
-    void print5Transactions(QString accNum);
+    void print5Transactions(QString accountNum);
 
     void getCardNumber(QString cardnumber);
-    void getAccountNumber(QString accountnum);
+    void getAccountNumber(QString accountNum);
 
     void clearMainMenuWindow();
 
@@ -70,6 +70,9 @@ private:
     QString convertToEuros(long long sum);
 
     QString accountNumber;
+    QString cardNumber;
+
+    QTimer * mainMenuTimer;
 };
 
 #endif // MAINMENU_H

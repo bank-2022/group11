@@ -1,5 +1,6 @@
 QT       += core gui
-QT       +=network
+QT       += network
+QT       += serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -49,3 +50,12 @@ INCLUDEPATH += $$PWD/../DLLRestApi
 DEPENDPATH += $$PWD/../DLLRestApi
 
 
+win32: LIBS += -L$$PWD/../DLLSerialPort/build/debug/ -lDLLSerialPort
+
+INCLUDEPATH += $$PWD/../DLLSerialPort
+DEPENDPATH += $$PWD/../DLLSerialPort
+
+win32: LIBS += -L$$PWD/../DLLPinUI/build/debug/ -lDLLPinUI
+
+INCLUDEPATH += $$PWD/../DLLPinUI
+DEPENDPATH += $$PWD/../DLLPinUI

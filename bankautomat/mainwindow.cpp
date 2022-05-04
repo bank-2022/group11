@@ -15,9 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
     pRestApi = new DLLRestApi;
     pRestApi->setBaseURL("http://localhost:3000");
 
+    pSerialPort = new DLLSerialPort("COM5"); // change this depending on what port is used
+
+    pPinUI = new DLLPinUI;
+
     pMainMenu = new MainMenu(parent, this, pRestApi);
 
-    qRegisterMetaType<QVector<QString>>("QVector<QString");
+    qRegisterMetaType<QVector<QString>>("QVector<QString>");
 
     // rest api functions
     connect(pRestApi, SIGNAL(loginSuccessful()),
@@ -25,9 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pRestApi, SIGNAL(loginFailed(QString)),
             this, SLOT(loginFailedSlot(QString)), Qt::QueuedConnection);
-
-    connect(pRestApi, SIGNAL(forbiddenAccess()),
-            this, SLOT(forbiddenAccessDetected()), Qt::QueuedConnection);
 
     connect(pRestApi,SIGNAL(customerInfo(QVector<QString>)),
             this, SLOT(updateCustomerInfo(QVector<QString>)),Qt::QueuedConnection);
@@ -37,6 +38,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(pRestApi, SIGNAL(balance(long long)),
             this, SLOT(updateBalance(long long)), Qt::QueuedConnection);
+
+    connect(pSerialPort, SIGNAL(returnValue(QString)),
+            this, SLOT(receiveCardNumber(QString)), Qt::QueuedConnection);
+    pSerialPort->interfaceFunctionOpenConnection();
+
+    // pin UI
+    connect(pPinUI, SIGNAL(sendPincode(QString)),
+            this, SLOT(receivePincode(QString)), Qt::QueuedConnection);
+
+    connect(pPinUI, SIGNAL(getType()),
+            this, SLOT(getCustomerType()), Qt::QueuedConnection);
+
+    connect(pPinUI, SIGNAL(creditDebit(QString)),
+            this, SLOT(showMainMenu(QString)), Qt::QueuedConnection);
+
 }
 
 
@@ -50,61 +66,49 @@ MainWindow::~MainWindow()
 
     delete pRestApi;
     pRestApi = nullptr;
+
+    delete pSerialPort;
+    pSerialPort = nullptr;
+
+    delete pPinUI;
+    pPinUI = nullptr;
 }
 
 
 /* Login functions */
+void MainWindow::receiveCardNumber(QString rfid)
+{
+    cardNumber = rfid;
+    pPinUI->showPincode();
+    pMainMenu->getCardNumber(cardNumber);
+}
+
+
+void MainWindow::receivePincode(QString pin)
+{
+    pRestApi->login(cardNumber, pin);
+}
+
+
 void MainWindow::loginSuccessfulSlot()
 {
-    ui->warningLabel->setText("Login Successful!");
-
     getCustomerInfo();
-    getCustomerType();
     get5Transactions();
+    pPinUI->loginSuccessful();
+}
 
+
+void MainWindow::showMainMenu(QString type)
+{
+    pMainMenu->printType(type);
     pMainMenu->show();
     pMainMenu->startMainMenuTimer();
-
-
 }
 
 
 void MainWindow::loginFailedSlot(QString message)
 {
-    ui->warningLabel->setText(message + "!");
-}
-
-
-void MainWindow::forbiddenAccessDetected()
-{
-    ui->warningLabel->setText("FORBIDDEN");
-}
-
-
-void MainWindow::on_ruusuButton_clicked()
-{
-    cardNumber = "66778899";
-    cardPin = "5566";
-    pRestApi->login(cardNumber, cardPin);
-    pMainMenu->getCardNumber(cardNumber);
-}
-
-
-void MainWindow::on_olaviButton_clicked()
-{
-    cardNumber = "0987666";
-    cardPin = "1234";
-    pRestApi->login(cardNumber, cardPin);
-    pMainMenu->getCardNumber(cardNumber);
-}
-
-
-void MainWindow::on_failLoginButton_clicked()
-{
-    cardNumber = "0987666";
-    cardPin = "666";
-    pRestApi->login(cardNumber, cardPin);
-    pMainMenu->getCardNumber(cardNumber);
+    pPinUI->loginFailed(message);
 }
 
 
@@ -135,8 +139,7 @@ void MainWindow::getCustomerType()
 
 void MainWindow::updateType(QString type)
 {
-    pMainMenu->printType(type);
-
+    pPinUI->showCreditDebit(type);
 }
 
 

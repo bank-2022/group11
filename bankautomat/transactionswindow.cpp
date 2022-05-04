@@ -3,6 +3,9 @@
 
 #include "mainwindow.h"
 
+/* In this window the user will be able to view all transactions done on their account. The
+ * user can also view their account information (name, balance and accountnumber).*/
+
 
 TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestApi *api) :
     QDialog(parent),
@@ -21,7 +24,7 @@ TransactionsWindow::TransactionsWindow(QWidget *parent, MainMenu *ptr, DLLRestAp
 
     // if the 10 s timer has ran out, this window will be closed
     connect(transactionsWindowTimer, SIGNAL(timeout()),
-            this, SLOT(on_exitButton_clicked()));
+            this, SLOT(on_exitButton_clicked()), Qt::QueuedConnection);
 
     connect(pRestApi,
             SIGNAL(transactions10(QVector<QVector<QString> >)),
@@ -138,6 +141,10 @@ void TransactionsWindow::clearTransactionsWindow()
 
 void TransactionsWindow::on_exitButton_clicked()
 {
+    /* stops the transactions window timer,
+     * starts the main menu timer
+     * and closes the transactions window */
+
     transactionsWindowTimer->stop();
     pMainMenu->startMainMenuTimer();
     this-> close();

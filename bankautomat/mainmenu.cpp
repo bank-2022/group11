@@ -3,9 +3,9 @@
 
 
 /* In this window the user will be able to view their account information
-   (name, balance, accountnumber) and their five last transactions. The
-   user can also choose to withdraw money, donate money, view transactions
-   in more depth or log out of the system. */
+ * (name, balance and accountnumber) and their five last transactions. The
+ * user can also choose to withdraw money, donate money, view all transactions
+ * or log out of the system. */
 
 
 MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
@@ -14,7 +14,7 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     pMainWindow(ptr)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Turtle Software Banksimul");
+    this->setWindowTitle("Turtle Software Banksimul - Main Menu");
 
     pRestApi = api;
     pDonationWindow = new DonationWindow(parent, this, pRestApi);
@@ -25,12 +25,12 @@ MainMenu::MainMenu(QWidget *parent, MainWindow *ptr, DLLRestApi *api) :
     mainMenuTimer->setInterval(30000);  // 30 s timer
     mainMenuTimer->setSingleShot(true);
 
-    qRegisterMetaType<QVector<QString>>("QVector<QString");
+    qRegisterMetaType<QVector<QString>>("QVector<QString>");
     qRegisterMetaType<QVector<QVector<QString>>>("QVector<QVector<QString>>");
 
     // if the 30 s timer has ran out, this window will be closed
     connect(mainMenuTimer, SIGNAL(timeout()),
-            this, SLOT(on_logOutButton_clicked()));
+            this, SLOT(on_logOutButton_clicked()), Qt::QueuedConnection);
 
     // rest api functions
     connect(pRestApi, SIGNAL(transactionComplete()),
@@ -65,28 +65,44 @@ MainMenu::~MainMenu()
 }
 
 
+/* customer info functions */
 void MainMenu::printName(QString name)
 {
+    /* prints the name on main menu and sends
+     * the name to be printed in other windows too */
+
     ui->nameLabel->setText("Hello, "+ name);
+
     pWithdrawWindow->printName(name);
     pDonationWindow->printName(name);
     pTransactionsWindow->printName(name);
 }
 
 
-/* customer info functions */
-void MainMenu::printAccountNumber(QString accountNumber)
+void MainMenu::printAccountNumber(QString accountNum)
 {
+    /* prints the account number on main menu and sends
+     * the account number to be printed in other windows too */
+
+    accountNumber = accountNum;
     ui->accountNumberLabel->setText("Account: "+accountNumber);
+
     pWithdrawWindow->printAccountNumber(accountNumber);
     pDonationWindow->printAccountNumber(accountNumber);
     pTransactionsWindow->printAccountNumber(accountNumber);
+
+    getAccountNumber(accountNumber); // !!
 }
 
 
 void MainMenu::printType(QString type)
 {
+    /* prints the card type (credit / debit)
+     * to main menu and sends the type to be printed
+     * in other windows too */
+
     ui->typeLabel->setText(type);
+
     pWithdrawWindow->printType(type);
     pDonationWindow->printType(type);
     pTransactionsWindow->printType(type);
@@ -95,38 +111,45 @@ void MainMenu::printType(QString type)
 
 void MainMenu::printBalance(QString balance)
 {
+    /* prints the balance to main menu and sends
+     * the type to be printed in other windows too */
+
     ui->balanceLabel->setText("Balance: "+balance+" €");
+
     pWithdrawWindow->printBalance(balance);
     pDonationWindow->printBalance(balance);
     pTransactionsWindow->printBalance(balance);
 }
 
 
-void MainMenu::updateTransactions()
+void MainMenu::print5Transactions(QString accountNum)
 {
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
-    reStartMainMenuTimer();
+    /* prints the balance and transactions on main
+     * menu as it opens*/
+
+    accountNumber = accountNum;
     pRestApi->getBalance(accountNumber);
     pRestApi->get5Transactions(accountNumber);
 }
 
 
-void MainMenu::print5Transactions(QString accNum)
+void MainMenu::updateTransactions()
 {
-    // This function updates the balance and transactions
-    // on the main menu window as it opens
+    /* updates the balance and transactions on main menu after
+     * a transaction (withdrawal / donation) is done */
 
     QApplication::setStyle(QStyleFactory::create("Fusion"));
-    reStartMainMenuTimer();
-    pRestApi->getBalance(accNum);
-    pRestApi->get5Transactions(accNum);
+    pRestApi->getBalance(accountNumber);
+    pRestApi->get5Transactions(accountNumber);
 }
 
 
 void MainMenu::update5List(QVector<QVector<QString>> list)
 {
-    //QApplication::setStyle(QStyleFactory::create("Fusion"));
+    /* creates the list (table widget) for transactions that are
+     * visible on the main menu */
 
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
     ui->transactionsTableWidget->setRowCount(list.size());
     ui->transactionsTableWidget->setColumnCount(3);
     QStringList headers = {"Time", "Transaction", "Amount"};
@@ -145,13 +168,43 @@ void MainMenu::update5List(QVector<QVector<QString>> list)
 
 void MainMenu::getCardNumber(QString cardnumber)
 {
-    pDonationWindow->getCardNumber(cardnumber);
-    pWithdrawWindow->getCardNumber(cardnumber);
+    /* shares the card number to other windows in need */
+
+    cardNumber = cardnumber;
+    pDonationWindow->getCardNumber(cardNumber);
+    pWithdrawWindow->getCardNumber(cardNumber);
 }
 
-void MainMenu::getAccountNumber(QString accountnum)
+void MainMenu::getAccountNumber(QString accountNum)
 {
-    accountNumber = accountnum;
+    /* saves the accountnumber to variable */
+    accountNumber = accountNum;
+}
+
+
+void MainMenu::updateBalance(long long balance)
+{
+    /* updates the balance */
+    QString stringBalance = convertToEuros(balance);
+    ui->balanceLabel->setText(stringBalance);
+}
+
+
+QString MainMenu::convertToEuros(long long sum)
+{
+    /* converts a long long of cents to a string of euros */
+
+    int cents = abs(sum % 100);
+    QString centString;
+    if (cents < 10)
+    {
+        centString = "0" + QString::number(cents);
+    }
+    else
+    {
+        centString = QString::number(cents);
+    }
+    return QString::number(sum / 100) + "." + centString;
 }
 
 
@@ -169,54 +222,57 @@ void MainMenu::reStartMainMenuTimer()
 }
 
 
-void MainMenu::updateBalance(long long balance)
-{
-    QString stringBalance = convertToEuros(balance);
-    ui->balanceLabel->setText(stringBalance);
-}
-
-
-QString MainMenu::convertToEuros(long long sum)
-{
-    // This function converts a long long of cents
-    // to a string of euros
-
-    int cents = abs(sum % 100);
-    QString centString;
-    if (cents < 10)
-    {
-        centString = "0" + QString::number(cents);
-    }
-    else
-    {
-        centString = QString::number(cents);
-    }
-    return QString::number(sum / 100) + "." + centString;
-}
-
-
+/* button functions */
 void MainMenu::on_withdrawButton_clicked()
 {
-    mainMenuTimer->stop(); // If any button is clicked, the timer will stop.
-    pWithdrawWindow->show(); // Opens a window where the user can withdraw money.
-    pWithdrawWindow->startWithdrawWindowTimer(); // starts a timer of 10 s on the withdrawal window
+    /* stops the main menu timer,
+     * opens a window where the user can withdraw money
+     * and starts the withdraw window timer*/
+
+    mainMenuTimer->stop();
+    pWithdrawWindow->show();
+    pWithdrawWindow->startWithdrawWindowTimer();
 }
 
 
 void MainMenu::on_transactionsButton_clicked()
 {
+    /* stops the main menu timer,
+     * opens a window where the user can view their transactions
+     * and starts the transactions window timer*/
+
     mainMenuTimer->stop();
     pTransactionsWindow->showTransactions(accountNumber);
-    pTransactionsWindow->show(); // Opens a window where the user can view transactions.
+    pTransactionsWindow->show();
     pTransactionsWindow->startTransactionsWindowTimer();
 }
 
 
 void MainMenu::on_donateButton_clicked()
 {
+    /* stops the main menu timer,
+     * opens a window where the user can donate money
+     * and starts the donation window timer*/
+
     mainMenuTimer->stop();
-    pDonationWindow->show(); // Opens a window where the user can donate money.
+    pDonationWindow->show();
     pDonationWindow->startDonationWindowTimer();
+}
+
+
+void MainMenu::on_logOutButton_clicked()
+{
+    /* stops the main menu timer,
+     * clears all windows
+     * and closes main menu window */
+
+    mainMenuTimer->stop();
+    pWithdrawWindow->clearWithdrawWindow();
+    pDonationWindow->clearDonationWindow();
+    pTransactionsWindow->clearTransactionsWindow();
+    clearMainMenuWindow();
+
+    this->close();
 }
 
 
@@ -226,19 +282,4 @@ void MainMenu::clearMainMenuWindow()
     ui->balanceLabel->clear();
     ui->nameLabel->clear();
     ui->typeLabel->clear();
-
-
-}
-
-
-void MainMenu::on_logOutButton_clicked()
-{
-    mainMenuTimer->stop();
-    pWithdrawWindow->clearWithdrawWindow();
-    pDonationWindow->clearDonationWindow();
-    pTransactionsWindow->clearTransactionsWindow();
-    clearMainMenuWindow();
-
-
-    this->close();
 }
