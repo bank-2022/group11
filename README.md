@@ -2,47 +2,72 @@
 
 # group11 : BankSimul
 
-## Asennusohje
+
+
+The aim of this school project was to make a simulated ATM where the user can withdraw money, view transactions, donate to a charity and check the balance. The additional objective was to learn skills required to develop such applications. You need a USB serial port RFID reader to use this application properly.
+
+
+
+## Project Members
+
+
+Database, REST API, bankautomat: https://github.com/tpoldsam <br>
+Database, REST API, DLLRestApi: https://github.com/valttir <br>
+Database, REST API, DLLPinUI: https://github.com/robinpylvas <br>
+Database, REST API, DLLSerialPort: https://github.com/EmilAhve
+
+
+
+<img src="documents/mainmenu.JPG">
+
+
+
+## Installation
+
+
+### npm
 
  
-
-aja api kansiossa komento npm install. Sitten sovellus käynnistyy komennolla npm start
+Run command ```npm install``` in the api folder. Then the program starts with the command ```npm start```.
 
  
+ 
+### Database
+
+ 
+Import "banksimul.sql" and run commands. 
+
+```mysql
+CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass';
+
+GRANT ALL ON banksimul.* to 'testman'@'localhost';
+```
+
+
 
 ### .env
 
- 
 
-Luo api kansioon tiedosto .env ja kirjoita sinne muuttuja nimeltään MY_TOKEN.
+Create .env-file in api directory and add following line to .env:
+```javascript
+SQL_SERVER = 'mysql://testman:test_pass@localhost:3306/banksimul'
+```
 
-Aja komentoriviltä komento node create_token.js ja kopsaa "token" muuttujaan MY_TOKEN
+Add a variable ```MY_TOKEN```.
 
- 
-
-### Tietokanta
-
- 
-
-Suorita tuo tiedosto "banksimul.sql" ja aja komennot <br>
-
-CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass'; <br>
-
-GRANT ALL ON banksimul.* to 'testman'@'localhost';
-
- 
-
-## ER-kaavio
-
- 
-
-Tietokannan ER-kaavio näyttää tältä <img src="documents/er-diagram-database.png">
+Run command ```node create_token.js``` in the api directory and copy token to the ```MY_TOKEN``` variable.
 
 
 
-## RFID tunnukset
+### RFIDs
 
 
 06000DE540
 
 0B0032AD79
+
+
+
+## Database ER-diagram
+
+<img src="documents/er-diagram-database.png">
