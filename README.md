@@ -7,7 +7,7 @@
 ### Installation
 
  
-Run command "npm install" in the api folder. Then the program starts with the command "npm start".
+Run command ```npm install``` in the api folder. Then the program starts with the command ```npm start```.
 
  
  
@@ -17,7 +17,7 @@ Run command "npm install" in the api folder. Then the program starts with the co
 Import "banksimul.sql" and run commands. 
 
 ```mysql
-CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass'; <br>
+CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass';
 
 GRANT ALL ON banksimul.* to 'testman'@'localhost';
 ```
