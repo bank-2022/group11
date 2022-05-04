@@ -18,6 +18,10 @@ Database, REST API, DLLSerialPort: https://github.com/EmilAhve
 
 
 
+<img src="documents/mainmenu.JPG">
+
+
+
 ## Installation
 
 
