@@ -1,6 +1,6 @@
 
 
-# group11 : BankSimul
+# BankSimul
 
 
 
