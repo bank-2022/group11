@@ -2,35 +2,35 @@
 
 # group11 : BankSimul
 
-## Asennusohje
+
+
+### Installation
 
  
-
-aja api kansiossa komento npm install. Sitten sovellus käynnistyy komennolla npm start
+Run command "npm install" in the api folder. Then the program starts with the command "npm start".
 
  
+ 
+### Database
+
+ 
+Import "banksimul.sql" and run commands. 
+
+```mysql
+CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass'; <br>
+
+GRANT ALL ON banksimul.* to 'testman'@'localhost';
+```
+
 
 ### .env
 
- 
 
 Luo api kansioon tiedosto .env ja kirjoita sinne muuttuja nimeltään MY_TOKEN.
 
 Aja komentoriviltä komento node create_token.js ja kopsaa "token" muuttujaan MY_TOKEN
 
- 
-
-### Tietokanta
-
- 
-
-Suorita tuo tiedosto "banksimul.sql" ja aja komennot <br>
-
-CREATE USER 'testman'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_pass'; <br>
-
-GRANT ALL ON banksimul.* to 'testman'@'localhost';
-
- 
+  
 
 ## ER-kaavio
 
