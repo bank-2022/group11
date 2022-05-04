@@ -200,3 +200,10 @@ void Pincode::on_BEnter_clicked()
     }
 }
 
+void Pincode::showEvent(QShowEvent *event)
+{
+    QWidget::showEvent(event);
+    ui->lineEdit->clear();
+    pinFlag = false;
+}
+

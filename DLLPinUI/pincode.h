@@ -40,10 +40,11 @@ private slots:
     void on_B0_clicked();
     void on_BEnter_clicked();
 
+protected:
+    void showEvent(QShowEvent *event) override;
+
 private:
     Ui::Pincode *ui;
-    QVector<QPushButton *> napit;
-    short i;
     QString pin;
     bool pinFlag;
     short loginAttempts;

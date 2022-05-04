@@ -18,8 +18,7 @@ public:
     void startCreditDebitTimer();
 
 private slots:
-    void on_CreditButton_clicked();
-
+    void on_CreditButton_clicked();    
     void on_DebitButton_clicked();
 
 signals:
