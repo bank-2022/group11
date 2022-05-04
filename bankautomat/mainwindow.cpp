@@ -68,7 +68,7 @@ MainWindow::~MainWindow()
     pRestApi = nullptr;
 
     delete pSerialPort;
-    pRestApi = nullptr;
+    pSerialPort = nullptr;
 
     delete pPinUI;
     pPinUI = nullptr;
