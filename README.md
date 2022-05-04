@@ -7,6 +7,9 @@
 The aim of this school project was to make a simulated ATM where the user can withdraw money, view transactions, donate to a charity and check the balance. The additional objective was to learn skills required to develop such applications. You need a USB serial port RFID reader to use this application properly.
 
 
+<img src="documents/mainmenu.JPG">
+
+
 
 ## Project Members
 
@@ -15,10 +18,6 @@ Database, REST API, bankautomat: https://github.com/tpoldsam <br>
 Database, REST API, DLLRestApi: https://github.com/valttir <br>
 Database, REST API, DLLPinUI: https://github.com/robinpylvas <br>
 Database, REST API, DLLSerialPort: https://github.com/EmilAhve
-
-
-
-<img src="documents/mainmenu.JPG">
 
 
 
